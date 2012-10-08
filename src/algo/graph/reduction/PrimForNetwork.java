@@ -4,17 +4,16 @@
  */
 package algo.graph.reduction;
 
-import de.tu_berlin.math.coga.common.algorithm.Algorithm;
-import ds.graph.network.DynamicNetwork;
-import ds.graph.Edge;
-import ds.graph.IdentifiableCollection;
-import ds.mapping.IdentifiableIntegerMapping;
-import ds.mapping.IdentifiableObjectMapping;
-import ds.collection.ListSequence;
-import de.tu_berlin.math.coga.datastructure.priorityQueue.MinHeap;
-import ds.graph.NetworkMST;
-import ds.graph.Node;
-import ds.graph.problem.NetworkMSTProblem;
+import de.tu_berlin.coga.common.algorithm.Algorithm;
+import de.tu_berlin.coga.netflow.ds.network.DynamicNetwork;
+import de.tu_berlin.coga.graph.Edge;
+import de.tu_berlin.coga.container.collection.IdentifiableCollection;
+import de.tu_berlin.coga.container.mapping.IdentifiableIntegerMapping;
+import de.tu_berlin.coga.container.mapping.IdentifiableObjectMapping;
+import de.tu_berlin.coga.container.collection.ListSequence;
+import de.tu_berlin.coga.container.priority.MinHeap;
+import de.tu_berlin.coga.graph.Node;
+PrimForNetwork.java
 import java.util.Random;
 
 /**
