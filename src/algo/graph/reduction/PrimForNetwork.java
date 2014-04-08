@@ -10,7 +10,6 @@ import de.tu_berlin.coga.container.collection.ListSequence;
 import de.tu_berlin.coga.container.priority.MinHeap;
 import de.tu_berlin.coga.graph.DynamicNetwork;
 import de.tu_berlin.coga.graph.Node;
-PrimForNetwork.java
 import java.util.Random;
 
 /**
