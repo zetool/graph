@@ -2,9 +2,9 @@
  * GeneralDepthFirstSearchIterator.java
  * Created: 12.05.2014, 19:48:14
  */
-package de.tu_berlin.coga.graph;
+package de.tu_berlin.coga.graph.traversal;
 
-import de.tu_berlin.coga.graph.DirectedGraph;
+import de.tu_berlin.coga.graph.Graph;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Queue;
@@ -18,18 +18,25 @@ import java.util.Stack;
 public class GeneralDepthFirstSearchIterator extends AbstractGraphSearchIterator {
 
 
-  public GeneralDepthFirstSearchIterator( DirectedGraph g ) {
-    super( g, new StackAsQueue<>() );
+  public GeneralDepthFirstSearchIterator( Graph g ) {
+    super( g, false, false, new StackAsQueue<>() );
   }
 
-  public GeneralDepthFirstSearchIterator( DirectedGraph g, int startNode ) {
-    super( g, startNode, new StackAsQueue<>() );
+  public GeneralDepthFirstSearchIterator( Graph g, boolean iterateAllEdges ) {
+    super( g, iterateAllEdges, false, new StackAsQueue<>() );
   }
 
-  public GeneralDepthFirstSearchIterator( DirectedGraph g, int startNode, boolean checkAllNodes ) {
-    super( g, startNode, checkAllNodes, new StackAsQueue<>() );
+  public GeneralDepthFirstSearchIterator( Graph g, boolean iterateAllEdges, boolean reverse ) {
+    super( g, iterateAllEdges, reverse, new StackAsQueue<>() );
   }
 
+  public GeneralDepthFirstSearchIterator( Graph g, int startNode ) {
+    super( g, startNode, false, false, new StackAsQueue<>() );
+  }
+
+  public GeneralDepthFirstSearchIterator( Graph g, int startNode, boolean reverse ) {
+    super( g, startNode, false, reverse, new StackAsQueue<>() );
+  }
 
   private static class StackAsQueue<E> implements Queue<E> {
     private Stack<E> stack;
