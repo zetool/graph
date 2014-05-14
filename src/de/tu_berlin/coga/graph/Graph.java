@@ -17,7 +17,6 @@
 package de.tu_berlin.coga.graph;
 
 import de.tu_berlin.coga.container.collection.IdentifiableCollection;
-import de.tu_berlin.coga.container.mapping.IdentifiableConstantMapping;
 import ds.graph.Edge;
 import ds.graph.Node;
 
@@ -26,9 +25,8 @@ import ds.graph.Node;
  * implementations of graphs.
  */
 public interface Graph extends Iterable<Node> {
-	public static IdentifiableConstantMapping<Edge> UNIT_EDGE_MAPPING = new IdentifiableConstantMapping<>( 1 );
-	public static IdentifiableConstantMapping<Node> UNIT_NODE_MAPPING = new IdentifiableConstantMapping<>( 1 );
-	/**
+
+  /**
 	 * Checks whether the graph is directed.
 	 * @return {@code true} if the graph is directed, {@code false}
 	 * otherwise.
@@ -55,7 +53,7 @@ public interface Graph extends Iterable<Node> {
 	 * Returns the number of edges in this graph.
 	 * @return the number of edges in this graph.
 	 */
-	int numberOfEdges();
+	int edgeCount();
 
 	/**
 	 * Returns the number of nodes in this graph.
@@ -127,8 +125,6 @@ public interface Graph extends Iterable<Node> {
 	 */
 	Edge getEdge( Node start, Node end );
 
-
-
 	/**
 	 * Returns an {@link IdentifiableCollection} containing all edges starting at
 	 * {@code start} and ending at
@@ -151,15 +147,4 @@ public interface Graph extends Iterable<Node> {
 	 * does not contain a node with the specified id.
 	 */
 	Node getNode( int id );
-
-	/**
-	 * Checks whether an path between {@code start} and {@code end}
-	 * exists. This path must be directed, should the graph be directed.
-	 * @param start the start node of the path to be checked.
-	 * @param end the end node of the path to be checked.
-	 * @return {@code true} if an (directed) path between
-	 * {@code start} and {@code end} exists, {@code false}
-	 * otherwise.
-	 */
-	boolean existsPath( Node start, Node end );
 }

@@ -40,6 +40,7 @@ public class SimpleUndirectedGraph implements UndirectedGraph {
   public SimpleUndirectedGraph( int size ) {
     nodeCount = size;
     nodes = new ArraySet<>( Node.class, size );
+    incidentEdges = new IdentifiableObjectMapping<>( size );
     for( int i = 0; i < size; ++i ) {
       nodes.add( new Node( i ) );
       incidentEdges.set( nodes.get( i ), new ListSequence<>() );
@@ -139,6 +140,7 @@ public class SimpleUndirectedGraph implements UndirectedGraph {
    * Returns the number of edges currently in the graph.
    * @return the number of edges currently in the graph
    */
+  @Override
   public final int edgeCount() {
     return edgeCount;
   }
@@ -169,13 +171,8 @@ public class SimpleUndirectedGraph implements UndirectedGraph {
   }
 
   @Override
-  public int numberOfEdges() {
-    return edgeCount;
-  }
-
-  @Override
   public IdentifiableCollection<Edge> incidentEdges( Node node ) {
-    return incidentEdges( node );
+    return incidentEdges.get( node );
   }
 
   @Override
@@ -211,10 +208,5 @@ public class SimpleUndirectedGraph implements UndirectedGraph {
   @Override
   public IdentifiableCollection<Edge> getEdges( Node start, Node end ) {
     return edges;
-  }
-
-  @Override
-  public boolean existsPath( Node start, Node end ) {
-    throw new UnsupportedOperationException( "Not supported yet." );
   }
 }

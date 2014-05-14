@@ -2,12 +2,11 @@
  * BreadthFirstSearchIterator.java
  * Created: 12.05.2014, 18:00:30
  */
-package de.tu_berlin.coga.graph;
+package de.tu_berlin.coga.graph.traversal;
 
 import de.tu_berlin.coga.graph.DirectedGraph;
 import ds.graph.Node;
 import java.util.Iterator;
-
 
 /**
  *
