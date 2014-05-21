@@ -1,9 +1,8 @@
 
-package de.tu_berlin.coga.graph;
+package de.tu_berlin.coga.graph.util;
 
-import de.tu_berlin.coga.container.mapping.IdentifiableBooleanMapping;
-import ds.graph.Edge;
-import ds.graph.Node;
+import de.tu_berlin.coga.graph.Edge;
+import de.tu_berlin.coga.graph.Node;
 import java.util.Iterator;
 
 /**

@@ -6,8 +6,7 @@ import de.tu_berlin.coga.container.collection.HidingSet;
 import de.tu_berlin.coga.container.collection.IdentifiableCollection;
 import de.tu_berlin.coga.container.collection.ListSequence;
 import de.tu_berlin.coga.container.mapping.IdentifiableObjectMapping;
-import ds.graph.Edge;
-import ds.graph.Node;
+import ds.graph.network.OppositeNodeCollection;
 import java.util.Iterator;
 
 
@@ -46,8 +45,6 @@ public class SimpleUndirectedGraph implements UndirectedGraph {
       incidentEdges.set( nodes.get( i ), new ListSequence<>() );
     }
   }
-
-
 
   /**
    * Adds a new edge between two nodes. It is not checked if an edge between the nodes may already exist and parallel
@@ -151,12 +148,11 @@ public class SimpleUndirectedGraph implements UndirectedGraph {
    * @return  the list of adjacent edges
    */
   public IdentifiableCollection<Edge> getAdjacent( Node v ) {
-    return getAdjacent( v );
+    return incidentEdges.get(v );
   }
 
   @Override
   public Iterator<Node> iterator() {
-    //return nodeCount > 0 ? new EdgeIterator() : Collections.<Edge>emptyIterator();
     return nodes.iterator();
   }
 
@@ -177,7 +173,7 @@ public class SimpleUndirectedGraph implements UndirectedGraph {
 
   @Override
   public IdentifiableCollection<Node> adjacentNodes( Node node ) {
-    throw new UnsupportedOperationException( "Not supported yet." );
+    return new OppositeNodeCollection( node, this.incidentEdges.get( node ) );
   }
 
   @Override

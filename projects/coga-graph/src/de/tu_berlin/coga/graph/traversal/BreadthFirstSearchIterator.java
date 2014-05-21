@@ -5,7 +5,7 @@
 package de.tu_berlin.coga.graph.traversal;
 
 import de.tu_berlin.coga.graph.DirectedGraph;
-import ds.graph.Node;
+import de.tu_berlin.coga.graph.Node;
 import java.util.Iterator;
 
 /**

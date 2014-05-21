@@ -1,10 +1,13 @@
 
-package de.tu_berlin.coga.graph;
+package de.tu_berlin.coga.graph.util;
 
 import de.tu_berlin.coga.container.mapping.IdentifiableBooleanMapping;
 import de.tu_berlin.coga.container.mapping.IdentifiableConstantMapping;
-import ds.graph.Edge;
-import ds.graph.Node;
+import de.tu_berlin.coga.graph.DirectedGraph;
+import de.tu_berlin.coga.graph.Graph;
+import de.tu_berlin.coga.graph.UndirectedGraph;
+import de.tu_berlin.coga.graph.Edge;
+import de.tu_berlin.coga.graph.Node;
 import java.util.Iterator;
 
 
@@ -17,6 +20,9 @@ public class GraphUtil {
 	public final static IdentifiableConstantMapping<Edge> UNIT_EDGE_MAPPING = new IdentifiableConstantMapping<>( 1 );
   /** Unit node weights. */
 	public final static IdentifiableConstantMapping<Node> UNIT_NODE_MAPPING = new IdentifiableConstantMapping<>( 1 );
+
+  /** Private constructor for utility class. */
+  private GraphUtil() { }
 
   /**
    * Returns a unified access for a given graph.
@@ -40,8 +46,8 @@ public class GraphUtil {
    * Unified graph access for undirected graphs.
    */
   private static class UndirectedGraphAccess implements UnifiedGraphAccess {
-    private UndirectedGraph g;
-    private IdentifiableBooleanMapping<Edge> seen;
+    private final UndirectedGraph g;
+    private final IdentifiableBooleanMapping<Edge> seen;
 
     private UndirectedGraphAccess( UndirectedGraph g ) {
       this.g = g;
@@ -83,7 +89,7 @@ public class GraphUtil {
    * Unified graph access for directed graphs.
    */
   private static class DirectedGraphAccess implements UnifiedGraphAccess {
-    private DirectedGraph g;
+    private final DirectedGraph g;
 
     private DirectedGraphAccess( DirectedGraph g ) {
       this.g = g;
@@ -105,7 +111,7 @@ public class GraphUtil {
    * Unified graph access for directed graphs.
    */
   private static class ReverseGraphAccess implements UnifiedGraphAccess {
-    private DirectedGraph g;
+    private final DirectedGraph g;
 
     private ReverseGraphAccess( DirectedGraph g ) {
       this.g = g;

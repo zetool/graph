@@ -4,9 +4,10 @@ package de.tu_berlin.coga.graph.traversal;
 import de.tu_berlin.coga.graph.DirectedGraph;
 import java.util.LinkedList;
 
-
 /**
- *
+ * An iterator returning {@link EdgeNodePair} values of nodes and incoming edges
+ * in breadth first search order. A specialized implementation that only iterates
+ * over the nodes can be found in {@link BreadthFirstSearchIterator}.
  * @author Jan-Philipp Kappmeier
  */
 public class GeneralBreadthFirstSearchIterator extends AbstractGraphSearchIterator {

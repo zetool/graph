@@ -1,7 +1,7 @@
-package de.tu_berlin.coga.graph;
+package de.tu_berlin.coga.graph.util;
 
-import ds.graph.Edge;
-import ds.graph.Node;
+import de.tu_berlin.coga.graph.Edge;
+import de.tu_berlin.coga.graph.Node;
 import java.util.Iterator;
 
 /**
@@ -11,7 +11,7 @@ import java.util.Iterator;
 public class PredecessorIterator implements Iterator<Edge> {
   private Node current;
   private Edge next;
-  private PredecessorMap pred;
+  private final PredecessorMap pred;
 
   public PredecessorIterator( Node current, PredecessorMap pred ) {
     this.current = current;

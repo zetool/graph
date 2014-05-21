@@ -1,23 +1,20 @@
 
 package de.tu_berlin.coga.graph.traversal;
 
-import com.sun.org.apache.bcel.internal.generic.IDIV;
 import de.tu_berlin.coga.common.algorithm.Algorithm;
 import de.tu_berlin.coga.common.util.Helper;
 import de.tu_berlin.coga.container.mapping.IdentifiableBooleanMapping;
 import de.tu_berlin.coga.container.mapping.IdentifiableIntegerMapping;
 import de.tu_berlin.coga.container.mapping.IdentifiableObjectMapping;
 import de.tu_berlin.coga.graph.DirectedGraph;
-import de.tu_berlin.coga.graph.EdgeNodePair;
-import de.tu_berlin.coga.graph.PredecessorIterator;
-import de.tu_berlin.coga.graph.PredecessorMap;
-import ds.graph.Edge;
-import ds.graph.Node;
+import de.tu_berlin.coga.graph.util.PredecessorIterator;
+import de.tu_berlin.coga.graph.util.PredecessorMap;
+import de.tu_berlin.coga.graph.Edge;
+import de.tu_berlin.coga.graph.Node;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
-
 
 /**
  * Implementation of the breadth first search. The nodes are given numbers for a bfs numbering, the predecessor arcs
