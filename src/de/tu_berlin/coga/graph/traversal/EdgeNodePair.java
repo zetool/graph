@@ -1,13 +1,9 @@
-/**
- * EdgeNodeTuple.java
- * Created: 12.05.2014, 18:00:47
- */
-package de.tu_berlin.coga.graph;
 
-import ds.graph.Edge;
-import ds.graph.Node;
+package de.tu_berlin.coga.graph.traversal;
+
+import de.tu_berlin.coga.graph.Edge;
+import de.tu_berlin.coga.graph.Node;
 import java.util.Objects;
-
 
 /**
  *
@@ -17,6 +13,11 @@ public class EdgeNodePair {
   private Node node;
   private Edge predecessor;
 
+  /**
+   *
+   * @param node
+   * @param predecessor
+   */
   public EdgeNodePair( Node node, Edge predecessor ) {
     this.node = Objects.requireNonNull( node, "Node is null." );
     this.predecessor = predecessor;
@@ -24,14 +25,26 @@ public class EdgeNodePair {
       throw new IllegalStateException( "The edge is not incident to the node!" );
   }
 
+  /**
+   *
+   * @return
+   */
   public Node getNode() {
     return node;
   }
 
+  /**
+   *
+   * @return
+   */
   public Edge getPred() {
     return predecessor;
   }
 
+  /**
+   *
+   * @return
+   */
   public boolean hasPredecessor() {
     return predecessor != null;
   }
@@ -40,6 +53,4 @@ public class EdgeNodePair {
   public String toString() {
     return "EdgeNodePair{" + "node=" + node + ", pred=" + predecessor + '}';
   }
-
-
 }

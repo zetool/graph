@@ -1,8 +1,6 @@
 package de.tu_berlin.coga.graph;
 
 import de.tu_berlin.coga.container.collection.IdentifiableCollection;
-import ds.graph.Edge;
-import ds.graph.Node;
 
 /**
  *
@@ -75,6 +73,4 @@ public interface DirectedGraph extends Graph {
 	public default boolean isDirected() {
 		return true;
 	}
-
-
 }

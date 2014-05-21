@@ -2,17 +2,15 @@
 package de.tu_berlin.coga.graph.traversal;
 
 import de.tu_berlin.coga.container.mapping.IdentifiableObjectMapping;
-import de.tu_berlin.coga.graph.EdgeNodePair;
 import de.tu_berlin.coga.graph.Graph;
-import de.tu_berlin.coga.graph.GraphUtil;
-import de.tu_berlin.coga.graph.UnifiedGraphAccess;
-import ds.graph.Edge;
-import ds.graph.Node;
+import de.tu_berlin.coga.graph.util.GraphUtil;
+import de.tu_berlin.coga.graph.util.UnifiedGraphAccess;
+import de.tu_berlin.coga.graph.Edge;
+import de.tu_berlin.coga.graph.Node;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Queue;
-
 
 /**
  * An abstract graph traversal iterator that takes a datastructure as parameter. During traversal, the elements are
