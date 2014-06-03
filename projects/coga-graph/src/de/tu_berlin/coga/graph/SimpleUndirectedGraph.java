@@ -6,7 +6,7 @@ import de.tu_berlin.coga.container.collection.HidingSet;
 import de.tu_berlin.coga.container.collection.IdentifiableCollection;
 import de.tu_berlin.coga.container.collection.ListSequence;
 import de.tu_berlin.coga.container.mapping.IdentifiableObjectMapping;
-import ds.graph.network.OppositeNodeCollection;
+import de.tu_berlin.coga.graph.util.OppositeNodeCollection;
 import java.util.Iterator;
 
 
