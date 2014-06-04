@@ -23,7 +23,7 @@ import de.tu_berlin.coga.graph.Node;
 import de.tu_berlin.coga.container.collection.IdentifiableCollection;
 import de.tu_berlin.coga.container.mapping.IdentifiableObjectMapping;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import de.tu_berlin.coga.netflow.ds.network.Network;
+import de.tu_berlin.coga.graph.DefaultDirectedGraph;
 
 /**
  * The {@code AbstractNetwork</class> provides an implementation of a directed graph
@@ -33,7 +33,7 @@ import de.tu_berlin.coga.netflow.ds.network.Network;
  * is useful for residual networks, for instance).
  */
 @XStreamAlias("forest")
-public class Forest extends Network {
+public class Forest extends DefaultDirectedGraph {
 
     protected IdentifiableObjectMapping<Node, Edge> precedingEdges;
     

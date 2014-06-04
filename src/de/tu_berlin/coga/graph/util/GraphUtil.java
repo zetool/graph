@@ -3,11 +3,15 @@ package de.tu_berlin.coga.graph.util;
 
 import de.tu_berlin.coga.container.mapping.IdentifiableBooleanMapping;
 import de.tu_berlin.coga.container.mapping.IdentifiableConstantMapping;
+import de.tu_berlin.coga.graph.DefaultDirectedGraph;
 import de.tu_berlin.coga.graph.DirectedGraph;
 import de.tu_berlin.coga.graph.Graph;
 import de.tu_berlin.coga.graph.UndirectedGraph;
 import de.tu_berlin.coga.graph.Edge;
 import de.tu_berlin.coga.graph.Node;
+import de.tu_berlin.coga.graph.structure.Forest;
+import de.tu_berlin.coga.graph.structure.Path;
+import de.tu_berlin.math.coga.algorithm.shortestpath.Dijkstra;
 import java.util.Iterator;
 
 
@@ -41,6 +45,33 @@ public class GraphUtil {
       return new UndirectedGraphAccess( (UndirectedGraph)g );
     }
   }
+  
+  public static Path getPath( DirectedGraph g, Node start, Node end ) {
+    Dijkstra dijkstra = new Dijkstra( g, GraphUtil.UNIT_EDGE_MAPPING, start );
+    dijkstra.run();
+    Forest spt = dijkstra.getShortestPathTree();
+    Path path = spt.getPathToRoot( end );
+    if( path.first().start().equals( start ) ) {
+      return path;
+    } else {
+      return null;
+    }
+  }
+  
+  
+  
+	/**
+	 * Creates a network equal to the network but all edges between a pair of
+	 * nodes are reversed.
+   * @param g the graph that is reversed
+	 * @return a reversed copy of the network
+	 */
+	public static DirectedGraph createReverseNetwork( DirectedGraph g ) {
+		DefaultDirectedGraph result = new DefaultDirectedGraph( g.nodeCount(), g.edgeCount() );
+		for( Edge edge : g.edges() )
+			result.createAndSetEdge( edge.end(), edge.start() );
+		return result;
+	}
 
   /**
    * Unified graph access for undirected graphs.
