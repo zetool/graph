@@ -1,7 +1,3 @@
-/**
- * Network.java
- * Created: 09.12.2011, 16:37:45
- */
 package de.tu_berlin.coga.graph;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -558,7 +554,7 @@ public class DefaultDirectedGraph implements DirectedGraph, ModifiableGraph {
 		buffer.append( "}\n" );
 		return buffer.toString();
 	}
-  
+
   /**
 	 * Returns the number of edges that can be contained in the graph.
 	 * Runtime O(1).
