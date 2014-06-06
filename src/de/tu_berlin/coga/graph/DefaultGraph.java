@@ -1,3 +1,18 @@
+/* zet evacuation tool copyright (c) 2007-14 zet evacuation team
+ *
+ * This program is free software; you can redistribute it and/or
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 
 package de.tu_berlin.coga.graph;
 
@@ -111,7 +126,7 @@ public class DefaultGraph implements DirectedGraph {
 	public IdentifiableCollection<Edge> edges() {
 		return edges;
 	}
-  
+
 	/**
 	 * Returns an {@link HidingSet} containing all the nodes of
 	 * this graph. Runtime O(1).
@@ -334,7 +349,7 @@ public class DefaultGraph implements DirectedGraph {
 	public Iterator<Node> iterator() {
 		return nodes.iterator();
 	}
-  
+
 
 	/**
 	 * Returns a copy of this network. Runtime O(n + m).
@@ -410,7 +425,7 @@ public class DefaultGraph implements DirectedGraph {
 		buffer.append( "})" );
 		return buffer.toString();
 	}
-  
+
 
 	public String deepToString() {
 		StringBuilder buffer = new StringBuilder();
@@ -436,7 +451,7 @@ public class DefaultGraph implements DirectedGraph {
 			buffer.delete( buffer.length() - 2, buffer.length() );
 		buffer.append( "}\n" );
 		return buffer.toString();
-	}  
+	}
 
   /**
 	 * Returns the number of edges that can be contained in the graph.
