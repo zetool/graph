@@ -22,6 +22,7 @@ package de.tu_berlin.coga.graph.structure;
 
 import de.tu_berlin.coga.graph.Edge;
 import de.tu_berlin.coga.container.collection.IdentifiableCollection;
+import de.tu_berlin.coga.graph.Node;
 import java.util.Iterator;
 
 /**
@@ -64,6 +65,7 @@ public interface Path extends Iterable<Edge> {
      * edges of the path.
      * @return an iterator for the edges of this path.
      */
+    @Override
     Iterator<Edge> iterator();
     
     /**
@@ -108,5 +110,17 @@ public interface Path extends Iterable<Edge> {
      * @return {@code false} if there was no element to be removed,
      *         {@code true} else.
      */
-    boolean removeLastEdge();    
+    boolean removeLastEdge();
+    
+    /**
+     * The start node.
+     * @return the start node.
+     */
+    Node start();
+    
+    /**
+     * The end node.
+     * @return the end node.
+     */
+    Node end();
 }

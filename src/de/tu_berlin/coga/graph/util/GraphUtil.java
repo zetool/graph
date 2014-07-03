@@ -28,6 +28,14 @@ public class GraphUtil {
   /** Private constructor for utility class. */
   private GraphUtil() { }
 
+  public static Iterable<Edge> outgoingIterator( Graph g, Node n ) {
+    return new OutgoingIterator( g, n );
+  }
+
+  public static Iterable<Edge> incomingIterator( Graph g, Node n ) {
+    return new IncomingIterator( g, n );
+  }
+  
   /**
    * Returns a unified access for a given graph.
    * @param g the underlying graph
@@ -57,9 +65,7 @@ public class GraphUtil {
       return null;
     }
   }
-  
-  
-  
+
 	/**
 	 * Creates a network equal to the network but all edges between a pair of
 	 * nodes are reversed.

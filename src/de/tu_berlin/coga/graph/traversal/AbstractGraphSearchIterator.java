@@ -186,11 +186,11 @@ class AbstractGraphSearchIterator implements Iterator<EdgeNodePair> {
   protected static class NodeIterator {
     /** The node. */
     private Node n;
-    /** The iterator of incident arcs of the node. */
+    /** The iterator of outgoing arcs of the node. */
     private Iterator<Edge> iter;
 
     /**
-     * Initializes the pair with a node and an iterator of its incident arcs.
+     * Initializes the pair with a node and an iterator of its outgoing arcs.
      * @param n the node
      * @param iter the iterator
      */

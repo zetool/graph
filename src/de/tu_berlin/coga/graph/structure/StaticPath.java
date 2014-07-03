@@ -16,11 +16,12 @@
 
 package de.tu_berlin.coga.graph.structure;
 
-import de.tu_berlin.coga.graph.structure.Path;
 import de.tu_berlin.coga.graph.Edge;
 import de.tu_berlin.coga.container.collection.IdentifiableCollection;
 import de.tu_berlin.coga.container.collection.ListSequence;
+import de.tu_berlin.coga.graph.Node;
 import de.tu_berlin.coga.graph.util.PredecessorMap;
+import de.tu_berlin.coga.netflow.ds.network.Network;
 import ds.graph.GraphLocalization;
 import java.util.Iterator;
 
@@ -28,17 +29,38 @@ import java.util.Iterator;
  * The {@code StaticPath} class represents a static path in a {@link Network}. A static path is a sequence of
  * {@code Edge} objects, where the end node of an edge must be equal to the start node of the next edge (if there is
  * one). The sequence is internally stored as a {@link ListSequence}.
+ * 
+ * If first or last node is given, they are used as first and last nodes. Otherwise,
+ * the start of the first edge and the end of the last edge is the last node. This
+ * is due to the fact that the path should also work with undirected graphs.
  */
 public class StaticPath implements Path, Iterable<Edge> {
 
   /** The sequence of edges of this path. */
   protected ListSequence<Edge> edges;
+  /** The start node. */
+  protected Node start;
+  /** The end node. */
+  protected Node end;
 
+  // TODO: builder.
+  
   /**
    * Constructs a new path without edges. Edges can be added with the corresponding methods.
    */
   public StaticPath() {
     edges = new ListSequence<>();
+  }
+
+  /**
+   * Initializes an {@code start}-{@code end}-path.
+   * @param start the start node
+   * @param end the end node
+   */
+  public StaticPath( Node start, Node end ) {
+    this();
+    this.start = start;
+    this.end = end;
   }
 
   /**
@@ -75,6 +97,12 @@ public class StaticPath implements Path, Iterable<Edge> {
     }
   }
 
+  public StaticPath( Node start, Node end, PredecessorMap p ) {
+    this( p );
+    this.start = start;
+    this.end = end;    
+  }
+  
   public StaticPath( PredecessorMap p ) {
     this();
     boolean consistent = true;
@@ -90,6 +118,7 @@ public class StaticPath implements Path, Iterable<Edge> {
    * Returns the sequence of edges of this path as a {@link ListSequence}.
    * @return the sequence of edges of this path as a {@link ListSequence}.
    */
+  @Override
   public IdentifiableCollection<Edge> getEdges() {
     return edges;
   }
@@ -114,6 +143,7 @@ public class StaticPath implements Path, Iterable<Edge> {
    * @param edge the edge to insert at the end of the path.
    * @return {@code true} if the insertion was successful.
    */
+  @Override
   public boolean addLastEdge( Edge edge ) {
     if( edges.empty() || isConsistent( edges.last(), edge ) ) {
       edges.add( edge );
@@ -131,6 +161,7 @@ public class StaticPath implements Path, Iterable<Edge> {
    * @param edge the edge to insert at the end of the path.
    * @return {@code true} if the insertion was successfull, {@code false} else.
    */
+  @Override
   public boolean addFirstEdge( Edge edge ) {
     if( edges.empty() || isConsistent( edge, edges.first() ) ) {
       edges.addFirst( edge );
@@ -144,6 +175,7 @@ public class StaticPath implements Path, Iterable<Edge> {
    * Shortens the path by removing the last edge. If the path is empty, nothing happens.
    * @return {@code false} if there was no element to be removed, {@code true} else.
    */
+  @Override
   public boolean removeLastEdge() {
     if( !edges.empty() ) {
       edges.removeLast();
@@ -157,6 +189,7 @@ public class StaticPath implements Path, Iterable<Edge> {
    * Shortens the path by removing the first edge. If the path is empty, nothing happens.
    * @return {@code false} if there was no element to be removed, {@code true} else.
    */
+  @Override
   public boolean removeFirstEdge() {
     if( !edges.empty() ) {
       edges.removeFirst();
@@ -171,6 +204,7 @@ public class StaticPath implements Path, Iterable<Edge> {
    * of the path.
    * @return an iterator for the edges of this path.
    */
+  @Override
   public Iterator<Edge> iterator() {
     return edges.iterator();
   }
@@ -179,6 +213,7 @@ public class StaticPath implements Path, Iterable<Edge> {
    * Returns the first edge of the path or null if the path is empty.
    * @return the first edge of the path or null if the path is empty.
    */
+  @Override
   public Edge first() {
     if( edges.empty() ) {
       return null;
@@ -191,6 +226,7 @@ public class StaticPath implements Path, Iterable<Edge> {
    * Returns the last edge of the path or null if the path is empty.
    * @return the last edge of the path or null if the path is empty.
    */
+  @Override
   public Edge last() {
     if( edges.empty() ) {
       return null;
@@ -199,10 +235,21 @@ public class StaticPath implements Path, Iterable<Edge> {
     }
   }
 
+  @Override
+  public Node start() {
+    return start == null ? first().start() : start;
+  }
+
+  @Override
+  public Node end() {
+    return end == null ? last().end() : end;
+  }
+
   /**
    * Returns the length of this path, i.e. the number of edges.
    * @return the length of this path, i.e. the number of edges.
    */
+  @Override
   public int length() {
     return edges.size();
   }

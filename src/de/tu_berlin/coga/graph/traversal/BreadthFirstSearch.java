@@ -3,25 +3,22 @@ package de.tu_berlin.coga.graph.traversal;
 
 import de.tu_berlin.coga.common.algorithm.Algorithm;
 import de.tu_berlin.coga.common.util.Helper;
-import de.tu_berlin.coga.container.mapping.IdentifiableBooleanMapping;
 import de.tu_berlin.coga.container.mapping.IdentifiableIntegerMapping;
 import de.tu_berlin.coga.container.mapping.IdentifiableObjectMapping;
-import de.tu_berlin.coga.graph.DirectedGraph;
 import de.tu_berlin.coga.graph.util.PredecessorIterator;
 import de.tu_berlin.coga.graph.util.PredecessorMap;
 import de.tu_berlin.coga.graph.Edge;
+import de.tu_berlin.coga.graph.Graph;
 import de.tu_berlin.coga.graph.Node;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * Implementation of the breadth first search. The nodes are given numbers for a bfs numbering, the predecessor arcs
  * arce stored to construct shortest paths and the set of arcs is divided into forward/tree arcs and backward arcs.
  * @author Jan-Philipp Kappmeier
  */
-public class BreadthFirstSearch extends Algorithm<DirectedGraph,Void> implements PredecessorMap {
+public class BreadthFirstSearch extends Algorithm<Graph,Void> implements PredecessorMap {
   private IdentifiableObjectMapping<Node,Edge> predecessors;
   private IdentifiableIntegerMapping<Node> distances;
   /** The start node for the search. If null, all nodes are iterated over. */
@@ -39,7 +36,7 @@ public class BreadthFirstSearch extends Algorithm<DirectedGraph,Void> implements
   }
 
   @Override
-  protected Void runAlgorithm( DirectedGraph problem ) {
+  protected Void runAlgorithm( Graph problem ) {
     GeneralBreadthFirstSearchIterator bfs = start == null ? new GeneralBreadthFirstSearchIterator( problem )
             : new GeneralBreadthFirstSearchIterator( problem, start.id() );
     predecessors = new IdentifiableObjectMapping<>( problem.nodeCount() );

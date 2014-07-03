@@ -2,7 +2,6 @@
 package de.tu_berlin.coga.graph;
 
 import de.tu_berlin.coga.container.collection.ArraySet;
-import de.tu_berlin.coga.container.collection.HidingSet;
 import de.tu_berlin.coga.container.collection.IdentifiableCollection;
 import de.tu_berlin.coga.container.collection.ListSequence;
 import de.tu_berlin.coga.container.mapping.IdentifiableObjectMapping;
@@ -24,7 +23,7 @@ public class SimpleUndirectedGraph implements UndirectedGraph {
 	/** The nodes of the network. Must not be null. */
 	protected ArraySet<Node> nodes;
 	/** The edges of the network. Must not be null. */
-	protected HidingSet<Edge> edges;
+	protected ListSequence<Edge> edges;
 	/** Caches the edges incident to a node for all nodes in the graph. */
 	protected IdentifiableObjectMapping<Node, ListSequence<Edge>> incidentEdges;
   /** The number of nodes. */
@@ -40,9 +39,27 @@ public class SimpleUndirectedGraph implements UndirectedGraph {
     nodeCount = size;
     nodes = new ArraySet<>( Node.class, size );
     incidentEdges = new IdentifiableObjectMapping<>( size );
+    edges = new ListSequence<>();
+    
     for( int i = 0; i < size; ++i ) {
       nodes.add( new Node( i ) );
       incidentEdges.set( nodes.get( i ), new ListSequence<>() );
+    }
+  }
+  
+  /**
+   * Creates a graph on the same node set.
+   * @param origin the base graph 
+   */
+  protected SimpleUndirectedGraph( UndirectedGraph origin ) {
+    nodeCount = origin.nodeCount();
+    nodes = new ArraySet<>( Node.class, nodeCount );
+    incidentEdges = new IdentifiableObjectMapping<>( nodeCount );
+    edges = new ListSequence<>();
+
+    for( Node n : origin ) {
+      nodes.add( n );
+      incidentEdges.set( n, new ListSequence<>() );
     }
   }
 
@@ -88,6 +105,7 @@ public class SimpleUndirectedGraph implements UndirectedGraph {
     Edge e = new Edge(edgeCount++, first, second );
     incidentEdges.get( first ).add( e );
     incidentEdges.get( second ).add( e );
+    edges.add( e );
     return e;
   }
 
@@ -104,13 +122,14 @@ public class SimpleUndirectedGraph implements UndirectedGraph {
     if( e.end().id() > nodeCount ) {
       throw new IllegalArgumentException( "End node " + e.end() + " does not exist." );
     }
-    if( !(e.start().equals( nodes.get( e.end().id() ) ) )
+    if( !(e.start().equals( nodes.get( e.start().id() ) ) )
             || !(e.end() == nodes.get( e.end().id() ) ) ) {
       throw new IllegalArgumentException( "Node does not belong to graph!" );
     }
     incidentEdges.get( e.start() ).add( e );
     incidentEdges.get( e.end() ).add( e );
     edgeCount++;
+    edges.add( e );
     return e;
   }
 
