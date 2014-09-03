@@ -504,29 +504,7 @@ public class DefaultDirectedGraph implements DirectedGraph, ModifiableGraph {
 	 */
 	@Override
 	public String toString() {
-		StringBuilder buffer = new StringBuilder();
-		buffer.append( "({" );
-		for( Node node : nodes() ) {
-			buffer.append( node.toString() );
-			buffer.append( ", " );
-		}
-		if( nodeCount() > 0 )
-			buffer.delete( buffer.length() - 2, buffer.length() );
-		buffer.append( "}, {" );
-		int counter = 0;
-		for( Edge edge : edges() ) {
-			if( counter == 10 ) {
-				counter = 0;
-				buffer.append( "\n" );
-			}
-			buffer.append( edge.toString() );
-			buffer.append( ", " );
-			counter++;
-		}
-		if( edgeCount() > 0 )
-			buffer.delete( buffer.length() - 2, buffer.length() );
-		buffer.append( "})" );
-		return buffer.toString();
+    return DirectedGraph.stringRepresentation( this );
 	}
 
 	public String deepToString() {
