@@ -73,4 +73,31 @@ public interface DirectedGraph extends Graph {
 	public default boolean isDirected() {
 		return true;
 	}
+
+  public static String stringRepresentation( Graph g ) {
+		StringBuilder buffer = new StringBuilder();
+		buffer.append( "({" );
+		for( Node node : g.nodes() ) {
+			buffer.append( node.toString() );
+			buffer.append( ", " );
+		}
+		if( g.nodeCount() > 0 )
+			buffer.delete( buffer.length() - 2, buffer.length() );
+		buffer.append( "}, {" );
+		int counter = 0;
+		for( Edge edge : g.edges() ) {
+			if( counter == 10 ) {
+				counter = 0;
+				buffer.append( "\n" );
+			}
+			buffer.append( edge.toString() );
+			buffer.append( ", " );
+			counter++;
+		}
+		if( g.edgeCount() > 0 )
+			buffer.delete( buffer.length() - 2, buffer.length() );
+		buffer.append( "})" );
+		return buffer.toString();
+  }
+
 }
