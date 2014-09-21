@@ -69,7 +69,7 @@ public class DepthFirstSearch extends Algorithm<Graph, Void> {
       // Set the predecessor
       predecessors.set( n.getNode(), n.getPred() );
       if( n.getPred() != null ) {
-        System.out.println( "Classifying edge " + n.getPred() );
+        //System.out.println( "Classifying edge " + n.getPred() );
         if( numbering.get( n.getNode() ) == 0 ) {
           // we have a forward edge
           numbering.set( n.getNode(), currentNumber );
