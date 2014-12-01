@@ -1,18 +1,14 @@
 
 package de.tu_berlin.coga.graph.util;
 
-import de.tu_berlin.coga.graph.Edge;
-import de.tu_berlin.coga.graph.Node;
-
 /**
- * Returns the predecessor of a node.
+ * An interface to iterate over a chain of predecessors of anchors.
+ * @param <U> the type of predecessing
+ * @param <V> the anchor type
  * @author Jan-Philipp Kappmeier
  */
-public interface PredecessorMap extends Iterable<Edge> {
+public interface PredecessorMap<U,V> {
   /**
-   * Returns the predecessor edge for a given node.
-   * @param n the node
-   * @return the predecessor edge for a given node
    */
-  Edge getPredecessor( Node n );
+  U getPredecessor( V v );
 }

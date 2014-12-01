@@ -12,25 +12,44 @@ import de.tu_berlin.coga.graph.Graph;
 import de.tu_berlin.coga.graph.Node;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Implementation of the breadth first search. The nodes are given numbers for a bfs numbering, the predecessor arcs
  * arce stored to construct shortest paths and the set of arcs is divided into forward/tree arcs and backward arcs.
  * @author Jan-Philipp Kappmeier
  */
-public class BreadthFirstSearch extends Algorithm<Graph,Void> implements PredecessorMap {
+public class BreadthFirstSearch extends Algorithm<Graph,Void> implements PredecessorMap<Edge,Node>, Iterable<Edge> {
+  /** The predecessor nodes. */
   private IdentifiableObjectMapping<Node,Edge> predecessors;
+  /** The node distances comuted by one run of the algorithm. */
   private IdentifiableIntegerMapping<Node> distances;
+  /** All nodes reachable by one run of the algorithm. */
+  private HashSet<Node> reachableNodes;
   /** The start node for the search. If null, all nodes are iterated over. */
   private Node start;
   /** Defines a target node that is used to stop the traversal. May be {@code null}. */
   private Node stop;
 
-
+  /**
+   * Defines the starting vertex of the breadth first search. If no such vertex
+   * is defined, the breadth first search traverses through all vertices,
+   * starting with an arbitrary vertex. If necessary, it starts from multiple
+   * vertices. If a start vertex is specified, exaftly one run of breadth first
+   * search starts from this vertex.
+   * @param source the start vertex, can be {@code null}
+   */
   public void setStart( Node source ) {
     this.start = source;
   }
 
+  /**
+   * Defines the stop vertex of the breadth first search. If no stop vertex is
+   * defined, the algorithm stops when all reachable nodes are traversed. If a
+   * stop vertex is defined, the algorithm stops immediately after the vertex
+   * has been reached.
+   * @param stop the stop vertex, can be {@code null}
+   */
   public void setStop( Node stop ) {
     this.stop = stop;
   }
@@ -81,16 +100,25 @@ public class BreadthFirstSearch extends Algorithm<Graph,Void> implements Predece
     return new PredecessorIterator( stop, this );
   }
 
-  public HashSet<Node> getReachableNodes() {
+  /**
+   * Returns a set containing all nodes found by the run of the algorithm.
+   * @return a set of reachable nodes
+   */
+  public Set<Node> getReachableNodes() {
     if( !this.isProblemSolved() ) {
       throw new IllegalStateException( "Can only be called once the algorithm has run!" );
     }
-    HashSet<Node> reachableNodes = new HashSet<>();
-    for( Node n : getProblem() ) {
-      if( distances.get( n ) < Integer.MAX_VALUE ) {
-        reachableNodes.add( n );
+    if( reachableNodes == null ) {
+      for( Node n : getProblem() ) {
+        if( distances.get( n ) < Integer.MAX_VALUE ) {
+          reachableNodes.add( n );
+        }
       }
     }
     return reachableNodes;
+  }
+  
+  public boolean isReachable( Node node ) {
+    return getReachableNodes().contains( node );
   }
 }

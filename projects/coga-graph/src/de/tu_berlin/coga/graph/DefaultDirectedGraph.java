@@ -9,7 +9,6 @@ import de.tu_berlin.coga.container.collection.IdentifiableCollection;
 import de.tu_berlin.coga.container.mapping.IdentifiableIntegerMapping;
 import de.tu_berlin.coga.container.mapping.IdentifiableObjectMapping;
 import de.tu_berlin.coga.graph.util.OppositeNodeCollection;
-import de.tu_berlin.coga.netflow.ds.network.ModifiableGraph;
 import java.util.Iterator;
 
 /**
