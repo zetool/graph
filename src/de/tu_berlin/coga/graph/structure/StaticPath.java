@@ -20,8 +20,8 @@ import de.tu_berlin.coga.graph.Edge;
 import de.tu_berlin.coga.container.collection.IdentifiableCollection;
 import de.tu_berlin.coga.container.collection.ListSequence;
 import de.tu_berlin.coga.graph.Node;
+import de.tu_berlin.coga.graph.util.PredecessorIterator;
 import de.tu_berlin.coga.graph.util.PredecessorMap;
-import de.tu_berlin.coga.netflow.ds.network.Network;
 import ds.graph.GraphLocalization;
 import java.util.Iterator;
 
@@ -34,7 +34,7 @@ import java.util.Iterator;
  * the start of the first edge and the end of the last edge is the last node. This
  * is due to the fact that the path should also work with undirected graphs.
  */
-public class StaticPath implements Path, Iterable<Edge> {
+public class StaticPath implements Path {
 
   /** The sequence of edges of this path. */
   protected ListSequence<Edge> edges;
@@ -87,26 +87,14 @@ public class StaticPath implements Path, Iterable<Edge> {
    * @param edges the edges the path shall be contained of
    */
   public StaticPath( Iterable<Edge> edges ) {
-    this();
-    boolean consistent = true;
-    for( Edge edge : edges ) {
-      consistent &= addLastEdge( edge );
-    }
-    if( !consistent ) {
-      throw new IllegalArgumentException( GraphLocalization.loc.getString( "ds.Graph.NotConsistentException" ) );
-    }
-  }
-
-  public StaticPath( Node start, Node end, PredecessorMap p ) {
-    this( p );
-    this.start = start;
-    this.end = end;    
+    this( edges.iterator() );
   }
   
-  public StaticPath( PredecessorMap p ) {
+  public StaticPath( Iterator<Edge> edges ) {
     this();
     boolean consistent = true;
-    for( Edge e : p ) {
+    while( edges.hasNext() ) {
+      Edge e = edges.next();
       consistent &= addFirstEdge( e );
     }
     if( !consistent ) {
@@ -114,12 +102,18 @@ public class StaticPath implements Path, Iterable<Edge> {
     }
   }
 
+  public StaticPath( Node end, PredecessorMap<Edge,Node> p ) {
+    this( new PredecessorIterator( end, p ) );
+    this.start = edges.getFirst().start();
+    this.end = end;    
+  }
+
   /**
    * Returns the sequence of edges of this path as a {@link ListSequence}.
    * @return the sequence of edges of this path as a {@link ListSequence}.
    */
   @Override
-  public IdentifiableCollection<Edge> getEdges() {
+  public ListSequence<Edge> getEdges() {
     return edges;
   }
 
@@ -144,14 +138,13 @@ public class StaticPath implements Path, Iterable<Edge> {
    * @return {@code true} if the insertion was successful.
    */
   @Override
-  public boolean addLastEdge( Edge edge ) {
+  public final boolean addLastEdge( Edge edge ) {
     if( edges.empty() || isConsistent( edges.last(), edge ) ) {
       edges.add( edge );
       return true;
     } else {
       System.out.println( "StaticPath: " + edges.last() + " " + edge );
       throw new IllegalArgumentException( "" );
-      //throw new AssertionError(GraphLocalization.getSingleton ().getString ("ds.Graph.EdgeCanNotAddedException"));
     }
   }
 
@@ -162,7 +155,7 @@ public class StaticPath implements Path, Iterable<Edge> {
    * @return {@code true} if the insertion was successfull, {@code false} else.
    */
   @Override
-  public boolean addFirstEdge( Edge edge ) {
+  public final boolean addFirstEdge( Edge edge ) {
     if( edges.empty() || isConsistent( edge, edges.first() ) ) {
       edges.addFirst( edge );
       return true;
@@ -254,12 +247,12 @@ public class StaticPath implements Path, Iterable<Edge> {
     return edges.size();
   }
 
-    // to do: martin fragen was stringbuilder für vorteile haben
   /**
    * Returns a String containing all edges, seperated by commata. An edge e=(a,b) will be represented by (a,b) in the
    * string.
    * @return a String containing all edges, where the edges are identified by their nodes
    */
+  @Override
   public String nodesToString() {
     StringBuilder builder = new StringBuilder();
     builder.append( "{" );

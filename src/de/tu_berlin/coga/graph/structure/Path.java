@@ -18,6 +18,7 @@ package de.tu_berlin.coga.graph.structure;
 
 import de.tu_berlin.coga.graph.Edge;
 import de.tu_berlin.coga.container.collection.IdentifiableCollection;
+import de.tu_berlin.coga.container.collection.ListSequence;
 import de.tu_berlin.coga.graph.Node;
 import java.util.Iterator;
 
@@ -70,7 +71,7 @@ public interface Path extends Iterable<Edge> {
      * The interface specifies methods to address the content.
      * @return all edges of this path in a {@link IdentifiableCollection}.
      */
-    IdentifiableCollection<Edge> getEdges();
+    ListSequence<Edge> getEdges();
 
     /**
      * Returns the last edge of the path or null if the path is empty.

@@ -22,11 +22,9 @@ import de.tu_berlin.coga.container.collection.IdentifiableCollection;
 import de.tu_berlin.coga.container.collection.ListSequence;
 import de.tu_berlin.coga.container.mapping.IdentifiableIntegerMapping;
 import de.tu_berlin.coga.container.mapping.IdentifiableObjectMapping;
-import de.tu_berlin.coga.graph.structure.Forest;
 import de.tu_berlin.coga.graph.structure.Path;
 import de.tu_berlin.coga.graph.util.GraphUtil;
 import de.tu_berlin.coga.graph.util.OppositeNodeCollection;
-import de.tu_berlin.math.coga.algorithm.shortestpath.Dijkstra;
 import ds.graph.GraphLocalization;
 import java.util.Iterator;
 
@@ -627,17 +625,10 @@ public class DefaultGraph implements DirectedGraph {
 				setHidden( node, ((HidingSet) nodes).isHidden( node ) );
 		}
 	}
-  //@Override
+
   public Path getPath( Node start, Node end ) {
-    Dijkstra dijkstra = new Dijkstra( this, GraphUtil.UNIT_EDGE_MAPPING, start );
-    dijkstra.run();
-    Forest spt = dijkstra.getShortestPathTree();
-    Path path = spt.getPathToRoot( end );
-    if( path.first().start().equals( start ) ) {
-      return path;
-    } else {
-      return null;
-    }
+    // convenience method
+    return GraphUtil.getPath( this, start, end );
   }
 
 	/**

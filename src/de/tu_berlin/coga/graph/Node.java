@@ -13,16 +13,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-/*
- * Node.java
- *
- */
+
 package de.tu_berlin.coga.graph;
 
 import de.tu_berlin.coga.container.mapping.Identifiable;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import de.tu_berlin.coga.graph.util.UnifiedGraphAccess;
+import de.tu_berlin.coga.container.collection.ArraySet;
 
 /**
  * The {@code Node} class represents a node in a graph. A node is identifiable, e.g. the class implements the Interface

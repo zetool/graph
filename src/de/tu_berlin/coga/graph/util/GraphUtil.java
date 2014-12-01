@@ -9,9 +9,9 @@ import de.tu_berlin.coga.graph.Graph;
 import de.tu_berlin.coga.graph.UndirectedGraph;
 import de.tu_berlin.coga.graph.Edge;
 import de.tu_berlin.coga.graph.Node;
-import de.tu_berlin.coga.graph.structure.Forest;
 import de.tu_berlin.coga.graph.structure.Path;
-import de.tu_berlin.math.coga.algorithm.shortestpath.Dijkstra;
+import de.tu_berlin.coga.graph.structure.StaticPath;
+import de.tu_berlin.coga.graph.traversal.BreadthFirstSearch;
 import java.util.Iterator;
 
 
@@ -54,11 +54,25 @@ public class GraphUtil {
     }
   }
   
-  public static Path getPath( DirectedGraph g, Node start, Node end ) {
-    Dijkstra dijkstra = new Dijkstra( g, GraphUtil.UNIT_EDGE_MAPPING, start );
-    dijkstra.run();
-    Forest spt = dijkstra.getShortestPathTree();
-    Path path = spt.getPathToRoot( end );
+  /**
+   * Computes a graph beteen two vertices in a directed graph, if there is
+   * such a path.
+   * @param g the graph
+   * @param start the start vertex
+   * @param end the end vertex
+   * @return a path between to vertices if such a path exists, or {@code null}
+   */
+  public static Path getPath( Graph g, Node start, Node end ) {
+    // start a breadth first search from the start vertex until the end vertex
+    // is reached.
+    BreadthFirstSearch bfs = new BreadthFirstSearch();
+    bfs.setStart( start );
+    bfs.setStop( end );
+    bfs.run();
+
+    // compute the path based on the predecessors computed by the breadth
+    // first search. if a pa exists, return it, otherwise null.
+    Path path = new StaticPath( bfs );
     if( path.first().start().equals( start ) ) {
       return path;
     } else {

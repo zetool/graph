@@ -20,7 +20,6 @@ import de.tu_berlin.coga.graph.Edge;
 import de.tu_berlin.coga.graph.Node;
 import de.tu_berlin.coga.container.collection.IdentifiableCollection;
 import de.tu_berlin.coga.container.mapping.IdentifiableObjectMapping;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * The {@code AbstractNetwork</class> provides an implementation of a directed graph
@@ -29,12 +28,13 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  * provide fast access, as well as the possiblity to hide edges and nodes (which
  * is useful for residual networks, for instance).
  */
-@XStreamAlias( "forest" )
+//@XStreamAlias( "forest" )
 public class Forest {
-  //TODO: implement better forest datastructure, take care that no edges are created new if it is a shortest paths
+  //TODO: implement better forest datastructure, take care that no edges are
+  //      created new if it is a shortest paths
   //forest on an existing graph
 
-  private IdentifiableObjectMapping<Node, Edge> precedingEdges;
+  private final IdentifiableObjectMapping<Node, Edge> precedingEdges;
 
   public Forest( IdentifiableCollection<Node> nodes, IdentifiableObjectMapping<Node, Edge> precedingEdges ) {
     this.precedingEdges = precedingEdges;
