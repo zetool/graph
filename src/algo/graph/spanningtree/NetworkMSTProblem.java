@@ -1,12 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package algo.graph.spanningtree;
 
-import org.zetool.graph.Edge;
-import org.zetool.container.mapping.IdentifiableIntegerMapping;
-import org.zetool.graph.DynamicNetwork;
+import de.tu_berlin.coga.graph.Edge;
+import de.tu_berlin.coga.container.mapping.IdentifiableIntegerMapping;
+import de.tu_berlin.coga.graph.DynamicNetwork;
 
 /**
  *
