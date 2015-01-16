@@ -1,7 +1,7 @@
 
 package de.tu_berlin.coga.graph.traversal;
 
-import de.tu_berlin.coga.container.mapping.IdentifiableObjectMapping;
+import org.zetool.container.mapping.IdentifiableObjectMapping;
 import de.tu_berlin.coga.graph.Graph;
 import de.tu_berlin.coga.graph.util.GraphUtil;
 import de.tu_berlin.coga.graph.util.UnifiedGraphAccess;

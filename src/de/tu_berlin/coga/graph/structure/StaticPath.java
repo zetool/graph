@@ -17,12 +17,11 @@
 package de.tu_berlin.coga.graph.structure;
 
 import de.tu_berlin.coga.graph.Edge;
-import de.tu_berlin.coga.container.collection.IdentifiableCollection;
-import de.tu_berlin.coga.container.collection.ListSequence;
+import org.zetool.container.collection.ListSequence;
 import de.tu_berlin.coga.graph.Node;
+import de.tu_berlin.coga.graph.localization.GraphLocalization;
 import de.tu_berlin.coga.graph.util.PredecessorIterator;
 import de.tu_berlin.coga.graph.util.PredecessorMap;
-import ds.graph.GraphLocalization;
 import java.util.Iterator;
 
 /**
@@ -76,7 +75,7 @@ public class StaticPath implements Path {
       consistent &= addLastEdge( edge );
     }
     if( !consistent ) {
-      throw new IllegalArgumentException( GraphLocalization.loc.getString( "ds.Graph.NotConsistentException" ) );
+      throw new IllegalArgumentException( GraphLocalization.LOC.getString( "ds.Graph.NotConsistentException" ) );
     }
   }
 
@@ -98,7 +97,7 @@ public class StaticPath implements Path {
       consistent &= addFirstEdge( e );
     }
     if( !consistent ) {
-      throw new IllegalArgumentException( GraphLocalization.loc.getString( "ds.Graph.NotConsistentException" ) );
+      throw new IllegalArgumentException( GraphLocalization.LOC.getString( "ds.Graph.NotConsistentException" ) );
     }
   }
 

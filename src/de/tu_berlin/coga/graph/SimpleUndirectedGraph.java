@@ -1,10 +1,10 @@
 
 package de.tu_berlin.coga.graph;
 
-import de.tu_berlin.coga.container.collection.ArraySet;
-import de.tu_berlin.coga.container.collection.IdentifiableCollection;
-import de.tu_berlin.coga.container.collection.ListSequence;
-import de.tu_berlin.coga.container.mapping.IdentifiableObjectMapping;
+import org.zetool.container.collection.ArraySet;
+import org.zetool.container.collection.IdentifiableCollection;
+import org.zetool.container.collection.ListSequence;
+import org.zetool.container.mapping.IdentifiableObjectMapping;
 import de.tu_berlin.coga.graph.util.OppositeNodeCollection;
 import java.util.Iterator;
 

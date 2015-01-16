@@ -1,6 +1,6 @@
 package de.tu_berlin.math.coga.algorithm.shortestpath;
 
-import de.tu_berlin.coga.container.priority.MinHeap;
+import org.zetool.container.priority.MinHeap;
 import de.tu_berlin.coga.graph.DynamicNetwork;
 import de.tu_berlin.coga.graph.Edge;
 import de.tu_berlin.coga.graph.Node;

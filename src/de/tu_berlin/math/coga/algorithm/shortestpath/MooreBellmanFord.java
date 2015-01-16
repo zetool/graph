@@ -15,12 +15,12 @@
  */
 package de.tu_berlin.math.coga.algorithm.shortestpath;
 
-import ds.graph.GraphLocalization;
 import de.tu_berlin.coga.graph.Edge;
-import de.tu_berlin.coga.container.mapping.IdentifiableIntegerMapping;
-import de.tu_berlin.coga.container.mapping.IdentifiableObjectMapping;
+import org.zetool.container.mapping.IdentifiableIntegerMapping;
+import org.zetool.container.mapping.IdentifiableObjectMapping;
 import de.tu_berlin.coga.graph.DirectedGraph;
 import de.tu_berlin.coga.graph.Node;
+import de.tu_berlin.coga.graph.localization.GraphLocalization;
 import de.tu_berlin.coga.graph.structure.Path;
 import de.tu_berlin.coga.graph.structure.StaticPath;
 
@@ -48,42 +48,42 @@ public class MooreBellmanFord {
 
   public IdentifiableIntegerMapping<Node> getDistances() {
     if( distances == null ) {
-      throw new IllegalStateException( GraphLocalization.loc.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
+      throw new IllegalStateException( GraphLocalization.LOC.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
     }
     return distances;
   }
 
   public double getDistance( Node node ) {
     if( distances == null ) {
-      throw new IllegalStateException( GraphLocalization.loc.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
+      throw new IllegalStateException( GraphLocalization.LOC.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
     }
     return distances.get( node );
   }
 
   public IdentifiableObjectMapping<Node, Edge> getLastEdges() {
     if( edges == null ) {
-      throw new IllegalStateException( GraphLocalization.loc.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
+      throw new IllegalStateException( GraphLocalization.LOC.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
     }
     return edges;
   }
 
   public Edge getLastEdge( Node node ) {
     if( edges == null ) {
-      throw new IllegalStateException( GraphLocalization.loc.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
+      throw new IllegalStateException( GraphLocalization.LOC.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
     }
     return edges.get( node );
   }
 
   public IdentifiableObjectMapping<Node, Node> getPredecessors() {
     if( nodes == null ) {
-      throw new IllegalStateException( GraphLocalization.loc.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
+      throw new IllegalStateException( GraphLocalization.LOC.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
     }
     return nodes;
   }
 
   public Node getPredecessor( Node node ) {
     if( nodes == null ) {
-      throw new IllegalStateException( GraphLocalization.loc.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
+      throw new IllegalStateException( GraphLocalization.LOC.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
     }
     return nodes.get( node );
   }
@@ -105,10 +105,10 @@ public class MooreBellmanFord {
 
   public void run() {
     if( graph == null ) {
-      throw new IllegalStateException( GraphLocalization.loc.getString( "algo.graph.shortestpath.GraphIsNullException" ) );
+      throw new IllegalStateException( GraphLocalization.LOC.getString( "algo.graph.shortestpath.GraphIsNullException" ) );
     }
     if( source == null ) {
-      throw new IllegalStateException( GraphLocalization.loc.getString( "algo.graph.shortestpath.SourceIsNullException" ) );
+      throw new IllegalStateException( GraphLocalization.LOC.getString( "algo.graph.shortestpath.SourceIsNullException" ) );
     }
     if( distances != null ) {
       return;

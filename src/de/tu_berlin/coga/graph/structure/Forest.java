@@ -18,8 +18,8 @@ package de.tu_berlin.coga.graph.structure;
 
 import de.tu_berlin.coga.graph.Edge;
 import de.tu_berlin.coga.graph.Node;
-import de.tu_berlin.coga.container.collection.IdentifiableCollection;
-import de.tu_berlin.coga.container.mapping.IdentifiableObjectMapping;
+import org.zetool.container.collection.IdentifiableCollection;
+import org.zetool.container.mapping.IdentifiableObjectMapping;
 
 /**
  * The {@code AbstractNetwork</class> provides an implementation of a directed graph

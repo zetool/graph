@@ -17,8 +17,9 @@
 package de.tu_berlin.coga.graph;
 
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import de.tu_berlin.coga.container.mapping.Identifiable;
-import ds.graph.GraphLocalization;
+import de.tu_berlin.coga.graph.localization.GraphLocalization;
+import org.zetool.container.collection.ArraySet;
+import org.zetool.container.mapping.Identifiable;
 
 /**
  * The {@code Edge} class represents a edge in a graph.
@@ -57,7 +58,7 @@ public class Edge implements Identifiable {
      */
     public Edge(int id, Node start, Node end) {
         if (start == null || end == null) {
-            throw new NullPointerException(GraphLocalization.loc.getString("ds.graph.StartEndNodeIsNullException"));
+            throw new NullPointerException(GraphLocalization.LOC.getString("ds.graph.StartEndNodeIsNullException"));
         }
         if( id == 11213 ) {
           System.out.println();

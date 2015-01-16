@@ -16,9 +16,9 @@
 
 package de.tu_berlin.coga.graph;
 
-import de.tu_berlin.coga.common.localization.CommonLocalization;
-import de.tu_berlin.coga.container.collection.IdentifiableCollection;
-import de.tu_berlin.coga.container.collection.ListSequence;
+import org.zetool.common.localization.CommonLocalization;
+import org.zetool.container.collection.IdentifiableCollection;
+import org.zetool.container.collection.ListSequence;
 import de.tu_berlin.coga.graph.localization.GraphLocalization;
 import de.tu_berlin.coga.graph.util.OppositeNodeCollection;
 import java.util.ArrayList;

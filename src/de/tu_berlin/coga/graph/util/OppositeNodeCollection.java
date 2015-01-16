@@ -16,9 +16,9 @@
 package de.tu_berlin.coga.graph.util;
 
 import de.tu_berlin.coga.graph.Edge;
-import ds.graph.GraphLocalization;
-import de.tu_berlin.coga.container.collection.IdentifiableCollection;
+import org.zetool.container.collection.IdentifiableCollection;
 import de.tu_berlin.coga.graph.Node;
+import de.tu_berlin.coga.graph.localization.GraphLocalization;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -59,7 +59,7 @@ public class OppositeNodeCollection implements IdentifiableCollection<Node> {
    */
   @Override
   public boolean add( Node element ) {
-    throw new UnsupportedOperationException( GraphLocalization.loc.getString( "ds.graph.NotSupportedException" ) );
+    throw new UnsupportedOperationException( GraphLocalization.LOC.getString( "ds.graph.NotSupportedException" ) );
   }
 
   /**
@@ -69,7 +69,7 @@ public class OppositeNodeCollection implements IdentifiableCollection<Node> {
    */
   @Override
   public void remove( Node element ) {
-    throw new UnsupportedOperationException( GraphLocalization.loc.getString( "ds.graph.NotSupportedException" ) );
+    throw new UnsupportedOperationException( GraphLocalization.LOC.getString( "ds.graph.NotSupportedException" ) );
   }
 
   /**
@@ -80,7 +80,7 @@ public class OppositeNodeCollection implements IdentifiableCollection<Node> {
    */
   @Override
   public Node removeLast() {
-    throw new UnsupportedOperationException( GraphLocalization.loc.getString( "ds.graph.NotSupportedException" ) );
+    throw new UnsupportedOperationException( GraphLocalization.LOC.getString( "ds.graph.NotSupportedException" ) );
   }
 
   /**
@@ -133,7 +133,7 @@ public class OppositeNodeCollection implements IdentifiableCollection<Node> {
    */
   @Override
   public Node get( int id ) {
-    throw new UnsupportedOperationException( GraphLocalization.loc.getString( "ds.graph.NotSupportedException" ) );
+    throw new UnsupportedOperationException( GraphLocalization.LOC.getString( "ds.graph.NotSupportedException" ) );
   }
 
   /**
@@ -306,7 +306,7 @@ public class OppositeNodeCollection implements IdentifiableCollection<Node> {
      */
     @Override
     public void remove() {
-      throw new UnsupportedOperationException( GraphLocalization.loc.getString( "ds.graph.NotSupportedException" ) );
+      throw new UnsupportedOperationException( GraphLocalization.LOC.getString( "ds.graph.NotSupportedException" ) );
     }
   }
 }

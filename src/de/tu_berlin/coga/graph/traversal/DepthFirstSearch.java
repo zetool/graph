@@ -1,9 +1,9 @@
 package de.tu_berlin.coga.graph.traversal;
 
-import de.tu_berlin.coga.common.algorithm.Algorithm;
-import de.tu_berlin.coga.common.util.Helper;
-import de.tu_berlin.coga.container.mapping.IdentifiableIntegerMapping;
-import de.tu_berlin.coga.container.mapping.IdentifiableObjectMapping;
+import org.zetool.common.algorithm.Algorithm;
+import org.zetool.common.util.Helper;
+import org.zetool.container.mapping.IdentifiableIntegerMapping;
+import org.zetool.container.mapping.IdentifiableObjectMapping;
 import de.tu_berlin.coga.graph.Graph;
 import de.tu_berlin.coga.graph.Edge;
 import de.tu_berlin.coga.graph.Node;

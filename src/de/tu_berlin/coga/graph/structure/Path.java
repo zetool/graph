@@ -17,8 +17,8 @@
 package de.tu_berlin.coga.graph.structure;
 
 import de.tu_berlin.coga.graph.Edge;
-import de.tu_berlin.coga.container.collection.IdentifiableCollection;
-import de.tu_berlin.coga.container.collection.ListSequence;
+import org.zetool.container.collection.IdentifiableCollection;
+import org.zetool.container.collection.ListSequence;
 import de.tu_berlin.coga.graph.Node;
 import java.util.Iterator;
 

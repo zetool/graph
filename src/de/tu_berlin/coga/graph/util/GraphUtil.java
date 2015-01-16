@@ -1,8 +1,8 @@
 
 package de.tu_berlin.coga.graph.util;
 
-import de.tu_berlin.coga.container.mapping.IdentifiableBooleanMapping;
-import de.tu_berlin.coga.container.mapping.IdentifiableConstantMapping;
+import org.zetool.container.mapping.IdentifiableBooleanMapping;
+import org.zetool.container.mapping.IdentifiableConstantMapping;
 import de.tu_berlin.coga.graph.DefaultDirectedGraph;
 import de.tu_berlin.coga.graph.DirectedGraph;
 import de.tu_berlin.coga.graph.Graph;

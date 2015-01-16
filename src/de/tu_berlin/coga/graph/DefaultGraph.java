@@ -16,16 +16,16 @@
 
 package de.tu_berlin.coga.graph;
 
-import de.tu_berlin.coga.container.collection.DependingListSequence;
-import de.tu_berlin.coga.container.collection.HidingSet;
-import de.tu_berlin.coga.container.collection.IdentifiableCollection;
-import de.tu_berlin.coga.container.collection.ListSequence;
-import de.tu_berlin.coga.container.mapping.IdentifiableIntegerMapping;
-import de.tu_berlin.coga.container.mapping.IdentifiableObjectMapping;
+import de.tu_berlin.coga.graph.localization.GraphLocalization;
+import org.zetool.container.collection.DependingListSequence;
+import org.zetool.container.collection.HidingSet;
+import org.zetool.container.collection.IdentifiableCollection;
+import org.zetool.container.collection.ListSequence;
+import org.zetool.container.mapping.IdentifiableIntegerMapping;
+import org.zetool.container.mapping.IdentifiableObjectMapping;
 import de.tu_berlin.coga.graph.structure.Path;
 import de.tu_berlin.coga.graph.util.GraphUtil;
 import de.tu_berlin.coga.graph.util.OppositeNodeCollection;
-import ds.graph.GraphLocalization;
 import java.util.Iterator;
 
 /**
@@ -609,7 +609,7 @@ public class DefaultGraph implements DirectedGraph {
 			idOfLastCreatedEdge = id % capacity;
 			return edge;
 		} else
-			throw new IllegalStateException( GraphLocalization.loc.getString( "ds.Graph.NoCapacityException" ) );
+			throw new IllegalStateException( GraphLocalization.LOC.getString( "ds.Graph.NoCapacityException" ) );
 	}
 
 	/**
