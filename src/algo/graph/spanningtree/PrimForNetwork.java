@@ -4,8 +4,7 @@
  */
 package algo.graph.spanningtree;
 
-import de.tu_berlin.coga.common.algorithm.Algorithm;
-import ds.graph.network.DynamicNetwork;
+import org.zetool.common.algorithm.Algorithm;
 import de.tu_berlin.coga.graph.Edge;
 import de.tu_berlin.coga.container.collection.IdentifiableCollection;
 import de.tu_berlin.coga.container.mapping.IdentifiableIntegerMapping;
