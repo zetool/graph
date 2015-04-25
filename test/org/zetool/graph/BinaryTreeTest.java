@@ -16,27 +16,25 @@
 
 package org.zetool.graph;
 
-//import de.tu_berlin.coga.graph.Node;
-//import de.tu_berlin.coga.graph.Edge;
-//import de.tu_berlin.math.coga.datastructure.searchtree.BinaryTree;
 //import static org.junit.Assert.assertEquals;
 //import static org.junit.Assert.assertFalse;
 //import static org.junit.Assert.assertNull;
 //import static org.junit.Assert.assertTrue;
 //import static org.junit.Assert.fail;
-//import org.junit.Test;
-//
-///**
-// *
-// * @author Jan-Philipp Kappmeier
-// */
-//public class BinaryTreeTest {
-//
-//	@Test
-//	public void testBinaryTree() {
-////		assertEquals( "", 1, 1 );
-////		fail( "hätte nicht sein dürfen" );
-////		assertEquals( "Testbedingung", 2, 1 );
+import org.junit.Test;
+
+/**
+ *
+ * @author Jan-Philipp Kappmeier
+ */
+public class BinaryTreeTest {
+  
+
+	@Test
+	public void testBinaryTree() {
+//		assertEquals( "", 1, 1 );
+//		fail( "hätte nicht sein dürfen" );
+//		assertEquals( "Testbedingung", 2, 1 );
 //		
 //		BinaryTree bt = new BinaryTree( 7 );
 //
@@ -140,5 +138,5 @@ package org.zetool.graph;
 //		System.out.println( BinaryTreeToString.format( bt ) );
 //		
 //		System.out.println( "Done.");
-//	}
-//}
+	}
+}

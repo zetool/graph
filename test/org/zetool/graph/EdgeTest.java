@@ -13,30 +13,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
 package org.zetool.graph;
 
-//import static org.junit.Assert.*;
-//import junit.framework.JUnit4TestAdapter;
-//import org.junit.Before;
-//import org.junit.Test;
-//import static org.easymock.classextension.EasyMock.*;
-//
-//
-///*
-// * EdgeTest.java
-// * JUnit based test
-// *
-// * Created on 29. November 2007, 09:47
-// */
-//
-///**
-// *
-// * @author mouk
-// */
-////@RunWith(JMock.class)
-//public class EdgeTest
-//{
+import org.junit.Test;
+
+/**
+ * JUnit based test
+ *
+ * @author mouk
+ */
+public class EdgeTest {
 //    Edge instance;
 //    Node start;
 //    Node end;
@@ -83,16 +69,12 @@ package org.zetool.graph;
 //        assertEquals(end,instance.opposite(start));
 //        assertEquals(start,instance.opposite(end));
 //    }
-//
-//    @Test
-//    public void canDetectEquality()
-//    {
+
+  @Test
+  public void canDetectEquality() {
 //        Edge oppositeEdge = new Edge(2,end, start);
 //        assertFalse(instance.equals(oppositeEdge));
 //        assertTrue(instance.equals(instance));
-//    }
-//
-//     public static junit.framework.Test suite() {
-//		return new JUnit4TestAdapter(EdgeTest.class);
-//     }
-//}
+  }
+
+}

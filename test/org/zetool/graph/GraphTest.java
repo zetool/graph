@@ -16,12 +16,16 @@
 
 package org.zetool.graph;
 
+import org.junit.Ignore;
+
 /**
- * Unit test for graphs.
+ * Graphs for unit testing.
  *
  * @author Jan-Philipp Kappmeier
  */
+@Ignore
 public class GraphTest {
+  
   /**
    * A sample graph containing all classes of edges and a loop.
    */

@@ -21,11 +21,13 @@ import org.zetool.graph.DefaultDirectedGraph;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
+import org.junit.Ignore;
 
 /**
  * Some static test instances for testing breadth first search and depth first search.
  * @author Jan-Philipp Kappmeier
  */
+@Ignore
 public final class GraphTraversalTestInstance {
   /** A simple graph with 4 nodes. */
 	final static GraphTraversalTestInstance SIMPLE_1;
