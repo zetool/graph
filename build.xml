@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="zetool graph" default="coverage" basedir=".">
+	<!-- Loads all necessary paths and parameters -->
+  <property file="build.properties" />
+  
+  <description>
+    Build file for zetool graph library.
+  </description>
+  
+  <!-- First, the normal build/test tasks. -->
+  
+  <target name="init" description="Initialize the necessary directories for build/test processes and release.">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${dist.dir}"/>
+    <mkdir dir="${javadoc.dir}"/>
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${classes.dir}"/>
+    <mkdir dir="${reports.dir}"/>
+  </target>
+
+  <target name="build" depends="init" description="compile the source" >
+    <!-- Compile the java code from ${src.dir} into ${build.dir}/classes -->
+    <javac srcdir="${src.dir}" destdir="${classes.dir}">
+      <compilerarg value="-Xlint"/>    
+    </javac>
+  </target>
+  
+  <target name="clean" description="Clean up build, dist, test and report directories." >
+    <!-- Delete the ${build.dir} and ${dist} directory trees -->
+    <delete dir="${reports.dir}"/>
+    <delete dir="${classes.dir}"/>
+    <delete dir="${build.dir}"/>
+    <delete dir="${javadoc.dir}"/>
+    <delete dir="${dist.dir}"/>
+  </target>
+
+  <target name="clean.build" description="Delete only compiled files before running again." >
+    <!-- Delete the ${build.dir} and ${dist} directory trees -->
+    <delete dir="${build.dir}/classes"/>
+    <delete dir="${test.build.dir}/classes"/>
+  </target>
+
+  <!-- Tasks with regards to testing. -->
+  
+  <target name="init.test" depends="init" description="Generate directories used for testing.">
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${test.build.dir}"/>
+    <mkdir dir="${test.build.dir}/classes"/>
+    <mkdir dir="${test.reports.dir}"/>
+  </target>
+
+  <target name="build.test" depends="init.test,build" description="Build test classes.">
+    <javac srcdir="${test.src.dir}" destdir="${test.build.dir}/classes">
+      <classpath>
+        <pathelement path="${classes.dir}"/>
+        <pathelement location="${test.lib.dir}/junit-4.12.jar"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="test" depends="build.test" description="Perform JUnit tests.">
+    <junit printsummary="yes" haltonfailure="yes" showoutput="true">
+      <classpath>
+        <pathelement path="${java.class.path}"/>
+        <pathelement path="${build.dir}/instrumented"/>
+        <pathelement path="${build.dir}/classes"/>
+        <pathelement path="${test.build.dir}/classes"/>
+        <pathelement location="${test.lib.dir}/junit-4.12.jar"/>
+        <pathelement location="${test.lib.dir}/hamcrest-core-1.3.jar"/>
+      </classpath>
+
+      <formatter type="xml"/>
+
+      <batchtest fork="yes" todir="${test.reports.dir}">
+        <fileset dir="${test.src.dir}">
+          <include name="**/*Test*.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+    </target>
+
+    <!-- Tasks in the release process. -->
+    
+    <target name="dist" depends="build" description="generating dist and test" >
+    <jar jarfile="${dist.dir}/${lib.name}-rc.jar" basedir="${build.dir}/classes"/>
+  </target>
+
+  <target name="javadoc" depends="init" description="Creates the JavaDoc documentation for the project.">
+    <javadoc destdir="${javadoc.dir}" sourcepath="${src.dir}" windowtitle="${lib.name}" author="true" version="true" use="true"
+    charset="UTF-8" encoding="UTF-8" docencoding="UTF-8"> <!-- Anything else than UTF and you shall end up in hell! -->
+      <doctitle><![CDATA[<h1>${lib.name} javadoc documentation</h1>]]></doctitle>
+      <bottom><![CDATA[<i>${lib.copyright}</i>]]></bottom>
+      <tag name="todo" scope="all" description="To do:"/>
+      <link href="http://docs.oracle.com/javase/8/docs/api/"/>
+    </javadoc>
+    <!-- Further possible additions: Groups, links to other javadocs
+      <group title="Group 1 Packages" packages="org.zetool.common.a*"/>
+      <group title="Group 2 Packages" packages="org.zetool.common.b*:org.zetool.common.o*"/>
+    -->
+  </target>
+    
+  <target name="release" depends="init,build,test,javadoc,dist" description="build current release candidate" />
+
+  <!-- Tasks with regards to Cobertura code covering tasks. Note, that these include normal testing process. -->
+
+  <path id="cobertura.classpath">
+    <fileset dir="${cobertura.dir}">
+      <include name="cobertura*.jar" />
+      <include name="lib/**/*.jar" />
+    </fileset>
+  </path>
+	<taskdef classpathref="cobertura.classpath" resource="tasks.properties"/>
+
+	<target name="init.coverage" depends="init">
+		<mkdir dir="${instrumented.dir}" />
+		<mkdir dir="${reports.xml.dir}" />
+		<mkdir dir="${reports.html.dir}" />
+		<mkdir dir="${coverage.xml.dir}" />
+		<mkdir dir="${coverage.summaryxml.dir}" />
+		<mkdir dir="${coverage.html.dir}" />
+	</target>
+
+  <target name="build.coverage" depends="init.coverage">
+    <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="yes">
+      <classpath refid="cobertura.classpath" />
+      <compilerarg value="-Xlint"/> <!-- enabled in normal build -->
+    </javac>
+  </target>
+
+	<target name="instrument" depends="clean.coverage,init.coverage,build.coverage">
+		<!-- Instrument the application classes, writing the
+         instrumented classes into ${build.instrumented.dir}. -->
+		<cobertura-instrument todir="${instrumented.dir}">
+			<!-- Ignore references to slf4j/logback, for the purposes of coverage reporting. -->
+			<ignore regex="org.slf4j.*" />
+
+      <!-- Instrument the library classes. No test classes. -->
+			<fileset dir="${classes.dir}">
+				<include name="**/*.class" />
+			</fileset>
+		</cobertura-instrument>
+	</target>
+
+	<target name="test.coverage" depends="init.coverage,build.coverage,build.test">
+		<junit fork="yes" dir="${basedir}" failureProperty="test.failed"  printsummary="yes" haltonfailure="yes" showoutput="true">
+			<!-- Note the classpath order: instrumented classes are before the
+           original (uninstrumented) classes.  This is important. -->
+			<classpath location="${instrumented.dir}" />
+			<classpath location="${classes.dir}" />
+
+			<!-- The instrumented classes reference classes used by the Cobertura
+           runtime, so Cobertura and its dependencies must be on your classpath. -->
+			<classpath refid="cobertura.classpath" />
+
+      <!-- Add the test binaries as well. -->
+      <classpath location="${test.build.dir}/classes"/>
+
+      <formatter type="xml"/>
+
+			<batchtest todir="${reports.xml.dir}">
+				<fileset dir="${test.src.dir}">
+					<include name="**/*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+
+		<!--<junitreport todir="${reports.xml.dir}">
+			<fileset dir="${reports.xml.dir}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${reports.html.dir}" />
+		</junitreport>-->
+	</target>
+
+	<target name="coverage-report">
+		<!-- Generate an XML file containing the coverage data. -->
+		<cobertura-report srcdir="${src.dir}" destdir="${coverage.xml.dir}" format="xml" />
+	</target>
+
+	<target name="summary-coverage-report">
+		<!-- Generate an summary XML file containing the coverage data. -->
+		<cobertura-report srcdir="${src.dir}" destdir="${coverage.summaryxml.dir}" format="summaryXml" />
+	</target>
+
+	<target name="alternate-coverage-report">
+		<!-- Generate HTML coverage data in a user-readable form using nested source filesets. -->
+		<cobertura-report destdir="${coverage.html.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*.java"/>
+			</fileset>
+		</cobertura-report>
+	</target>
+
+  <target name="clean.coverage" description="delete coverage data" >
+		<!-- The coverage data file and any old instrumentation. -->
+		<delete file="cobertura.ser"/>
+		<delete dir="${instrumented.dir}" />
+  </target>
+
+  <target name="coverage" depends="clean.coverage,init.coverage,build.coverage,instrument,test.coverage,coverage-report,summary-coverage-report,alternate-coverage-report"/>
+ 
+  <!-- Tasks in the build chain. -->
+ 
+  <target name="jenkins" depends="clean,coverage,javadoc"/>
+
+</project>
