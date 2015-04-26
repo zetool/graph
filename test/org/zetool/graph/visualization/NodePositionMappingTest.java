@@ -17,8 +17,6 @@
 package org.zetool.graph.visualization;
 
 import java.util.LinkedList;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import static org.junit.Assert.assertEquals;
 import org.junit.Rule;
 import org.junit.Test;
