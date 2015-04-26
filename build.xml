@@ -58,7 +58,7 @@
   </target>
 
   <target name="test" depends="build.test" description="Perform JUnit tests.">
-    <junit printsummary="yes" haltonfailure="yes" showoutput="true">
+    <junit printsummary="yes" haltonfailure="no" showoutput="true">
       <classpath>
         <pathelement path="${test.classpath}"/>        
       </classpath>
@@ -115,7 +115,7 @@
 		<mkdir dir="${coverage.html.dir}" />
 	</target>
 
-  <target name="build.coverage" depends="init.coverage">
+  <target name="build.coverage" depends="init.coverage,resolve">
     <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="yes">
       <classpath refid="cobertura.classpath" />
       <compilerarg value="-Xlint"/> <!-- enabled in normal build -->
