@@ -1,0 +1,22 @@
+<ivy-module version="2.0">
+  <info organisation="org.zetool" module="zetool-graph"/>
+
+  <configurations>
+    <conf name="dist" description="Required to set up the build environment."/>
+    <conf name="core" description="Required to compile application."/>
+    <conf name="test"  description="Required for test only." />
+  </configurations>
+
+  <dependencies>
+    <!-- dist dependencies -->
+    <!-- <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.5" conf="runtime->default"/> -->
+
+    <!-- core dependencies -->
+    <dependency org="com.thoughtworks.xstream" name="xstream" rev="1.4.7" conf="core->default"/>
+    
+
+    <!-- test dependencies -->
+    <dependency org="junit" name="junit" rev="4.12" conf="test->default"/>
+    <dependency org="org.hamcrest" name="hamcrest-library" rev="1.3" conf="test->default"/>
+  </dependencies>
+</ivy-module>

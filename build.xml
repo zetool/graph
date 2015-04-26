@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="zetool graph" default="coverage" basedir=".">
+<project name="zetool graph" default="coverage" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 	<!-- Loads all necessary paths and parameters -->
   <property file="build.properties" />
   
@@ -20,7 +20,7 @@
     <mkdir dir="${reports.dir}"/>
   </target>
 
-  <target name="build" depends="init" description="compile the source" >
+  <target name="build" depends="init,resolve" description="compile the source" >
     <!-- Compile the java code from ${src.dir} into ${build.dir}/classes -->
     <javac srcdir="${src.dir}" destdir="${classes.dir}" classpath="${classpath}">
       <compilerarg value="-Xlint"/>
@@ -51,7 +51,7 @@
     <mkdir dir="${test.reports.dir}"/>
   </target>
 
-  <target name="build.test" depends="init.test,build" description="Build test classes.">
+  <target name="build.test" depends="init.test,build,resolve" description="Build test classes.">
     <echo>Classpath: ${test.build.classpath}</echo>
     <javac srcdir="${test.src.dir}" destdir="${test.build.dir}/classes" classpath="${test.build.classpath}">
     </javac>
@@ -203,5 +203,40 @@
   <!-- Tasks in the build chain. -->
  
   <target name="jenkins" depends="clean,coverage,javadoc"/>
+  
+  <property name="ivy.install.version" value="2.1.0-rc2" />
+  <condition property="ivy.home" value="${env.IVY_HOME}">
+    <isset property="env.IVY_HOME" />
+  </condition>
+  <property name="ivy.home" location="${dist.lib.dir}/ivy" />
+  <property name="ivy.jar.dir" value="${ivy.home}" />
+  <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
+  <property name="ivy.reports.dir"  location="${build.dir}/ivy-reports"/>
+  <available classname="org.apache.ivy.Main" property="ivy.installed"/>
+  
+  <!--
+  ==================================================
+  Ivy setup
+  ==================================================
+  -->
 
+  <target name="download-ivy" unless="offline" description="Download the ivy jar file.">
+    <mkdir dir="${ivy.jar.dir}"/>
+    <!-- download Ivy from web site so that it can be used even without any special installation -->
+    <get src="https://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar" dest="${ivy.jar.file}" usetimestamp="true"/>
+  </target>
+
+  <target name="init-ivy" depends="download-ivy" description="Initialize ivy for dependency management">
+    <path id="ivy.lib.path">
+      <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+    </path>
+    <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+  </target>
+  
+  <target name="resolve" depends="init-ivy" description="Use ivy to resolve classpaths">
+    <ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test,core"/>
+    <ivy:report todir='${ivy.reports.dir}' graph='true' xml='false'/>
+    <ivy:cachepath pathid="core.path" conf="core"/>
+    <ivy:cachepath pathid="test.path"    conf="test"/>
+  </target>
 </project>

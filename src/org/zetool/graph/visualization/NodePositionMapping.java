@@ -30,6 +30,11 @@ public class NodePositionMapping<E extends NDimensional<? extends Number>> exten
 
   public NodePositionMapping( int dimension, IdentifiableObjectMapping<Node, E> mapping ) {
     super( mapping );
+    for( E e : mapping ) {
+      if( e.getDimension() != dimension ) {
+        throw new IllegalArgumentException( "Dimension of points in mapping are not equal!" );
+      }      
+    }
     this.dimension = dimension;
   }
 
@@ -38,8 +43,20 @@ public class NodePositionMapping<E extends NDimensional<? extends Number>> exten
     this.dimension = dimension;
   }
 
+  /**
+   * Initializes a new {@code NodePositionMapping} and ensures that the points contained in the original mapping have
+   * the right dimension.
+   * @param dimension the dimension of points
+   * @param mapping the original mapping
+   */
   public NodePositionMapping( int dimension, E[] mapping ) {
     super( mapping );
+    // Test data
+    for( E e : mapping ) {
+      if( e != null && e.getDimension() != dimension ) {
+        throw new IllegalArgumentException( "Dimension of points in mapping are not equal!" );
+      }
+    }
     this.dimension = dimension;
   }
   

@@ -13,13 +13,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 package org.zetool.graph.visualization;
 
+import java.util.LinkedList;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import static org.junit.Assert.assertEquals;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.zetool.container.mapping.IdentifiableObjectMapping;
 import org.zetool.graph.Node;
 import org.zetool.math.geom.NDimensional;
+
 
 /**
  *
@@ -29,8 +36,49 @@ public class NodePositionMappingTest {
   @Rule
   public ExpectedException exception = ExpectedException.none();
 
+  /**
+   * Tests two default constructors initializing an empty node position mapping.
+   */
   @Test
-  public void testDimensionCheck() {
+  public void testNonFailConstructors() {
+    NodePositionMapping<DimXPoint> npm = new NodePositionMapping<>(9, new LinkedList<>() );
+    assertEquals( 9, npm.getDimension() );
+
+    npm = new NodePositionMapping<>(15,2);
+    assertEquals( 15, npm.getDimension() );
+  }
+  
+  /**
+   * Tests constructor using existing data in a mapping. In contrast to {@link #testNonFailConstructors() }, this
+   * should fail if the dimension are not equal.
+   */
+  @Test
+  public void testCopyConstructor() {
+    IdentifiableObjectMapping<Node,DimXPoint> mapping = new IdentifiableObjectMapping<>( 6 );
+    mapping.set( new Node(0), () -> 13 );
+    NodePositionMapping<DimXPoint>npm = new NodePositionMapping<>( 13 , mapping );
+    assertEquals( 13, npm.getDimension() );
+    
+    exception.expect(IllegalArgumentException.class);
+    mapping.set( new Node(0), () -> 3 );
+    new NodePositionMapping<>( 13 , mapping );
+  }
+  
+  /**
+   * Tests failure by copying data from an array. In contrast to {@link #testNonFailConstructors() }, this
+   * should fail if the dimension are not equal.
+   */
+  @Test public void testArrayConstructor() {
+    DimXPoint[] points = { () -> 11, () -> 11 };
+    NodePositionMapping<DimXPoint> npm = new NodePositionMapping<>(11, points );
+    assertEquals( 11, npm.getDimension() );
+
+    exception.expect(IllegalArgumentException.class);
+    npm = new NodePositionMapping<>(2, points);
+  }
+  
+  @Test
+  public void testDimensionCheckInvalid() {
     NodePositionMapping<DimXPoint> npm = new NodePositionMapping<>(2,2);
     exception.expect(IllegalArgumentException.class);
     npm.set( null, () -> 3 );
