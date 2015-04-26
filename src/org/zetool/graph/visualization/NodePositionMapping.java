@@ -33,17 +33,17 @@ public class NodePositionMapping<E extends NDimensional<? extends Number>> exten
     this.dimension = dimension;
   }
 
-  public NodePositionMapping( int dimension, Iterable<Node> domain ) throws IllegalArgumentException {
+  public NodePositionMapping( int dimension, Iterable<Node> domain ) {
     super( domain );
     this.dimension = dimension;
   }
 
-  public NodePositionMapping( int dimension, E[] mapping ) throws IllegalArgumentException {
+  public NodePositionMapping( int dimension, E[] mapping ) {
     super( mapping );
     this.dimension = dimension;
   }
   
-  public NodePositionMapping( int dimension, int domainSize ) throws IllegalArgumentException {
+  public NodePositionMapping( int dimension, int domainSize ) {
     super( domainSize );
     this.dimension = dimension;
   }
