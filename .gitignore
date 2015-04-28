@@ -1,6 +1,6 @@
+.sonar/
 nbproject/private/
 build/
 dist/
 lib/
-.sonar/
 cobertura.ser

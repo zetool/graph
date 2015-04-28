@@ -4,7 +4,7 @@
   <configurations>
     <conf name="dist" description="Required to set up the build environment."/>
     <conf name="core" description="Required to compile application."/>
-    <conf name="test"  description="Required for test only." />
+    <conf name="test" description="Required for test only." />
   </configurations>
 
   <dependencies>

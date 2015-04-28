@@ -25,7 +25,6 @@ import org.zetool.container.mapping.IdentifiableObjectMapping;
 import org.zetool.graph.Node;
 import org.zetool.math.geom.NDimensional;
 
-
 /**
  *
  * @author Jan-Philipp Kappmeier
@@ -54,7 +53,7 @@ public class NodePositionMappingTest {
   public void testCopyConstructor() {
     IdentifiableObjectMapping<Node,DimXPoint> mapping = new IdentifiableObjectMapping<>( 6 );
     mapping.set( new Node(0), () -> 13 );
-    NodePositionMapping<DimXPoint>npm = new NodePositionMapping<>( 13 , mapping );
+    NodePositionMapping<DimXPoint> npm = new NodePositionMapping<>( 13 , mapping );
     assertEquals( 13, npm.getDimension() );
     
     exception.expect(IllegalArgumentException.class);
@@ -67,12 +66,23 @@ public class NodePositionMappingTest {
    * should fail if the dimension are not equal.
    */
   @Test public void testArrayConstructor() {
-    DimXPoint[] points = { () -> 11, () -> 11 };
-    NodePositionMapping<DimXPoint> npm = new NodePositionMapping<>(11, points );
+    DimXPoint[] points = new DimXPoint[2];
+    NodePositionMapping<DimXPoint> npm = new NodePositionMapping<>( 13, points );
+    points = new DimXPoint[]{ () -> 11, () -> 11 };
+    npm = new NodePositionMapping<>(11, points );
     assertEquals( 11, npm.getDimension() );
 
     exception.expect(IllegalArgumentException.class);
     npm = new NodePositionMapping<>(2, points);
+  }
+
+  /**
+   * Tests immediat fail for {@literal null} reference array.
+   */
+  @Test
+  public void testArrayNullConstructor() {
+    exception.expect( NullPointerException.class );
+    new NodePositionMapping<DimXPoint>( 4, (DimXPoint[])null );
   }
   
   @Test

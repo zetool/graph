@@ -137,7 +137,7 @@
 	</target>
 
 	<target name="test.coverage" depends="init.coverage,build.coverage,build.test">
-		<junit fork="yes" dir="${basedir}" failureProperty="test.failed"  printsummary="yes" haltonfailure="yes" showoutput="true">
+		<junit fork="yes" dir="${basedir}" failureProperty="test.failed"  printsummary="yes" haltonfailure="no" showoutput="true">
 			<!-- Note the classpath order: instrumented classes are before the
            original (uninstrumented) classes.  This is important. -->
 			<classpath location="${instrumented.dir}" />
@@ -237,6 +237,6 @@
     <ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test,core"/>
     <ivy:report todir='${ivy.reports.dir}' graph='true' xml='false'/>
     <ivy:cachepath pathid="core.path" conf="core"/>
-    <ivy:cachepath pathid="test.path"    conf="test"/>
+    <ivy:cachepath pathid="test.path" conf="test"/>
   </target>
 </project>
