@@ -899,7 +899,7 @@ is divided into following sections:
         <antcall target="-maybe-call-dep">
             <param name="call.built.properties" value="${built-jar.properties}"/>
             <param location="${project.zetool-collection}" name="call.subproject"/>
-            <param location="${project.zetool-collection}/build.xml" name="call.script"/>
+            <param location="${project.zetool-collection}/build-nb.xml" name="call.script"/>
             <param name="call.target" value="jar"/>
             <param name="transfer.built-jar.properties" value="${built-jar.properties}"/>
             <param name="transfer.not.archive.disabled" value="true"/>
@@ -907,7 +907,7 @@ is divided into following sections:
         <antcall target="-maybe-call-dep">
             <param name="call.built.properties" value="${built-jar.properties}"/>
             <param location="${project.zetool-common}" name="call.subproject"/>
-            <param location="${project.zetool-common}/build.xml" name="call.script"/>
+            <param location="${project.zetool-common}/build-nb.xml" name="call.script"/>
             <param name="call.target" value="jar"/>
             <param name="transfer.built-jar.properties" value="${built-jar.properties}"/>
             <param name="transfer.not.archive.disabled" value="true"/>

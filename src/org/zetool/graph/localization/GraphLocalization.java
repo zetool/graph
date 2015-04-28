@@ -24,10 +24,10 @@ import org.zetool.common.localization.LocalizationManager;
  */
 public final class GraphLocalization {
   /** Localization access for graph classes. */
-  public final static Localization LOC = LocalizationManager.getManager().getLocalization(
+  public static final Localization LOC = LocalizationManager.getManager().getLocalization(
           "de.tu_berlin.coga.graph.localization.GraphLocalization" );
 
-  public final static String NOT_SUPPORTED = "ds.graph.NotSupportedException";
+  public static final String NOT_SUPPORTED = "ds.graph.NotSupportedException";
   
   /** Utility class constructor. */
   private GraphLocalization() {}

@@ -29,7 +29,7 @@ public class GraphTest {
   /**
    * A sample graph containing all classes of edges and a loop.
    */
-  public final static int[][] DFS_GRAPH = {
+  public static final int[][] DFS_GRAPH = {
     {0, 1},
     {0, 4},
     {0, 7},
@@ -42,7 +42,7 @@ public class GraphTest {
     {5, 6},
     {5, 7}
   };
-  public final static int[][] DFS_GRAPH2 = {
+  public static final int[][] DFS_GRAPH2 = {
     {0, 3},
     {1, 0},
     {2, 1},

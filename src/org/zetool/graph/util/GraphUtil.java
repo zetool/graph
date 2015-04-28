@@ -21,9 +21,9 @@ import java.util.Iterator;
  */
 public class GraphUtil {
   /** Unit edge weights. */
-	public final static IdentifiableConstantMapping<Edge> UNIT_EDGE_MAPPING = new IdentifiableConstantMapping<>( 1 );
+	public static final IdentifiableConstantMapping<Edge> UNIT_EDGE_MAPPING = new IdentifiableConstantMapping<>( 1 );
   /** Unit node weights. */
-	public final static IdentifiableConstantMapping<Node> UNIT_NODE_MAPPING = new IdentifiableConstantMapping<>( 1 );
+	public static final IdentifiableConstantMapping<Node> UNIT_NODE_MAPPING = new IdentifiableConstantMapping<>( 1 );
 
   /** Private constructor for utility class. */
   private GraphUtil() { }
