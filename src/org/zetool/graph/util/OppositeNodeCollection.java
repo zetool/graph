@@ -22,6 +22,8 @@ import org.zetool.graph.Node;
 import org.zetool.graph.localization.GraphLocalization;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * A utility class for obtaining the set of adjacent nodes from a set of
@@ -60,7 +62,7 @@ public class OppositeNodeCollection implements IdentifiableCollection<Node> {
    */
   @Override
   public boolean add( Node element ) {
-    throw new UnsupportedOperationException( GraphLocalization.LOC.getString( "ds.graph.NotSupportedException" ) );
+    throw new UnsupportedOperationException( GraphLocalization.NOT_SUPPORTED );
   }
 
   /**
@@ -70,7 +72,7 @@ public class OppositeNodeCollection implements IdentifiableCollection<Node> {
    */
   @Override
   public void remove( Node element ) {
-    throw new UnsupportedOperationException( GraphLocalization.LOC.getString( "ds.graph.NotSupportedException" ) );
+    throw new UnsupportedOperationException( GraphLocalization.NOT_SUPPORTED );
   }
 
   /**
@@ -81,7 +83,7 @@ public class OppositeNodeCollection implements IdentifiableCollection<Node> {
    */
   @Override
   public Node removeLast() {
-    throw new UnsupportedOperationException( GraphLocalization.LOC.getString( "ds.graph.NotSupportedException" ) );
+    throw new UnsupportedOperationException( GraphLocalization.NOT_SUPPORTED );
   }
 
   /**
@@ -121,7 +123,7 @@ public class OppositeNodeCollection implements IdentifiableCollection<Node> {
   @Override
   public int size() {
     int sum = 0;
-    for( Node n : this ) {
+    for( Iterator<Node> it = iterator(); it.hasNext(); it.next() ) {
       sum++;
     }
     return sum;
@@ -134,7 +136,7 @@ public class OppositeNodeCollection implements IdentifiableCollection<Node> {
    */
   @Override
   public Node get( int id ) {
-    throw new UnsupportedOperationException( GraphLocalization.LOC.getString( "ds.graph.NotSupportedException" ) );
+    throw new UnsupportedOperationException( GraphLocalization.NOT_SUPPORTED );
   }
 
   /**
@@ -237,12 +239,12 @@ public class OppositeNodeCollection implements IdentifiableCollection<Node> {
     /** An iterator iterating over all edges leading to adjacent nodes. */
     private final Iterator<Edge> edgeIterator;
     /** The node to be returned when {@code next} is called the first time. */
-    private transient Node next;
+    private Node next;
     /**
      * A map for marking nodes which have already been returned by this
      * iterator. This is required for preventing a node to be returned twice.
      */
-    private transient final HashMap<Node, Boolean> visited;
+    private final Map<Node, Boolean> visited;
 
     /**
      * Creates a new {@code OppositeNodeIterator} iterating over all nodes that
@@ -282,12 +284,10 @@ public class OppositeNodeCollection implements IdentifiableCollection<Node> {
 
     /**
      * Returns a node adjacent to the base node which has not been returned by a
-     * call to {@code next} yet, or {@code null
-     * } if no such node exists. Runtime O(1).
+     * call to {@code next} yet. Runtime O(1).
      *
      * @return a node adjacent to the base node which has not been returned by a
-     * call to {@code next} yet, or {@code null
-     * } if no such node exists.
+     * call to {@code next} yet
      */
     @Override
     public Node next() {
@@ -297,6 +297,9 @@ public class OppositeNodeCollection implements IdentifiableCollection<Node> {
       Node result = next;
       visited.put( result, Boolean.TRUE );
       next = null;
+      if( result == null ) {
+        throw new NoSuchElementException( "No opposite node!" );
+      }
       return result;
     }
 
@@ -307,7 +310,7 @@ public class OppositeNodeCollection implements IdentifiableCollection<Node> {
      */
     @Override
     public void remove() {
-      throw new UnsupportedOperationException( GraphLocalization.LOC.getString( "ds.graph.NotSupportedException" ) );
+      throw new UnsupportedOperationException( GraphLocalization.NOT_SUPPORTED );
     }
   }
 }

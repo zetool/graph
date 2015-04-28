@@ -27,6 +27,8 @@ public final class GraphLocalization {
   public final static Localization LOC = LocalizationManager.getManager().getLocalization(
           "de.tu_berlin.coga.graph.localization.GraphLocalization" );
 
+  public final static String NOT_SUPPORTED = "ds.graph.NotSupportedException";
+  
   /** Utility class constructor. */
   private GraphLocalization() {}
 }
