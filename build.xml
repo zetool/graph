@@ -23,7 +23,7 @@
   <target name="build" depends="init,resolve" description="compile the source" >
     <echo>Classpath: ${classpath}</echo>
     <!-- Compile the java code from ${src.dir} into ${build.dir}/classes -->
-    <javac srcdir="${src.dir}" destdir="${classes.dir}">
+    <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="yes">
       <classpath>
         <path refid="core.path"/>
         <pathelement path="${classpath}"/>
@@ -60,7 +60,7 @@
 
   <target name="build.test" depends="init.test,build" description="Build test classes.">
     <echo>Classpath: ${test.build.classpath}</echo>
-    <javac srcdir="${test.src.dir}" destdir="${test.build.dir}/classes">
+    <javac srcdir="${test.src.dir}" destdir="${test.build.dir}/classes" debug="yes">
       <classpath>
         <path refid="core.path"/>
         <path refid="test.path"/>
