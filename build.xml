@@ -68,10 +68,13 @@
         <pathelement path="${classpath}"/>
       </classpath>    
     </javac>
+    <copy todir="${classes.dir}">
+      <fileset dir="src" includes="**/*.xml,**/*.properties,**/*.txt,**/*.ico" />
+    </copy>
   </target>
 
   <target name="test" depends="build.test" description="Perform JUnit tests.">
-    <junit printsummary="yes" haltonfailure="yes" showoutput="true">
+    <junit printsummary="yes" haltonfailure="no" showoutput="true">
       <classpath>
         <pathelement path="${test.classpath}"/>        
       </classpath>
@@ -150,7 +153,7 @@
 	</target>
 
 	<target name="test.coverage" depends="init.coverage,build.coverage,build.test">
-		<junit fork="yes" dir="${basedir}" failureProperty="test.failed"  printsummary="yes" haltonfailure="yes" showoutput="true">
+		<junit fork="yes" dir="${basedir}" failureProperty="test.failed"  printsummary="yes" haltonfailure="no" showoutput="true">
 			<!-- Note the classpath order: instrumented classes are before the
            original (uninstrumented) classes.  This is important. -->
 			<classpath location="${instrumented.dir}" />
@@ -258,7 +261,7 @@
   <target name="jacoco" depends="resolve,build.test" description="Run unit tests and Jacoco code coverage reporting">
     <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml" classpathref="test.path"/>
       <jacoco:coverage destfile="${reports.dir}/jacoco.exec" xmlns:jacoco="antlib:org.jacoco.ant">
-        <junit haltonfailure="yes" fork="true">
+        <junit haltonfailure="no" fork="true">
           <classpath>
             <path refid="test.path"/>
             <path refid="core.path"/>
