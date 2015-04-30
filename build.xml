@@ -21,8 +21,13 @@
   </target>
 
   <target name="build" depends="init,resolve" description="compile the source" >
+    <echo>Classpath: ${classpath}</echo>
     <!-- Compile the java code from ${src.dir} into ${build.dir}/classes -->
-    <javac srcdir="${src.dir}" destdir="${classes.dir}" classpath="${classpath}">
+    <javac srcdir="${src.dir}" destdir="${classes.dir}">
+      <classpath>
+        <path refid="core.path"/>
+        <pathelement path="${classpath}"/>
+      </classpath>
       <compilerarg value="-Xlint"/>
     </javac>
   </target>
@@ -49,16 +54,24 @@
     <mkdir dir="${test.build.dir}"/>
     <mkdir dir="${test.build.dir}/classes"/>
     <mkdir dir="${test.reports.dir}"/>
+    <mkdir dir="${test.reports.dir}/junit-xml"/>
+    <mkdir dir="${test.reports.dir}/junit-html"/>
   </target>
 
-  <target name="build.test" depends="init.test,build,resolve" description="Build test classes.">
+  <target name="build.test" depends="init.test,build" description="Build test classes.">
     <echo>Classpath: ${test.build.classpath}</echo>
-    <javac srcdir="${test.src.dir}" destdir="${test.build.dir}/classes" classpath="${test.build.classpath}">
+    <javac srcdir="${test.src.dir}" destdir="${test.build.dir}/classes">
+      <classpath>
+        <path refid="core.path"/>
+        <path refid="test.path"/>
+        <pathelement path="${classes.dir}"/>
+        <pathelement path="${classpath}"/>
+      </classpath>    
     </javac>
   </target>
 
   <target name="test" depends="build.test" description="Perform JUnit tests.">
-    <junit printsummary="yes" haltonfailure="no" showoutput="true">
+    <junit printsummary="yes" haltonfailure="yes" showoutput="true">
       <classpath>
         <pathelement path="${test.classpath}"/>        
       </classpath>
@@ -104,7 +117,7 @@
     </fileset>
     <pathelement path="${classpath}"/>
   </path>
-	<taskdef classpathref="cobertura.classpath" resource="tasks.properties"/>
+	<!--<taskdef classpathref="cobertura.classpath" resource="tasks.properties"/>-->
 
 	<target name="init.coverage" depends="init">
 		<mkdir dir="${instrumented.dir}" />
@@ -115,7 +128,7 @@
 		<mkdir dir="${coverage.html.dir}" />
 	</target>
 
-  <target name="build.coverage" depends="init.coverage,resolve">
+  <target name="build.coverage" depends="init.coverage">
     <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="yes">
       <classpath refid="cobertura.classpath" />
       <compilerarg value="-Xlint"/> <!-- enabled in normal build -->
@@ -137,7 +150,7 @@
 	</target>
 
 	<target name="test.coverage" depends="init.coverage,build.coverage,build.test">
-		<junit fork="yes" dir="${basedir}" failureProperty="test.failed"  printsummary="yes" haltonfailure="no" showoutput="true">
+		<junit fork="yes" dir="${basedir}" failureProperty="test.failed"  printsummary="yes" haltonfailure="yes" showoutput="true">
 			<!-- Note the classpath order: instrumented classes are before the
            original (uninstrumented) classes.  This is important. -->
 			<classpath location="${instrumented.dir}" />
@@ -202,8 +215,8 @@
  
   <!-- Tasks in the build chain. -->
  
-  <target name="jenkins" depends="clean,coverage,javadoc"/>
-  
+  <target name="jenkins" depends="clean,jacoco,javadoc"/>
+
   <property name="ivy.install.version" value="2.1.0-rc2" />
   <condition property="ivy.home" value="${env.IVY_HOME}">
     <isset property="env.IVY_HOME" />
@@ -211,7 +224,7 @@
   <property name="ivy.home" location="${dist.lib.dir}/ivy" />
   <property name="ivy.jar.dir" value="${ivy.home}" />
   <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
-  <property name="ivy.reports.dir"  location="${build.dir}/ivy-reports"/>
+  <property name="ivy.reports.dir"  location="${reports.dir}/ivy-reports"/>
   <available classname="org.apache.ivy.Main" property="ivy.installed"/>
   
   <!--
@@ -234,9 +247,38 @@
   </target>
   
   <target name="resolve" depends="init-ivy" description="Use ivy to resolve classpaths">
-    <ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test,core"/>
+    <ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test,core,dist"/>
+    <mkdir dir="${test.reports.dir}/ivy-reports"/>
     <ivy:report todir='${ivy.reports.dir}' graph='true' xml='false'/>
     <ivy:cachepath pathid="core.path" conf="core"/>
     <ivy:cachepath pathid="test.path" conf="test"/>
+    <ivy:cachepath pathid="dist.path" conf="dist"/>
   </target>
-</project>
+
+  <target name="jacoco" depends="resolve,build.test" description="Run unit tests and Jacoco code coverage reporting">
+    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml" classpathref="test.path"/>
+      <jacoco:coverage destfile="${reports.dir}/jacoco.exec" xmlns:jacoco="antlib:org.jacoco.ant">
+        <junit haltonfailure="yes" fork="true">
+          <classpath>
+            <path refid="test.path"/>
+            <path refid="core.path"/>
+            <pathelement path="${classes.dir}"/>
+            <pathelement path="${classpath}"/>                    
+            <pathelement path="${test.build.dir}/classes"/>
+          </classpath>
+          <formatter type="plain" usefile="false" />
+          <formatter type="xml"/>
+          <batchtest fork="yes" todir="${reports.dir}/junit-xml">
+            <fileset dir="${test.src.dir}">
+                <include name="**/*Test*.java"/>
+                <exclude name="**/AllTests.java"/>
+            </fileset>
+          </batchtest>
+        </junit>
+      </jacoco:coverage>
+      <junitreport todir="${reports.dir}/junit-html">
+        <fileset dir="${reports.dir}/junit-xml"/>
+        <report todir="${reports.dir}/junit-html"/>
+      </junitreport>
+    </target>
+  </project>
