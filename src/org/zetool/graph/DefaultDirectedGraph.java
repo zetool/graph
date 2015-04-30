@@ -415,8 +415,9 @@ public class DefaultDirectedGraph implements DirectedGraph, ModifiableGraph {
 	public void setEdges( Iterable<Edge> edges ) {
 		for( Edge edge : edges ) {
 			setEdge( edge );
-			if( edges instanceof HidingSet )
-				setHidden( edge, ((HidingSet) edges).isHidden( edge ) );
+			if( edges instanceof HidingSet ) {
+				setHidden( edge, ((HidingSet<Edge>) edges).isHidden( edge ) );        
+      }
 		}
 	}
 
@@ -448,8 +449,9 @@ public class DefaultDirectedGraph implements DirectedGraph, ModifiableGraph {
 	public void setNodes( Iterable<Node> nodes ) {
 		for( Node node : nodes ) {
 			setNode( node );
-			if( nodes instanceof HidingSet )
-				setHidden( node, ((HidingSet) nodes).isHidden( node ) );
+			if( nodes instanceof HidingSet ) {
+				setHidden( node, ((HidingSet<Node>) nodes).isHidden( node ) );        
+      }
 		}
 	}
 
@@ -481,8 +483,9 @@ public class DefaultDirectedGraph implements DirectedGraph, ModifiableGraph {
 		if( o instanceof DefaultDirectedGraph ) {
 			DefaultDirectedGraph n = (DefaultDirectedGraph) o;
 			return n.edges.equals( edges ) && n.nodes.equals( nodes );
-		} else
-			return false;
+		} else {
+			return false;      
+    }
 	}
 
 	/**

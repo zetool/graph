@@ -621,8 +621,9 @@ public class DefaultGraph implements DirectedGraph {
 	public void setNodes( Iterable<Node> nodes ) {
 		for( Node node : nodes ) {
 			setNode( node );
-			if( nodes instanceof HidingSet )
-				setHidden( node, ((HidingSet) nodes).isHidden( node ) );
+			if( nodes instanceof HidingSet ) {
+				setHidden( node, ((HidingSet<Node>) nodes).isHidden( node ) );
+      }
 		}
 	}
 
@@ -638,21 +639,21 @@ public class DefaultGraph implements DirectedGraph {
 	 * @param end the end node of the path to be checked
 	 * @return {@code true} if the edge between the start node and the end node exists, {@code false} otherwise
 	 */
-	//@Override
 	public boolean existsEdge( Node start, Node end ) {
 		return getEdge( start, end ) != null;
 	}
 
 	/**
-	 * Creates a network equal to the network but all edges between a pair of
+	 * Creates a graph equal to the graph but all edges between a pair of
 	 * nodes are reversed.
-	 * @return a reversed copy of the network
+	 * @return a reversed copy of the graph
 	 */
 	//@Override
-	public DefaultGraph createReverseNetwork() { // TODO: rename to graph
+	public DefaultGraph createReverseGraph() {
 		DefaultGraph result = new DefaultGraph( nodeCount(), edgeCount() );
-		for( Edge edge : edges )
-			result.createAndSetEdge( edge.end(), edge.start() );
+		for( Edge edge : edges ) {
+			result.createAndSetEdge( edge.end(), edge.start() );      
+    }
 		return result;
 	}
 
@@ -661,7 +662,6 @@ public class DefaultGraph implements DirectedGraph {
 	 * As this graph is already static, the object itself is returned.
 	 * @return this object
 	 */
-	//@Override
 	public DefaultGraph getAsStaticNetwork() { // todo: what to do with this?
 		return this;
 	}
@@ -690,11 +690,7 @@ public class DefaultGraph implements DirectedGraph {
 		return null;
 	}
 
-
-
-
-
-	/**
+  /**
 	 * Adds the specified edge to the graph by setting it to it ID's correct
 	 * position in the internal data structures. The correct position must be
 	 * empty. Runtime O(1).
@@ -725,8 +721,9 @@ public class DefaultGraph implements DirectedGraph {
 	public void setEdges( Iterable<Edge> edges ) {
 		for( Edge edge : edges ) {
 			setEdge( edge );
-			if( edges instanceof HidingSet )
-				setHidden( edge, ((HidingSet) edges).isHidden( edge ) );
+			if( edges instanceof HidingSet ) {
+				setHidden( edge, ((HidingSet<Edge>) edges).isHidden( edge ) );        
+      }
 		}
 	}
 
