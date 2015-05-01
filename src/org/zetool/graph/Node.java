@@ -13,7 +13,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
 package org.zetool.graph;
 
 import org.zetool.container.mapping.Identifiable;
@@ -26,7 +25,7 @@ import org.zetool.container.collection.ArraySet;
  * {@link Identifiable}. This means that every node has a ID that can be used for storing nodes in for example
  * {@link ArraySet}s. The ID must be set at creation of new nodes.
  */
-@XStreamAlias( "node" )
+@XStreamAlias("node")
 public class Node implements Identifiable {
   /**
    * The ID of this node. Must be set at creation of the node.
@@ -36,6 +35,7 @@ public class Node implements Identifiable {
 
   /**
    * Constructs a new {@code Node} object with a given ID. Runtime O(1).
+   *
    * @param id the ID of the new node.
    */
   public Node( int id ) {
@@ -44,6 +44,7 @@ public class Node implements Identifiable {
 
   /**
    * Returns the ID of this node. Runtime O(1).
+   *
    * @return the ID of this node.
    */
   public int id() {
@@ -52,6 +53,7 @@ public class Node implements Identifiable {
 
   /**
    * Returns the ID of this node as a string.
+   *
    * @return a String containing the ID of this node.
    */
   @Override
@@ -61,6 +63,7 @@ public class Node implements Identifiable {
 
   /**
    * Returns a new {@code Node} with the same ID as this node.
+   *
    * @return a clone of this node (a node with the same nodeID, not the same object).
    */
   @Override
@@ -70,6 +73,7 @@ public class Node implements Identifiable {
 
   /**
    * Returns the hash code of this node. The hash code is identical to the ID of this node.
+   *
    * @return the hash code of this node.
    */
   @Override
@@ -80,6 +84,7 @@ public class Node implements Identifiable {
   /**
    * Returns whether an object is equal to this node. The result is true if and only if the argument is not null and is
    * a {@code Node} object having the same ID as this node.
+   *
    * @param o object to compare.
    * @return {@code true} if the given object represents a {@code Node} equivalent to this node, {@code false}
    * otherwise.
@@ -89,7 +94,7 @@ public class Node implements Identifiable {
     if( o == null || !(o instanceof Node) ) {
       return false;
     } else {
-      Node n = (Node)o;
+      Node n = (Node) o;
       return n.id() == this.nodeID;
     }
   }

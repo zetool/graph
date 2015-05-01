@@ -13,22 +13,53 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
 package org.zetool.graph;
 
-import org.junit.Ignore;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 /**
  * Graphs for unit testing.
  *
  * @author Jan-Philipp Kappmeier
  */
-@Ignore
 public class GraphTest {
+
+  @Test
+  public void testStringRepresentation() {
+    // Empty graph
+    Graph g = new DefaultGraph(0,10);
+    String graphString = DirectedGraph.stringRepresentation( g );
+    assertEquals( "({}, {})", graphString );
+    
+    // Only one node
+    g = new DefaultGraph(1,10);
+    graphString = DirectedGraph.stringRepresentation( g );
+    assertEquals( "({0}, {})", graphString );
+    
+    // More nodes
+    g = new DefaultGraph(3,10);
+    graphString = DirectedGraph.stringRepresentation( g );
+    assertEquals( "({0, 1, 2}, {})", graphString );
+    
+    // One edge
+    g = new DefaultGraph(3,10);
+    Edge e = new Edge(0, g.getNode( 0 ), g.getNode( 1 ) );
+    ((DefaultGraph)g).setEdge( e );
+    graphString = DirectedGraph.stringRepresentation( g );
+    assertEquals( "({0, 1, 2}, {" + e.toString() + "})", graphString );
+    
+    // Two edges
+    g = new DefaultGraph(3,10);
+    e = new Edge(0, g.getNode( 0 ), g.getNode( 1 ) );
+    Edge f = new Edge(1, g.getNode( 1 ), g.getNode( 2 ) );
+    ((DefaultGraph)g).setEdge( e );
+    ((DefaultGraph)g).setEdge( f );
+    graphString = DirectedGraph.stringRepresentation( g );
+    assertEquals( "({0, 1, 2}, {" + e.toString() + ", " + f.toString() + "})", graphString );
+  }
   
-  /**
-   * A sample graph containing all classes of edges and a loop.
-   */
+  /** A sample graph containing all classes of edges and a loop. */
   public static final int[][] DFS_GRAPH = {
     {0, 1},
     {0, 4},
