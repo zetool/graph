@@ -13,6 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 package org.zetool.graph;
 
 import org.zetool.container.mapping.Identifiable;
@@ -47,12 +48,13 @@ public class Node implements Identifiable {
    *
    * @return the ID of this node.
    */
-  public int id() {
+  @Override
+  public final int id() {
     return nodeID;
   }
 
   /**
-   * Returns the ID of this node as a string.
+   * Returns the ID of this node as an identification string.
    *
    * @return a String containing the ID of this node.
    */
@@ -65,11 +67,17 @@ public class Node implements Identifiable {
    * Returns a new {@code Node} with the same ID as this node.
    *
    * @return a clone of this node (a node with the same nodeID, not the same object).
+   * @throws java.lang.CloneNotSupportedException never
    */
   @Override
-  public Node clone() {
-    return new Node( this.nodeID );
+  public Node clone() throws CloneNotSupportedException {
+    try {
+      return (Node)super.clone();
+    } catch( CloneNotSupportedException ex ) {
+      throw new AssertionError( "Should not occur.", ex );
+    }
   }
+
 
   /**
    * Returns the hash code of this node. The hash code is identical to the ID of this node.
@@ -79,7 +87,7 @@ public class Node implements Identifiable {
   @Override
   public int hashCode() {
     return nodeID;
-  }
+  }  
 
   /**
    * Returns whether an object is equal to this node. The result is true if and only if the argument is not null and is
