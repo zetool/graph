@@ -91,8 +91,12 @@
 
     <!-- Tasks in the release process. -->
     
-    <target name="dist" depends="build" description="generating dist and test" >
+  <target name="dist" depends="build" description="generating dist and test" >
     <jar jarfile="${dist.dir}/${lib.name}-rc.jar" basedir="${build.dir}/classes"/>
+  </target>
+
+  <target name="dist-rc" depends="build" description="generating dist and test" >
+    <jar jarfile="${lib.dir.rc}/${lib.name}-rc.jar" basedir="${build.dir}/classes"/>
   </target>
 
   <target name="javadoc" depends="init" description="Creates the JavaDoc documentation for the project.">
@@ -218,7 +222,7 @@
  
   <!-- Tasks in the build chain. -->
  
-  <target name="jenkins" depends="clean,jacoco,javadoc"/>
+  <target name="jenkins" depends="clean,jacoco,javadoc,dist-rc"/>
 
   <property name="ivy.install.version" value="2.1.0-rc2" />
   <condition property="ivy.home" value="${env.IVY_HOME}">
