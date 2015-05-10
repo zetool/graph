@@ -24,39 +24,46 @@ import org.junit.Test;
  * @author Jan-Philipp Kappmeier
  */
 public class GraphTest {
+  
+  @Test
+  public void testStringRepresentationEmpty() {
+    Graph g = new DefaultGraph( 0, 10 );
+    String actualString = DirectedGraph.stringRepresentation( g );
+    assertEquals( "({}, {})", actualString );
+  }
 
   @Test
-  public void testStringRepresentation() {
-    // Empty graph
-    Graph g = new DefaultGraph(0,10);
-    String graphString = DirectedGraph.stringRepresentation( g );
-    assertEquals( "({}, {})", graphString );
-    
-    // Only one node
-    g = new DefaultGraph(1,10);
-    graphString = DirectedGraph.stringRepresentation( g );
-    assertEquals( "({0}, {})", graphString );
-    
-    // More nodes
-    g = new DefaultGraph(3,10);
-    graphString = DirectedGraph.stringRepresentation( g );
-    assertEquals( "({0, 1, 2}, {})", graphString );
-    
-    // One edge
-    g = new DefaultGraph(3,10);
-    Edge e = new Edge(0, g.getNode( 0 ), g.getNode( 1 ) );
-    ((DefaultGraph)g).setEdge( e );
-    graphString = DirectedGraph.stringRepresentation( g );
-    assertEquals( "({0, 1, 2}, {" + e.toString() + "})", graphString );
-    
-    // Two edges
-    g = new DefaultGraph(3,10);
-    e = new Edge(0, g.getNode( 0 ), g.getNode( 1 ) );
-    Edge f = new Edge(1, g.getNode( 1 ), g.getNode( 2 ) );
-    ((DefaultGraph)g).setEdge( e );
-    ((DefaultGraph)g).setEdge( f );
-    graphString = DirectedGraph.stringRepresentation( g );
-    assertEquals( "({0, 1, 2}, {" + e.toString() + ", " + f.toString() + "})", graphString );
+  public void testStringRepresentationOneNode() {
+    Graph g = new DefaultGraph( 1, 10 );
+    String actualString = DirectedGraph.stringRepresentation( g );
+    assertEquals( "({0}, {})", actualString );
+  }
+
+  @Test
+  public void testStringRepresentationMultipleNodes() {
+    Graph g = new DefaultGraph( 3, 10 );
+    String actualString = DirectedGraph.stringRepresentation( g );
+    assertEquals( "({0, 1, 2}, {})", actualString );
+  }
+
+  @Test
+  public void testStringRepresentationOneEdge() {
+    Graph g = new DefaultGraph( 3, 10 );
+    Edge e = new Edge( 0, g.getNode( 0 ), g.getNode( 1 ) );
+    ((DefaultGraph) g).setEdge( e );
+    String actualString = DirectedGraph.stringRepresentation( g );
+    assertEquals( "({0, 1, 2}, {" + e.toString() + "})", actualString );
+  }
+
+  @Test
+  public void testStringRepresentationMultipleEdges() {
+    Graph g = new DefaultGraph( 3, 10 );
+    Edge e = new Edge( 0, g.getNode( 0 ), g.getNode( 1 ) );
+    Edge f = new Edge( 1, g.getNode( 1 ), g.getNode( 2 ) );
+    ((DefaultGraph) g).setEdge( e );
+    ((DefaultGraph) g).setEdge( f );
+    String actualString = DirectedGraph.stringRepresentation( g );
+    assertEquals( "({0, 1, 2}, {" + e.toString() + ", " + f.toString() + "})", actualString );
   }
   
   /** A sample graph containing all classes of edges and a loop. */
@@ -86,31 +93,4 @@ public class GraphTest {
     {5, 6},
     {5, 7}
   };
-
-  /**
-   * Generates a directed graph out of edges in an array.
-   *
-   * @param nodes the number of n odes
-   * @param edges the edges
-   * @return a directed graph
-   */
-  public static DirectedGraph generateDirected( int nodes, int[][] edges ) {
-    DefaultDirectedGraph g = new DefaultDirectedGraph( nodes, edges.length );
-
-    for( int i = 0; i < edges.length; ++i ) {
-      g.createAndSetEdge( g.getNode( edges[i][0] ), g.getNode( edges[i][1] ) );
-    }
-
-    return g;
-  }
-
-  public static UndirectedGraph generateUndirected( int nodes, int[][] edges ) {
-    SimpleUndirectedGraph g = new SimpleUndirectedGraph( nodes );
-
-    for( int i = 0; i < edges.length; ++i ) {
-      g.addEdge( edges[i][0], edges[i][1] );
-    }
-
-    return g;
-  }
 }

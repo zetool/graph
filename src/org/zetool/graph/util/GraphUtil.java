@@ -13,6 +13,7 @@ import org.zetool.graph.structure.Path;
 import org.zetool.graph.structure.StaticPath;
 import org.zetool.graph.traversal.BreadthFirstSearch;
 import java.util.Iterator;
+import org.zetool.graph.SimpleUndirectedGraph;
 
 
 /**
@@ -26,7 +27,8 @@ public class GraphUtil {
 	public static final IdentifiableConstantMapping<Node> UNIT_NODE_MAPPING = new IdentifiableConstantMapping<>( 1 );
 
   /** Private constructor for utility class. */
-  private GraphUtil() { }
+  private GraphUtil() {
+  }
 
   public static Iterable<Edge> outgoingIterator( Graph g, Node n ) {
     return new OutgoingIterator( g, n );
@@ -80,6 +82,33 @@ public class GraphUtil {
     }
   }
 
+  /**
+   * Generates a directed graph out of edges in an array.
+   *
+   * @param nodes the number of n odes
+   * @param edges the edges
+   * @return a directed graph
+   */
+  public static DirectedGraph generateDirected( int nodes, int[][] edges ) {
+    DefaultDirectedGraph g = new DefaultDirectedGraph( nodes, edges.length );
+
+    for( int i = 0; i < edges.length; ++i ) {
+      g.createAndSetEdge( g.getNode( edges[i][0] ), g.getNode( edges[i][1] ) );
+    }
+
+    return g;
+  }
+
+  public static UndirectedGraph generateUndirected( int nodes, int[][] edges ) {
+    SimpleUndirectedGraph g = new SimpleUndirectedGraph( nodes );
+
+    for( int i = 0; i < edges.length; ++i ) {
+      g.addEdge( edges[i][0], edges[i][1] );
+    }
+
+    return g;
+  }  
+  
 	/**
 	 * Creates a network equal to the network but all edges between a pair of
 	 * nodes are reversed.

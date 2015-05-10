@@ -20,6 +20,8 @@ import org.zetool.graph.DirectedGraph;
 import org.zetool.graph.GraphTest;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import static org.zetool.graph.util.GraphUtil.generateDirected;
+import static org.zetool.graph.util.GraphUtil.generateUndirected;
 
 /**
  *
@@ -33,7 +35,7 @@ public class DepthFirstSearchTest {
 	@Test
 	public void testClassification() {
     DepthFirstSearch dfs = new DepthFirstSearch();
-    dfs.setProblem( GraphTest.generateDirected( 8, GraphTest.DFS_GRAPH ) );
+    dfs.setProblem( generateDirected( 8, GraphTest.DFS_GRAPH ) );
 
     dfs.run();
 
@@ -49,7 +51,7 @@ public class DepthFirstSearchTest {
 
   @Test
   public void testLoop() {
-    DirectedGraph g = GraphTest.generateDirected( 1, new int[][]{{0,0}} );
+    DirectedGraph g = generateDirected( 1, new int[][]{{0,0}} );
     DepthFirstSearch dfs = new DepthFirstSearch();
     dfs.setProblem( g );
     dfs.run();
@@ -62,7 +64,7 @@ public class DepthFirstSearchTest {
   @Test
   public void undirectedTest() {
     DepthFirstSearch dfs = new DepthFirstSearch();
-    dfs.setProblem( GraphTest.generateUndirected( 8, GraphTest.DFS_GRAPH ) );
+    dfs.setProblem( generateUndirected( 8, GraphTest.DFS_GRAPH ) );
     System.out.println( "Starting undirected run" );
 
     dfs.run();
@@ -80,7 +82,7 @@ public class DepthFirstSearchTest {
   @Test
   public void reversedTest() {
     DepthFirstSearch dfs = new DepthFirstSearch();
-    DirectedGraph g = GraphTest.generateDirected( 8, GraphTest.DFS_GRAPH2 );
+    DirectedGraph g = generateDirected( 8, GraphTest.DFS_GRAPH2 );
     dfs.setProblem( g );
     dfs.setReverse( true );
     //dfs.setStart( g.getNode( 2 ) );

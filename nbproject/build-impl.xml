@@ -915,7 +915,7 @@ is divided into following sections:
         <antcall target="-maybe-call-dep">
             <param name="call.built.properties" value="${built-jar.properties}"/>
             <param location="${project.zetool-math}" name="call.subproject"/>
-            <param location="${project.zetool-math}/build.xml" name="call.script"/>
+            <param location="${project.zetool-math}/nbbuild.xml" name="call.script"/>
             <param name="call.target" value="jar"/>
             <param name="transfer.built-jar.properties" value="${built-jar.properties}"/>
             <param name="transfer.not.archive.disabled" value="true"/>
