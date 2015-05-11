@@ -212,7 +212,7 @@ public class SimpleUndirectedGraph implements UndirectedGraph {
 
   @Override
   public Edge getEdge( int id ) {
-    throw new UnsupportedOperationException( "Not supported yet." );
+    return edges.get( id );
   }
 
   @Override

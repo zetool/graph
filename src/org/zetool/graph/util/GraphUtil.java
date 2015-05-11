@@ -70,23 +70,27 @@ public class GraphUtil {
     BreadthFirstSearch bfs = new BreadthFirstSearch();
     bfs.setStart( start );
     bfs.setStop( end );
+    bfs.setProblem( g );
     bfs.run();
 
     // compute the path based on the predecessors computed by the breadth
     // first search. if a pa exists, return it, otherwise null.
     Path path = new StaticPath( bfs );
-    if( path.first().start().equals( start ) ) {
-      return path;
-    } else {
-      return null;
-    }
+    //if( path.first().start().equals( start ) ) {
+    //  return path;
+    //} else {
+    //  return null;
+    //}
+    return path;
   }
 
   /**
-   * Generates a directed graph out of edges in an array.
+   * Generates a directed graph out of edges in an array. The edges are defined as start and end id in the first two
+   * array indices. Two dimensional arrays where the second dimension is larger than two are also accepted, the
+   * additional entries are ignored.
    *
    * @param nodes the number of n odes
-   * @param edges the edges
+   * @param edges the edges as two dimensional array.
    * @return a directed graph
    */
   public static DirectedGraph generateDirected( int nodes, int[][] edges ) {
