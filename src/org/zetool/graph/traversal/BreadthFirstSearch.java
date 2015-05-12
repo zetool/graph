@@ -109,10 +109,11 @@ public class BreadthFirstSearch extends Algorithm<Graph,Void> implements Predece
       throw new IllegalStateException( "Can only be called once the algorithm has run!" );
     }
     if( reachableNodes == null ) {
-      for( Node n : getProblem() ) {
-        if( distances.get( n ) < Integer.MAX_VALUE ) {
-          reachableNodes.add( n );
-        }
+      reachableNodes = new HashSet<>();
+    }
+    for( Node n : getProblem() ) {
+      if( distances.get( n ) < Integer.MAX_VALUE ) {
+        reachableNodes.add( n );
       }
     }
     return reachableNodes;
