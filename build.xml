@@ -91,11 +91,11 @@
 
     <!-- Tasks in the release process. -->
     
-  <target name="dist" depends="build" description="generating dist and test" >
+  <target name="dist" depends="build" description="Generating dist and test." >
     <jar jarfile="${dist.dir}/${lib.name}-rc.jar" basedir="${build.dir}/classes"/>
   </target>
 
-  <target name="dist-rc" depends="build" description="generating dist and test" >
+  <target name="dist-rc" depends="build" description="Build a release candidate in the ../lib directory." >
     <jar jarfile="${lib.dir.rc}/${lib.name}-rc.jar" basedir="${build.dir}/classes"/>
   </target>
 

@@ -4,14 +4,8 @@
  */
 package org.zetool.graph;
 
-import static com.sun.webkit.PageCache.getCapacity;
-import static com.sun.webkit.PageCache.setCapacity;
-import org.zetool.graph.Edge;
-import org.zetool.graph.Node;
-import org.zetool.graph.Graph;
 import org.zetool.container.collection.IdentifiableCollection;
 import org.zetool.container.collection.ArraySet;
-import org.zetool.graph.DirectedGraph;
 import java.util.Iterator;
 
 /**
