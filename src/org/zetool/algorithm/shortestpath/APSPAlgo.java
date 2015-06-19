@@ -1,7 +1,5 @@
 package org.zetool.algorithm.shortestpath;
 
-//package de.tu_berlin.math.coga.algorithm.shortestpath;
-//
 //import de.tu_berlin.math.coga.zet.converter.graph.NetworkFlowModel;
 //import de.tu_berlin.coga.graph.Edge;
 //import de.tu_berlin.math.coga.zet.converter.graph.ZToGraphRasterContainer;
@@ -13,9 +11,9 @@ package org.zetool.algorithm.shortestpath;
 // * Weights" by Shoshan and Zwick.
 // * @author schwengf
 // */
-//public class APSPAlgo {
-//
-//  NetworkFlowModel model;
+public class APSPAlgo {
+
+  //NetworkFlowModel model;
 //  int numNodes;
 //  int maxdist = Integer.MIN_VALUE;
 //  int[][] weight;
@@ -33,7 +31,8 @@ package org.zetool.algorithm.shortestpath;
 //  int[][] B_new;
 //  boolean firstrun;
 //
-//  public APSPAlgo( NetworkFlowModel model ) {
+  //public APSPAlgo( NetworkFlowModel model ) {
+  public APSPAlgo( ) {
 //    this.model = model;
 //    this.numNodes = model.numberOfNodes() - 1;
 //    System.out.println( "NumNodes: " + numNodes );
@@ -52,7 +51,7 @@ package org.zetool.algorithm.shortestpath;
 //      }
 //    }
 //
-//  }
+  }
 //
 //  public void Step_one() {
 //    l = (int)Math.ceil( Math.log( numNodes ) / Math.log( 2 ) );
@@ -612,16 +611,17 @@ package org.zetool.algorithm.shortestpath;
 //    return result;
 //  }
 //
-//  public int[][] run() {
+  public int[][] run() {
 //
 //    Step_one();
 //    Step_two();
 //    Step_three();
 //    Step_four();
 //    int[][] succ = Compute_Matrix_of_Witnesses();
-//    return succ;
+    int[][] succ = null;
+    return succ;
 //
-//  }
+  }
 //
 //    public static void main( String... args ) {
 //
@@ -747,4 +747,4 @@ package org.zetool.algorithm.shortestpath;
 //
 //  }
 //
-//}
+}
