@@ -2,21 +2,28 @@
 <!DOCTYPE project>
 <project
 xmlns:git="antlib:com.rimerosolutions.ant.git">
-  <target name="build.submodules" depends="init,git-clone">
+  <target name="build.submodules" depends="init,git-clone" if="dependencies">
     <concatenate-dependencies lineparam="${dependencies}" base="${core.lib.dir}/"/>
   </target>
 
-  <target name="test.travis" depends="build.submodules,test"> <!-- depends: build.submodules, -->
+  <property name="travis.ivy.lib.dir" location="../../lib/"/>
+  <property name="travis.ivy.jar.dir" location="${travis.ivy.lib.dir}/dist/ivy/"/> 
+
+  <target name="init.travis.submodule">
+    <!-- Common direcotry for libraries and ivy libs for subtasks. -->
+    <property name="ivy.jar.dir" location="${travis.ivy.jar.dir}"/>
+    <property name="ivy.lib.dir" location="${travis.ivy.lib.dir}"/>
   </target>
 
-<!--  <ivy:cachepath pathid="ant.git.tasks.classpath" conf="YOUR_IVY_CONFIGURATION"/> -->
-
-  <target name="init-git" depends="resolve" description="Initialize git.">
-    <taskdef uri="antlib:com.rimerosolutions.ant.git" resource="com/rimerosolutions/ant/git/jgit-ant-lib.xml">
-      <classpath refid="dist.path"/>
-    </taskdef>
+  <target name="init.travis">
+    <!-- Use the same directories for ivy as for subtasks. -->
+    <property name="ivy.jar.dir" location="${build.dir}/tmp/git-deps/lib/dist/ivy/"/>
+    <property name="ivy.lib.dir" location="${build.dir}/tmp/git-deps/lib/"/>
   </target>
-  
+
+  <target name="test.travis" depends="init.travis,build.submodules,test"> <!-- depends: build.submodules, -->
+  </target>
+
   <macrodef name="compile-dependency">
     <attribute name="repository"/>
     <sequential>
@@ -62,7 +69,7 @@ xmlns:git="antlib:com.rimerosolutions.ant.git">
     <concatenate-dependencies lineparam="${dependencies}" base="../../lib/"/>
   </target>
 
-  <target name="dist-rc-git" depends="build.git,dist-rc" description="generating dist and test" >
+  <target name="dist-rc-git" depends="init.travis.submodule,build.git,dist-rc" description="generating dist and test" >
   </target>
 
   <macrodef name="make-github">
@@ -72,7 +79,7 @@ xmlns:git="antlib:com.rimerosolutions.ant.git">
     </sequential>
   </macrodef>
  
-  <target name="git-clone" depends="init-git,init-ant-contrib">
+  <target name="git-clone" depends="init-git,init-ant-contrib" if="dependencies">
     <mkdir dir="${build.dir}/tmp/git-deps"/>
     <echo>Cloning depending git directories:</echo>
     <make-github/>
@@ -85,5 +92,4 @@ xmlns:git="antlib:com.rimerosolutions.ant.git">
     </for>
     <!--<delete dir="${build.dir}/tmp/git-deps" failonerror="false"/>-->
   </target>
-
 </project>

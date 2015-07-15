@@ -19,16 +19,16 @@
   <target name="jenkins" depends="clean,jacoco,javadoc,dist-rc,jenkins.publish">
   </target>
     
-    <macrodef name="my.batch">
-      <sequential>
-              <batchtest fork="yes" todir="${reports.dir}/junit-xml">
-          <fileset dir="${test.src.dir}">
-              <include name="**/*Test*.java"/>
-              <exclude name="**/AllTests.java"/>
-          </fileset>
-        </batchtest>
-</sequential>
-    </macrodef>
+  <macrodef name="my.batch">
+    <sequential>
+      <batchtest fork="yes" todir="${reports.dir}/junit-xml">
+        <fileset dir="${test.src.dir}">
+          <include name="**/*Test*.java"/>
+          <exclude name="**/AllTests.java"/>
+        </fileset>
+      </batchtest>
+    </sequential>
+  </macrodef>
     
   <target name="jacoco" depends="resolve,build.test" description="Run unit tests and Jacoco code coverage reporting"> <!-- build.test.groovy -->
     <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml" classpathref="test.path"/>
@@ -49,7 +49,7 @@
     </junitreport>
   </target>
 
-<macrodef name="replaceproperty" taskname="@{taskname}">
+  <macrodef name="replaceproperty" taskname="@{taskname}">
     <attribute name="src" />
     <attribute name="dest" default="" />
     <attribute name="replace" default="" />
@@ -65,12 +65,5 @@
             </filterchain>
         </loadresource>
     </sequential>
-</macrodef>
-
-<target name="init-ant-contrib" depends="resolve">
-  <taskdef resource="net/sf/antcontrib/antlib.xml">
-    <classpath refid="dist.path"/>
-  </taskdef>
-</target>
-
+  </macrodef>
 </project>
