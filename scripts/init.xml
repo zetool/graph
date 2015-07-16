@@ -84,6 +84,24 @@
     <resolve location="${ivy.lib.dir}"/>
   </target>
 
+  <macrodef name="download-dependency">
+    <attribute name="location"/>
+    <attribute name="name"/>
+    <sequential>
+      <echo>Storing @{location}/@{name} in ${core.lib.dir}</echo>
+      <!-- get -->
+    </sequential>
+  </macrodef>
+
+  <!-- Additional download task for non-ivy files. -->
+  <target name="download" depends="init" description="manually downloads stuff">
+    <download-dependency location="http://zet-evakuierung.de/downloads/lib" name="jspf.core-1.0.2.jar"/>
+    <!--<get dest="lib/core" skipexisting="true">
+      <url url="http://zet-evakuierung.de/downloads/lib/jspf.core-1.0.2.jar"/>
+      <url url="http://zet-evakuierung.de/downloads/lib/l2fprod-common-all-7.3.jar"/>
+    </get>-->
+  </target>
+
   <!--
   ==================================================
   Ant contrib setup

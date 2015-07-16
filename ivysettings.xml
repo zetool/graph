@@ -20,6 +20,7 @@
       </url>
       <filesystem name="local-m2" m2compatible="true">
         <artifact pattern="${user.home}/.m2/repository/[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/>
-      </filesystem>    </chain>
+      </filesystem>
+    </chain>
   </resolvers>
 </ivysettings>
