@@ -1,6 +1,5 @@
 package org.zetool.graph.traversal;
 
-import org.zetool.common.algorithm.Algorithm;
 import org.zetool.common.util.Helper;
 import org.zetool.container.mapping.IdentifiableIntegerMapping;
 import org.zetool.container.mapping.IdentifiableObjectMapping;
@@ -12,6 +11,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import org.zetool.common.algorithm.AbstractAlgorithm;
 
 /**
  * Implementation of the breadth first search. The nodes are given numberings for a bfs numberinging, the predecessor
@@ -19,7 +19,7 @@ import java.util.Map;
  * @author Martin Groß
  * @author Jan-Philipp Kappmeier
  */
-public class DepthFirstSearch extends Algorithm<Graph, Void> {
+public class DepthFirstSearch extends AbstractAlgorithm<Graph, Void> {
   private IdentifiableObjectMapping<Node, Edge> predecessors;
   private IdentifiableIntegerMapping<Node> numbering;
   private IdentifiableIntegerMapping<Node> endTime;
@@ -114,6 +114,4 @@ public class DepthFirstSearch extends Algorithm<Graph, Void> {
   public int getNumber( Node node ) {
     return numbering.get( node );
   }
-
-
 }

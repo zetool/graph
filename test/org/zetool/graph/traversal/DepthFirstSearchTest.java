@@ -13,7 +13,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-
 package org.zetool.graph.traversal;
 
 import org.zetool.graph.DirectedGraph;
@@ -29,11 +28,11 @@ import static org.zetool.graph.util.GraphUtil.generateUndirected;
  */
 public class DepthFirstSearchTest {
 
- 	/**
-	 * Checks if the classification in graph edges works correctly.
-	 */
-	@Test
-	public void testClassification() {
+    /**
+     * Checks if the classification in graph edges works correctly.
+     */
+    @Test
+    public void testClassification() {
     DepthFirstSearch dfs = new DepthFirstSearch();
     dfs.setProblem( generateDirected( 8, GraphTest.DFS_GRAPH ) );
 
