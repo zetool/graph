@@ -71,7 +71,7 @@ public class OppositeNodeCollection implements IdentifiableCollection<Node> {
    * @exception UnsupportedOperationException if this method is called.
    */
   @Override
-  public void remove( Node element ) {
+  public boolean remove( Node element ) {
     throw new UnsupportedOperationException( GraphLocalization.NOT_SUPPORTED );
   }
 
@@ -110,8 +110,8 @@ public class OppositeNodeCollection implements IdentifiableCollection<Node> {
    * @return whether this {@code IdentifiableCollection} is empty.
    */
   @Override
-  public boolean empty() {
-    return edges.empty();
+  public boolean isEmpty() {
+    return edges.isEmpty();
   }
 
   /**

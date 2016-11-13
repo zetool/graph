@@ -13,13 +13,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-
 package org.zetool.graph;
 
-import org.zetool.container.mapping.Identifiable;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import org.zetool.container.collection.ArraySet;
+import org.zetool.container.mapping.IdentifiableCloneable;
 
 /**
  * The {@code Node} class represents a node in a graph. A node is identifiable, e.g. the class implements the Interface
@@ -27,83 +26,81 @@ import org.zetool.container.collection.ArraySet;
  * {@link ArraySet}s. The ID must be set at creation of new nodes.
  */
 @XStreamAlias("node")
-public class Node implements Identifiable {
-  /**
-   * The ID of this node. Must be set at creation of the node.
-   */
-  @XStreamAsAttribute
-  private final int nodeID;
+public class Node implements IdentifiableCloneable {
 
-  /**
-   * Constructs a new {@code Node} object with a given ID. Runtime O(1).
-   *
-   * @param id the ID of the new node.
-   */
-  public Node( int id ) {
-    this.nodeID = id;
-  }
+    /** The ID of this node. Must be set at creation of the node. */
+    @XStreamAsAttribute
+    private final int nodeID;
 
-  /**
-   * Returns the ID of this node. Runtime O(1).
-   *
-   * @return the ID of this node.
-   */
-  @Override
-  public final int id() {
-    return nodeID;
-  }
-
-  /**
-   * Returns the ID of this node as an identification string.
-   *
-   * @return a String containing the ID of this node.
-   */
-  @Override
-  public String toString() {
-    return String.valueOf( nodeID );
-  }
-
-  /**
-   * Returns a new {@code Node} with the same ID as this node.
-   *
-   * @return a clone of this node (a node with the same nodeID, not the same object).
-   * @throws java.lang.CloneNotSupportedException never
-   */
-  @Override
-  public Node clone() throws CloneNotSupportedException {
-    try {
-      return (Node)super.clone();
-    } catch( CloneNotSupportedException ex ) {
-      throw new AssertionError( "Should not occur.", ex );
+    /**
+     * Constructs a new {@code Node} object with a given ID. Runtime O(1).
+     *
+     * @param id the ID of the new node.
+     */
+    public Node(int id) {
+        this.nodeID = id;
     }
-  }
 
-
-  /**
-   * Returns the hash code of this node. The hash code is identical to the ID of this node.
-   *
-   * @return the hash code of this node.
-   */
-  @Override
-  public int hashCode() {
-    return nodeID;
-  }  
-
-  /**
-   * Returns whether an object is equal to this node. The result is true if and only if the argument is not null and is
-   * a {@code Node} object having the same ID as this node.
-   *
-   * @param o object to compare.
-   * @return {@code true} if the given object represents a {@code Node} equivalent to this node, {@code false}
-   * otherwise.
-   */
-  @Override
-  public boolean equals( Object o ) {
-    if( o == null || !(o instanceof Node) ) {
-      return false;
-    } else {
-      Node n = (Node) o;
-      return n.id() == this.nodeID;
+    /**
+     * Returns the ID of this node. Runtime O(1).
+     *
+     * @return the ID of this node.
+     */
+    @Override
+    public final int id() {
+        return nodeID;
     }
-  }
+
+    /**
+     * Returns the ID of this node as an identification string.
+     *
+     * @return a String containing the ID of this node.
+     */
+    @Override
+    public String toString() {
+        return String.valueOf(nodeID);
+    }
+
+    /**
+     * Returns a new {@code Node} with the same ID as this node.
+     *
+     * @return a clone of this node (a node with the same nodeID, not the same object).
+     * @throws java.lang.CloneNotSupportedException never
+     */
+    @Override
+    public Node clone() throws CloneNotSupportedException {
+        try {
+            return (Node) super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new AssertionError("Should not occur.", ex);
+        }
+    }
+
+    /**
+     * Returns the hash code of this node. The hash code is identical to the ID of this node.
+     *
+     * @return the hash code of this node.
+     */
+    @Override
+    public int hashCode() {
+        return nodeID;
+    }
+
+    /**
+     * Returns whether an object is equal to this node. The result is true if and only if the argument is not null and
+     * is a {@code Node} object having the same ID as this node.
+     *
+     * @param o object to compare.
+     * @return {@code true} if the given object represents a {@code Node} equivalent to this node, {@code false}
+     * otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof Node)) {
+            return false;
+        } else {
+            Node n = (Node) o;
+            return n.id() == this.nodeID;
+        }
+    }
 }

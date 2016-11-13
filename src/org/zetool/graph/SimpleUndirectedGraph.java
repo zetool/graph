@@ -8,28 +8,24 @@ import org.zetool.container.mapping.IdentifiableObjectMapping;
 import org.zetool.graph.util.OppositeNodeCollection;
 import java.util.Iterator;
 
-
 /**
+ * Simple implementation of an undirected graph. The graph supports initial constant number of nodes, but edges can
+ * be dynamically added. The edges are stored as adjacency lists for each node.
  *
  * @author Jan-Philipp Kappmeier
  */
 public class SimpleUndirectedGraph implements UndirectedGraph {
 
-/**
- * Simple implementation of an undirected graph. The graph supports initial constant number of nodes, but edges can be
- * dynamically added. The edges are stored as adjacency lists for each node.
- * @author Jan-Philipp Kappmeier
- */
-	/** The nodes of the network. Must not be null. */
-	protected ArraySet<Node> nodes;
-	/** The edges of the network. Must not be null. */
-	protected ListSequence<Edge> edges;
-	/** Caches the edges incident to a node for all nodes in the graph. */
-	protected IdentifiableObjectMapping<Node, ListSequence<Edge>> incidentEdges;
-  /** The number of nodes. */
-  private final int nodeCount;
-  /** The number of edges currently in the grpah. */
-  private int edgeCount;
+    /** The nodes of the network. Must not be null. */
+    protected ArraySet<Node> nodes;
+    /** The edges of the network. Must not be null. */
+    protected ListSequence<Edge> edges;
+    /** Caches the edges incident to a node for all nodes in the graph. */
+    protected IdentifiableObjectMapping<Node, ListSequence<Edge>> incidentEdges;
+    /** The number of nodes. */
+    private final int nodeCount;
+    /** The number of edges currently in the grpah. */
+    private int edgeCount;
 
   /**
    * Initializes a graph with the given number of nodes. The graph is empty afterwards and does not contain any edge.

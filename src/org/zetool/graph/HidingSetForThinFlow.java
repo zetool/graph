@@ -13,7 +13,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-
 package org.zetool.graph;
 
 import org.zetool.container.collection.IdentifiableCollection;
@@ -25,157 +24,166 @@ import java.util.RandomAccess;
 /**
  *
  * @author Martin Groß / Sebastian Schenker
+ * @param <E>
  */
 public class HidingSetForThinFlow<E extends Identifiable> implements IdentifiableCollection<E> {
 
-	private boolean[] visible;
-	private int numberOfVisibleElements;
-	private IdentifiableCollection<E> set;
+    private boolean[] visible;
+    private int numberOfVisibleElements;
+    private IdentifiableCollection<E> set;
 
-	/* public HidingSetForThinFlow(IdentifiableSet<E> set) {
+    /* public HidingSetForThinFlow(IdentifiableSet<E> set) {
 	 this(set, new boolean[set.size()], set.size());
 	 } */
-	public HidingSetForThinFlow( IdentifiableCollection<E> set, int capacity ) {
-		this( set, new boolean[capacity], 0 );
-	}
+    public HidingSetForThinFlow(IdentifiableCollection<E> set, int capacity) {
+        this(set, new boolean[capacity], 0);
+    }
 
-	public HidingSetForThinFlow( IdentifiableCollection<E> set, boolean[] visible ) {
-		this.visible = visible;
-		this.set = set;
-		for( int i = 0; i < visible.length; i++ ) {
-			if( visible[i] ) {
-				numberOfVisibleElements++;
-			}
-		}
-	}
+    public HidingSetForThinFlow(IdentifiableCollection<E> set, boolean[] visible) {
+        this.visible = visible;
+        this.set = set;
+        for (int i = 0; i < visible.length; i++) {
+            if (visible[i]) {
+                numberOfVisibleElements++;
+            }
+        }
+    }
 
-	public HidingSetForThinFlow( IdentifiableCollection<E> set, boolean[] visible, int numberOfVisibleElements ) {
-		this.visible = visible;
-		this.numberOfVisibleElements = numberOfVisibleElements;
-		this.set = set;
-	}
+    public HidingSetForThinFlow(IdentifiableCollection<E> set, boolean[] visible, int numberOfVisibleElements) {
+        this.visible = visible;
+        this.numberOfVisibleElements = numberOfVisibleElements;
+        this.set = set;
+    }
 
-	public void printVisible() {
-		for( int i = 0; i < visible.length; i++ ) {
-			System.out.print( " " + visible[i] + " " );
-		}
-	}
+    public void printVisible() {
+        for (int i = 0; i < visible.length; i++) {
+            System.out.print(" " + visible[i] + " ");
+        }
+    }
 
-	public boolean contains( E element ) {
-		return set.contains( element ) && visible[element.id()];
-	}
+    @Override
+    public boolean contains(E element) {
+        return set.contains(element) && visible[element.id()];
+    }
 
-	public boolean empty() {
-		return numberOfVisibleElements() == 0;
-	}
+    @Override
+    public boolean isEmpty() {
+        return numberOfVisibleElements() == 0;
+    }
 
-	public int size() {
-		return set.size();
-	}
+    @Override
+    public int size() {
+        return set.size();
+    }
 
-	public E get( int id ) {
-		return (!visible[id]) ? null : set.get( id );
-	}
+    @Override
+    public E get(int id) {
+        return (!visible[id]) ? null : set.get(id);
+    }
 
-	public E removeLast() {
-		throw new UnsupportedOperationException( "not implemented yet" );
-	}
+    @Override
+    public E removeLast() {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
 
-	public void remove( E elem ) {
-		throw new UnsupportedOperationException( "not implemented yet" );
-	}
+    @Override
+    public boolean remove(E elem) {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
 
-	public boolean add( E elem ) {
-		throw new UnsupportedOperationException( "not implemented yet" );
-	}
+    @Override
+    public boolean add(E elem) {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
 
-	public E first() {
-		int index = 0;
-		while( !visible[index] ) {
-			index++;
-			if( index == visible.length ) {
-				return null;
-			}
-		}
-		return get( index );
-	}
+    @Override
+    public E first() {
+        int index = 0;
+        while (!visible[index]) {
+            index++;
+            if (index == visible.length) {
+                return null;
+            }
+        }
+        return get(index);
+    }
 
-	public E last() {
-		int index = size() - 1;
-		while( !visible[index] ) {
-			index--;
-			if( index == -1 ) {
-				return null;
-			}
-		}
-		return get( index );
-	}
+    public E last() {
+        int index = size() - 1;
+        while (!visible[index]) {
+            index--;
+            if (index == -1) {
+                return null;
+            }
+        }
+        return get(index);
+    }
 
-	public E random() {
-		int r = new Random().nextInt( size() );
-		for( int i = 0; i < visible.length; i++ ) {
-			if( visible[i] ) {
-				continue;
-			}
-			if( r == 0 ) {
-				return get( i );
-			}
-			r--;
-		}
-		return null;
-	}
+    public E random() {
+        int r = new Random().nextInt(size());
+        for (int i = 0; i < visible.length; i++) {
+            if (visible[i]) {
+                continue;
+            }
+            if (r == 0) {
+                return get(i);
+            }
+            r--;
+        }
+        return null;
+    }
 
-	public E predecessor( E element ) {
-		int index = element.id();
-		do {
-			index--;
-			if( index == -1 ) {
-				return null;
-			}
-		} while( !visible[index] );
-		return get( index );
-	}
+    public E predecessor(E element) {
+        int index = element.id();
+        do {
+            index--;
+            if (index == -1) {
+                return null;
+            }
+        } while (!visible[index]);
+        return get(index);
+    }
 
-	public E successor( E element ) {
-		int index = element.id();
-		do {
-			index++;
-			//System.out.println(index + " " + hidden.length);
-			if( index == visible.length ) {
-				return null;
-			}
-		} while( !visible[index] );
-		return get( index );
-	}
+    public E successor(E element) {
+        int index = element.id();
+        do {
+            index++;
+            //System.out.println(index + " " + hidden.length);
+            if (index == visible.length) {
+                return null;
+            }
+        } while (!visible[index]);
+        return get(index);
+    }
 
-	public Iterator<E> iterator() {
-		if( set instanceof RandomAccess ) {
-			return new HidingIterator();
-		} else {
-			return new SequentialHidingIterator();
-		}
-	}
+    public Iterator<E> iterator() {
+        if (set instanceof RandomAccess) {
+            return new HidingIterator();
+        } else {
+            return new SequentialHidingIterator();
+        }
+    }
 
-	public int numberOfVisibleElements() {
-		return numberOfVisibleElements;
-	}
+    public int numberOfVisibleElements() {
+        return numberOfVisibleElements;
+    }
 
-	public boolean isVisible( E element ) {
-		return visible[element.id()];
-	}
+    public boolean isVisible(E element) {
+        return visible[element.id()];
+    }
 
-	public void changeVisibility( E element, boolean visible ) {
-		if( isVisible( element ) != visible ) {
-			this.visible[element.id()] = visible;
-			if( visible ) {
-				numberOfVisibleElements++;
-			} else {
-				numberOfVisibleElements--;
-			}
-		}
-	}
+    public void changeVisibility(E element, boolean visible) {
+        if (isVisible(element) != visible) {
+            this.visible[element.id()] = visible;
+            if (visible) {
+                numberOfVisibleElements++;
+            } else {
+                numberOfVisibleElements--;
+            }
+        }
+    }
 
-	/* public void setHidden(E element, boolean hidden) {
+    /* public void setHidden(E element, boolean hidden) {
 	 if (isHidden(element) != hidden) {
 	 this.hidden[element.id()] = hidden;
 	 if (hidden) {
@@ -185,85 +193,85 @@ public class HidingSetForThinFlow<E extends Identifiable> implements Identifiabl
 	 }
 	 }
 	 }*/
-	public int getCapacity() {
-		return visible.length;
-	}
+    public int getCapacity() {
+        return visible.length;
+    }
 
-	public void setCapacity( int capacity ) {
-		boolean[] newHidden = new boolean[capacity];
-		System.arraycopy( visible, 0, newHidden, 0, Math.min( visible.length, capacity ) );
-		visible = newHidden;
-	}
+    public void setCapacity(int capacity) {
+        boolean[] newHidden = new boolean[capacity];
+        System.arraycopy(visible, 0, newHidden, 0, Math.min(visible.length, capacity));
+        visible = newHidden;
+    }
 
-	public class HidingIterator implements Iterator<E> {
+    public class HidingIterator implements Iterator<E> {
 
-		private E current;
-		private E next;
+        private E current;
+        private E next;
 
-		public HidingIterator() {
-		}
+        public HidingIterator() {
+        }
 
-		public boolean hasNext() {
-			if( next != null ) {
-				return true;
-			} else if( current == null && size() > 0 ) {
-				next = first();
-				return next != null;
-			} else {
-				next = successor( current );
-				return next != null;
-			}
-		}
+        public boolean hasNext() {
+            if (next != null) {
+                return true;
+            } else if (current == null && size() > 0) {
+                next = first();
+                return next != null;
+            } else {
+                next = successor(current);
+                return next != null;
+            }
+        }
 
-		public E next() {
-			if( next == null ) {
-				hasNext();
-			}
-			current = next;
-			next = null;
-			return current;
-		}
+        public E next() {
+            if (next == null) {
+                hasNext();
+            }
+            current = next;
+            next = null;
+            return current;
+        }
 
-		public void remove() {
-			throw new UnsupportedOperationException( "Not supported." );
-		}
+        public void remove() {
+            throw new UnsupportedOperationException("Not supported.");
+        }
 
-	}
+    }
 
-	public class SequentialHidingIterator implements Iterator<E> {
+    public class SequentialHidingIterator implements Iterator<E> {
 
-		private Iterator<E> setIterator;
-		private E current;
-		private E next;
+        private Iterator<E> setIterator;
+        private E current;
+        private E next;
 
-		public SequentialHidingIterator() {
-			setIterator = set.iterator();
-		}
+        public SequentialHidingIterator() {
+            setIterator = set.iterator();
+        }
 
-		public boolean hasNext() {
-			while( setIterator.hasNext() ) {
-				E element = setIterator.next();
-				if( visible[element.id()] ) {
-					next = element;
-					return true;
-				}
-			}
-			return false;
-		}
+        public boolean hasNext() {
+            while (setIterator.hasNext()) {
+                E element = setIterator.next();
+                if (visible[element.id()]) {
+                    next = element;
+                    return true;
+                }
+            }
+            return false;
+        }
 
-		public E next() {
-			if( next == null ) {
-				hasNext();
-			}
-			current = next;
-			next = null;
-			return current;
-		}
+        public E next() {
+            if (next == null) {
+                hasNext();
+            }
+            current = next;
+            next = null;
+            return current;
+        }
 
-		public void remove() {
-			throw new UnsupportedOperationException( "Not supported." );
-		}
+        public void remove() {
+            throw new UnsupportedOperationException("Not supported.");
+        }
 
-	}
+    }
 
 }

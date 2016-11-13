@@ -2,35 +2,33 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.zetool.graph;
 
 /**
  *
  * @author Sebastian Schenker
  */
-
-import org.zetool.graph.Edge;
 import org.zetool.container.collection.IdentifiableCollection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
 public class HidingAdjacencySetForThinFlow extends LinkedList<Edge> implements IdentifiableCollection<Edge> {
-    
+
     private HidingSetForThinFlow<Edge> baseSet;
     private int visibleSize;
 
     public HidingAdjacencySetForThinFlow(HidingSetForThinFlow<Edge> baseSet) {
         this.baseSet = baseSet;
     }
-    
+
     @Override
     public boolean contains(Edge edge) {
         //return super.contains(edge) && !baseSet.isHidden(edge);
         return super.contains(edge) && baseSet.isVisible(edge);
     }
 
-    public boolean empty() {
+    @Override
+    public boolean isEmpty() {
         return size() == 0;
     }
 
@@ -44,14 +42,17 @@ public class HidingAdjacencySetForThinFlow extends LinkedList<Edge> implements I
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void remove(Edge e) {
+    @Override
+    public boolean remove(Edge e) {
         throw new UnsupportedOperationException("not implemented yet");
     }
-    
+
+    @Override
     public Edge first() {
         return getFirst();
     }
 
+    @Override
     public Edge last() {
         return getLast();
     }
@@ -60,10 +61,12 @@ public class HidingAdjacencySetForThinFlow extends LinkedList<Edge> implements I
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public Edge predecessor(Edge edge) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public Edge successor(Edge edge) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -72,27 +75,27 @@ public class HidingAdjacencySetForThinFlow extends LinkedList<Edge> implements I
     public Iterator<Edge> iterator() {
         return new SequentialHidingIterator();
     }
-    
+
     @Override
     public boolean add(Edge edge) {
         boolean result = super.add(edge);
         increaseSize();
         return result;
     }
-    
+
     public void decreaseSize() {
         visibleSize--;
     }
-    
+
     public void increaseSize() {
         visibleSize++;
     }
-    
+
     public class SequentialHidingIterator implements Iterator<Edge> {
-        
+
         private Iterator<Edge> setIterator;
         private Edge next;
-        
+
         public SequentialHidingIterator() {
             setIterator = HidingAdjacencySetForThinFlow.super.iterator();
         }
@@ -101,7 +104,7 @@ public class HidingAdjacencySetForThinFlow extends LinkedList<Edge> implements I
             while (setIterator.hasNext()) {
                 Edge edge = setIterator.next();
                 //if (!baseSet.isHidden(edge)) {
-                  if(baseSet.isVisible(edge)) {
+                if (baseSet.isVisible(edge)) {
                     next = edge;
                     return true;
                 }
@@ -110,14 +113,16 @@ public class HidingAdjacencySetForThinFlow extends LinkedList<Edge> implements I
         }
 
         public Edge next() {
-            if (next == null) hasNext();
+            if (next == null) {
+                hasNext();
+            }
             return next;
         }
 
         public void remove() {
             throw new UnsupportedOperationException("Not supported.");
         }
-        
-    }    
+
+    }
 
 }
