@@ -165,18 +165,22 @@ public class DynamicNetwork implements DirectedGraph {
         return inDegree(node) + outDegree(node);
     }
 
+    @Override
     public int inDegree(Node node) {
         return incomingEdges(node).size();
     }
 
+    @Override
     public int outDegree(Node node) {
         return outgoingEdges(node).size();
     }
 
+    @Override
     public int edgeCount() {
         return edges.size();
     }
 
+    @Override
     public int nodeCount() {
         return nodes.size();
     }
