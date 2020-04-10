@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_PACKAGES_DEPLOY_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets. GH_RELEASE_TOKEN }}
 
     steps:
     - name: Checkout source code
