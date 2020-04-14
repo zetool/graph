@@ -12,32 +12,49 @@ import org.zetool.graph.util.OppositeNodeCollection;
 import java.util.Iterator;
 
 /**
- * An implementation of a directed graph that is able to hide arcs. The {@code ModifiableGraph} provides an
- * implementation of a directed graph optimized for use by flow algorithms. Examples of these optimizations include use
- * of array based data structures for edges and nodes in order to provide fast access, as well as the possiblity to hide
- * edges and nodes (which is useful for residual networks, for instance).
+ * An implementation of a directed graph that is able to hide arcs. The {@link MutableGraph} provides an implementation
+ * of a directed graph optimized for use by flow algorithms. Examples of these optimizations include use of array based
+ * data structures for edges and nodes in order to provide fast access, as well as the possiblity to hide edges and
+ * nodes (which is useful for residual networks, for instance).
  *
  * @author Jan-Philipp Kappmeier
  * @author Martin Groß
  */
 @XStreamAlias("network")
-public class DefaultDirectedGraph implements DirectedGraph, ModifiableGraph {
-  /** The nodes of the network. Must not be {@literal null}. */
-  protected HidingSet<Node> nodes;
-  /** The edges of the network. Must not be {@literal null}. */
-  protected HidingSet<Edge> edges;
-  /** Caches the edges incident to a node for all nodes in the graph. Must not be {@literal null}. */
-  protected IdentifiableObjectMapping<Node, DependingListSequence<Edge>> incidentEdges;
-  /** Caches the edges ending at a node for all nodes in the graph. Must not be {@literal null}. */
-  protected IdentifiableObjectMapping<Node, DependingListSequence<Edge>> incomingEdges;
-  /** Caches the edges starting at a node for all nodes in the graph. Must not be {@literal null}. */
-  protected IdentifiableObjectMapping<Node, DependingListSequence<Edge>> outgoingEdges;
-  /** Caches the number of edges incident to a node for all nodes in the graph. Must not be {@literal null}. */
-  protected IdentifiableIntegerMapping<Node> degree;
-  /** Caches the number of edges ending at a node for all nodes in the graph. Must not be {@literal null}. */
-  protected IdentifiableIntegerMapping<Node> indegree;
-  /** Caches the number of edges starting at a node for all nodes in the graph. Must not be {@literal null}. */
-  protected IdentifiableIntegerMapping<Node> outdegree;
+public class DefaultDirectedGraph implements MutableDirectedGraph {
+
+    /**
+     * The nodes of the network. Must not be {@literal null}.
+     */
+    protected HidingSet<Node> nodes;
+    /**
+     * The edges of the network. Must not be {@literal null}.
+     */
+    protected HidingSet<Edge> edges;
+    /**
+     * Caches the edges incident to a node for all nodes in the graph. Must not be {@literal null}.
+     */
+    protected IdentifiableObjectMapping<Node, DependingListSequence<Edge>> incidentEdges;
+    /**
+     * Caches the edges ending at a node for all nodes in the graph. Must not be {@literal null}.
+     */
+    protected IdentifiableObjectMapping<Node, DependingListSequence<Edge>> incomingEdges;
+    /**
+     * Caches the edges starting at a node for all nodes in the graph. Must not be {@literal null}.
+     */
+    protected IdentifiableObjectMapping<Node, DependingListSequence<Edge>> outgoingEdges;
+    /**
+     * Caches the number of edges incident to a node for all nodes in the graph. Must not be {@literal null}.
+     */
+    protected IdentifiableIntegerMapping<Node> degree;
+    /**
+     * Caches the number of edges ending at a node for all nodes in the graph. Must not be {@literal null}.
+     */
+    protected IdentifiableIntegerMapping<Node> indegree;
+    /**
+     * Caches the number of edges starting at a node for all nodes in the graph. Must not be {@literal null}.
+     */
+    protected IdentifiableIntegerMapping<Node> outdegree;
 
     /**
      * Creates a new ModifiableGraph with the specified capacities for edges and nodes. The runtime is in
@@ -340,7 +357,27 @@ public class DefaultDirectedGraph implements DirectedGraph, ModifiableGraph {
         return nodes.get(id);
     }
 
-    private int idOfLastCreatedEdge = -1;
+    private int nextEdgeId = 0;
+
+    /**
+     * Returns the candidate for the next automatically assigned edge id. It is not guaranteed, that a call to
+     * {@link #createAndSetEdge(org.zetool.graph.Node, org.zetool.graph.Node)}. actually will create an edge with that
+     * id.
+     *
+     * @return the next edge id that is first tried
+     */
+    public int getNextEdgeIdCandidate() {
+        return nextEdgeId;
+    }
+
+    /**
+     * Sets the next candidate edge id.
+     *
+     * @param candidate the candidate id
+     */
+    public void setNextEdgeIdCandidate(int candidate) {
+        this.nextEdgeId = candidate;
+    }
 
     /**
      * Creates a new directed edge between the specified start and end nodes and adds it to the graph (provided the
@@ -352,15 +389,15 @@ public class DefaultDirectedGraph implements DirectedGraph, ModifiableGraph {
      */
     @Override
     public Edge createAndSetEdge(Node start, Node end) {
-        int id = idOfLastCreatedEdge + 1;
+        int id = nextEdgeId;
         int capacity = getEdgeCapacity();
-        while (edges.getEvenIfHidden(id % capacity) != null || id == idOfLastCreatedEdge + 1 + capacity) {
+        while (edges.getEvenIfHidden(id % capacity) != null || id == nextEdgeId + 1 + capacity) {
             id++;
         }
         if (edges.getEvenIfHidden(id % capacity) == null) {
             Edge edge = new Edge(id % capacity, start, end);
             setEdge(edge);
-            idOfLastCreatedEdge = id % capacity;
+            nextEdgeId = (id + 1) % capacity;
             return edge;
         } else {
             throw new IllegalStateException(GraphLocalization.LOC.getString("ds.Graph.NoCapacityException"));
@@ -529,6 +566,7 @@ public class DefaultDirectedGraph implements DirectedGraph, ModifiableGraph {
      *
      * @return the number of edges that can be contained in the graph.
      */
+    @Override
     public int getEdgeCapacity() {
         return edges.getCapacity();
     }
@@ -538,6 +576,7 @@ public class DefaultDirectedGraph implements DirectedGraph, ModifiableGraph {
      *
      * @param newCapacity the number of edges that can be contained by the graph.
      */
+    @Override
     public void setEdgeCapacity(int newCapacity) {
         if (getEdgeCapacity() != newCapacity) {
             edges.setCapacity(newCapacity);
@@ -549,6 +588,7 @@ public class DefaultDirectedGraph implements DirectedGraph, ModifiableGraph {
      *
      * @return the number of nodes that can be contained in the graph.
      */
+    @Override
     public int getNodeCapacity() {
         return nodes.getCapacity();
     }
@@ -558,6 +598,7 @@ public class DefaultDirectedGraph implements DirectedGraph, ModifiableGraph {
      *
      * @param newCapacity the number of nodes that can be contained by the graph.
      */
+    @Override
     public void setNodeCapacity(int newCapacity) {
         if (getNodeCapacity() != newCapacity) {
             int oldCapacity = getNodeCapacity();

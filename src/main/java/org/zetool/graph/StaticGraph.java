@@ -72,7 +72,7 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * Gibt zur�ck, ob der Graph als gerichtet oder ungerichtet zu interpretieren ist. Laufzeit O(1).
+     * Gibt zuräck, ob der Graph als gerichtet oder ungerichtet zu interpretieren ist. Laufzeit O(1).
      *
      * @return {@code true}, wenn der Graph als gerichtet interpretiert werden soll, {@code false} anderenfalls.
      */
@@ -82,10 +82,10 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * Testet, ob der Graph der leere Graph ist. Enth�lt der Graph keine Knoten, wird {@code true} zur�ckgeben,
+     * Testet, ob der Graph der leere Graph ist. Enthält der Graph keine Knoten, wird {@code true} zuräckgeben,
      * anderenfalls {@code false}. Laufzeit O(1).
      *
-     * @return {@code true}, wenn der Graph keine Knoten (und damit auch keine Kanten) enth�lt, {@code false}
+     * @return {@code true}, wenn der Graph keine Knoten (und damit auch keine Kanten) enthält, {@code false}
      * anderenfalls.
      */
     public boolean empty() {
@@ -93,27 +93,27 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * Gibt alle Kanten des Graphen zur�ck (auch die versteckten). Laufzeit O(1).
+     * Gibt alle Kanten des Graphen zuräck (auch die versteckten). Laufzeit O(1).
      *
-     * @return eine nicht-�nderbare Menge aller Kanten des Graphen.
+     * @return eine nicht-änderbare Menge aller Kanten des Graphen.
      */
     public IdentifiableCollection<Edge> allEdges() {
         return edges;
     }
 
     /**
-     * Gibt alle Knoten des Graphen zur�ck (auch die versteckten). Laufzeit O(1).
+     * Gibt alle Knoten des Graphen zuräck (auch die versteckten). Laufzeit O(1).
      *
-     * @return eine nicht-�nderbare Menge aller Knoten des Graphen.
+     * @return eine nicht-änderbare Menge aller Knoten des Graphen.
      */
     public IdentifiableCollection<Node> allNodes() {
         return nodes;
     }
 
     /**
-     * Gibt alle sichtbaren Kanten des Graphen zur�ck. Laufzeit O(1).
+     * Gibt alle sichtbaren Kanten des Graphen zuräck. Laufzeit O(1).
      *
-     * @return eine nicht-�nderbare Menge aller sichtbaren Kanten des Graphen.
+     * @return eine nicht-änderbare Menge aller sichtbaren Kanten des Graphen.
      */
     @Override
     public IdentifiableCollection<Edge> edges() {
@@ -121,9 +121,9 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * Gibt alle sichtbaren Knoten des Graphen zur�ck. Laufzeit O(1).
+     * Gibt alle sichtbaren Knoten des Graphen zuräck. Laufzeit O(1).
      *
-     * @return eine nicht-�nderbare Menge aller sichtbaren Knoten des Graphen.
+     * @return eine nicht-änderbare Menge aller sichtbaren Knoten des Graphen.
      */
     @Override
     public IdentifiableCollection<Node> nodes() {
@@ -132,7 +132,7 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * Gibt die Anzahl aller sichtbaren Kanten des Graphen zur�ck. Laufzeit O(1).
+     * Gibt die Anzahl aller sichtbaren Kanten des Graphen zuräck. Laufzeit O(1).
      *
      * @return die Anzahl aller sichtbaren Kanten des Graphen.
      */
@@ -142,7 +142,7 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * Gibt die Anzahl aller versteckten Kanten des Graphen zur�ck. Laufzeit O(1).
+     * Gibt die Anzahl aller versteckten Kanten des Graphen zuräck. Laufzeit O(1).
      *
      * @return die Anzahl aller versteckten Kanten des Graphen.
      */
@@ -151,7 +151,7 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * Gibt die Anzahl aller sichtbaren Knoten des Graphen zur�ck. Laufzeit O(1).
+     * Gibt die Anzahl aller sichtbaren Knoten des Graphen zuräck. Laufzeit O(1).
      *
      * @return die Anzahl aller sichtbaren Knoten des Graphen.
      */
@@ -163,7 +163,7 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * Gibt die Anzahl aller versteckten Knoten des Graphen zur�ck. Laufzeit O(1).
+     * Gibt die Anzahl aller versteckten Knoten des Graphen zuräck. Laufzeit O(1).
      *
      * @return die Anzahl aller versteckten Knoten des Graphen.
      */
@@ -172,11 +172,11 @@ public class StaticGraph implements Graph, DirectedGraph {
 	 return visibleNodes.size() - visibleNodes.numberOfVisibleElements();
 	 } */
     /**
-     * Gibt alle zum gegebenen Knoten sichtbaren adjazenten Kanten zur�ck. Im Falle von gerichteten Graphen werden
+     * Gibt alle zum gegebenen Knoten sichtbaren adjazenten Kanten zuräck. Im Falle von gerichteten Graphen werden
      * sowohl eingehende als auch ausgehende Kanten als adjazent betrachtet. Laufzeit O(1).
      *
      * @param node der Knoten, zu dem die adjazenten Kanten ausgegeben werden sollen.
-     * @return eine nicht-�nderbare Menge aller zu {@code node} sichtbaren adjazenten Kanten des Graphen.
+     * @return eine nicht-änderbare Menge aller zu {@code node} sichtbaren adjazenten Kanten des Graphen.
      */
     @Override
     public IdentifiableCollection<Edge> incidentEdges(Node node) {
@@ -184,11 +184,11 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * Gibt alle zum gegebenen Knoten sichtbaren eingehenden Kanten zur�ck. Im Falle von ungerichteten Graphen ist dies
-     * nicht m�glich, daher wird in diesem Fall eine {@link GraphNotDirectedException} geworfen. Laufzeit O(1).
+     * Gibt alle zum gegebenen Knoten sichtbaren eingehenden Kanten zuräck. Im Falle von ungerichteten Graphen ist dies
+     * nicht mäglich, daher wird in diesem Fall eine {@link GraphNotDirectedException} geworfen. Laufzeit O(1).
      *
      * @param node der Knoten, zu dem die eingehenden Kanten ausgegeben werden sollen.
-     * @return eine nicht-�nderbare Menge aller zu {@code node} sichtbaren eingehenden Kanten des Graphen.
+     * @return eine nicht-änderbare Menge aller zu {@code node} sichtbaren eingehenden Kanten des Graphen.
      */
     @Override
     public IdentifiableCollection<Edge> incomingEdges(Node node) {
@@ -199,11 +199,11 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * Gibt alle zum gegebenen Knoten sichtbaren ausgehenden Kanten zur�ck. Im Falle von ungerichteten Graphen ist dies
-     * nicht m�glich, daher wird in diesem Fall eine {@link GraphNotDirectedException} geworfen. Laufzeit O(1).
+     * Gibt alle zum gegebenen Knoten sichtbaren ausgehenden Kanten zuräck. Im Falle von ungerichteten Graphen ist dies
+     * nicht mäglich, daher wird in diesem Fall eine {@link GraphNotDirectedException} geworfen. Laufzeit O(1).
      *
      * @param node der Knoten, zu dem die ausgehenden Kanten ausgegeben werden sollen.
-     * @return eine nicht-�nderbare Menge aller zu {@code node} sichtbaren eingehenden Kanten des Graphen.
+     * @return eine nicht-änderbare Menge aller zu {@code node} sichtbaren eingehenden Kanten des Graphen.
      */
     @Override
     public IdentifiableCollection<Edge> outgoingEdges(Node node) {
@@ -238,7 +238,7 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * Gibt die Anzahl aller zum gegebenen Knoten sichtbaren adjazenten Kanten zur�ck. Im Falle von gerichteten Graphen
+     * Gibt die Anzahl aller zum gegebenen Knoten sichtbaren adjazenten Kanten zuräck. Im Falle von gerichteten Graphen
      * werden sowohl eingehende als auch ausgehende Kanten als adjazent betrachtet. Laufzeit O(1).
      *
      * @param node der Knoten, zu dem die Anzahl der adjazenten Kanten ausgegeben werden soll.
@@ -250,8 +250,8 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * Gibt die Anzahl aller zum gegebenen Knoten sichtbaren eingehenden Kanten zur�ck. Im Falle von ungerichteten
-     * Graphen ist dies nicht m�glich, daher wird in diesem Fall eine {@link GraphNotDirectedException} geworfen.
+     * Gibt die Anzahl aller zum gegebenen Knoten sichtbaren eingehenden Kanten zuräck. Im Falle von ungerichteten
+     * Graphen ist dies nicht mäglich, daher wird in diesem Fall eine {@link GraphNotDirectedException} geworfen.
      * Laufzeit O(1).
      *
      * @param node der Knoten, zu dem die Anzahl der eingehenden Kanten ausgegeben werden soll.
@@ -266,8 +266,8 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * Gibt die Anzahl aller zum gegebenen Knoten sichtbaren ausgehenden Kanten zur�ck. Im Falle von ungerichteten
-     * Graphen ist dies nicht m�glich, daher wird in diesem Fall eine {@link GraphNotDirectedException} geworfen.
+     * Gibt die Anzahl aller zum gegebenen Knoten sichtbaren ausgehenden Kanten zuräck. Im Falle von ungerichteten
+     * Graphen ist dies nicht mäglich, daher wird in diesem Fall eine {@link GraphNotDirectedException} geworfen.
      * Laufzeit O(1).
      *
      * @param node der Knoten, zu dem die Anzahl der ausgehenden Kanten ausgegeben werden sollen.
@@ -300,13 +300,13 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * Fügt den angebenen Knoten dem Graphen hinzu, sofern dies m�glich ist. Da dies ein statischer Graph ist, h�ngt
-     * letzteres zum einen davon ab, dass noch Kapazit�t f�r einen neuen Knoten vorhanden ist
-     * ({@link getCapacity}, {@link setCapacity}). Zum anderen muss die ID des neuen Knotens um eins gr��er als die ID
-     * des zuletzt eingef�gten Knoten sein (bzw. 0, wenn vorher noch kein Knoten eingef�gt wurde). Ist dies nicht der
+     * Fügt den angebenen Knoten dem Graphen hinzu, sofern dies mäglich ist. Da dies ein statischer Graph ist, hängt
+     * letzteres zum einen davon ab, dass noch Kapazität fär einen neuen Knoten vorhanden ist
+     * ({@link getCapacity}, {@link setCapacity}). Zum anderen muss die ID des neuen Knotens um eins grääer als die ID
+     * des zuletzt eingefägten Knoten sein (bzw. 0, wenn vorher noch kein Knoten eingefägt wurde). Ist dies nicht der
      * Fall, wird eine {@link IllegalStateException} geworfen. Laufzeit O(1).
      *
-     * @param node der Knoten, der dem Graph hinzugef�gt werden soll.
+     * @param node der Knoten, der dem Graph hinzugefägt werden soll.
      */
     public void setNode(Node node) {
         /*if (node.id() != nodes.size()) {  //changed by Seba
@@ -345,7 +345,7 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * Erzeugt einen neuen Knoten mit passender ID und f�gt ihm dem Graphen hinzu. Laufzeit O(1).
+     * Erzeugt einen neuen Knoten mit passender ID und fägt ihm dem Graphen hinzu. Laufzeit O(1).
      *
      * @return den erzeugten Knoten.
      */
@@ -368,31 +368,31 @@ public class StaticGraph implements Graph, DirectedGraph {
 	 createNodes(getNodeCapacity()-nodeCount()-numberOfHiddenNodes());
 	 }*/
     /**
-     * Gibt zur�ck, ob der angegebene Knoten versteckt ist. Laufzeit O(1).
+     * Gibt zuräck, ob der angegebene Knoten versteckt ist. Laufzeit O(1).
      *
-     * @param node der Knoten, f�r den die Sichtbarkeit �berpr�ft werden soll.
+     * @param node der Knoten, fär den die Sichtbarkeit äberpräft werden soll.
      * @return {@code true}, wenn der Knoten {@code node} versteckt ist, {@code false} anderenfalls.
      */
     /* public boolean isVisible(Node node) {
 	 return visibleNodes.isVisible(node);
 	 } */
     /**
-     * �ndert die Sichtbarkeit des angegebenen Knotens auf den angegebenen Zustand. Laufzeit O(1).
+     * ändert die Sichtbarkeit des angegebenen Knotens auf den angegebenen Zustand. Laufzeit O(1).
      *
-     * @param node der Knoten, f�r den die Sichtbarkeit ge�ndert werden soll.
+     * @param node der Knoten, fär den die Sichtbarkeit geändert werden soll.
      * @param hidden der neue Sichtbarkeits-Status: {@code true} versteckt den Knoten, {@code false} macht ihn sichtbar.
      */
     /* public void changeVisibility(Node node, boolean hidden) {
 	 visibleNodes.changeVisibility(node, hidden);
 	 } */
     /**
-     * F�gt die angebene Kante dem Graphen hinzu, sofern dies m�glich ist. Da dies ein statischer Graph ist, h�ngt
-     * letzteres zum einen davon ab, dass noch Kapazit�t f�r eine neuen Kante vorhanden ist
-     * ({@link getCapacity}, {@link setCapacity}). Zum anderen muss die ID der neuen Kante um eins gr��er als die ID der
-     * zuletzt eingef�gten Kante sein (bzw. 0, wenn vorher noch keine Kante eingef�gt wurde). Ist dies nicht der Fall,
+     * Fägt die angebene Kante dem Graphen hinzu, sofern dies mäglich ist. Da dies ein statischer Graph ist, hängt
+     * letzteres zum einen davon ab, dass noch Kapazität fär eine neuen Kante vorhanden ist
+     * ({@link getCapacity}, {@link setCapacity}). Zum anderen muss die ID der neuen Kante um eins grääer als die ID der
+     * zuletzt eingefägten Kante sein (bzw. 0, wenn vorher noch keine Kante eingefägt wurde). Ist dies nicht der Fall,
      * wird eine {@link IllegalStateException} geworfen. Laufzeit O(1).
      *
-     * @param edge die Kanten, die dem Graph hinzugef�gt werden soll.
+     * @param edge die Kanten, die dem Graph hinzugefägt werden soll.
      */
     public void setEdge(Edge edge) {
         /*if (edge.id() != edges.size()) {    //changed by Seba
@@ -431,7 +431,7 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * Erzeugt eine neue Kante mit passender ID und f�gt sie dem Graphen hinzu. Die neue Kante verl�uft dabei zwischen
+     * Erzeugt eine neue Kante mit passender ID und fägt sie dem Graphen hinzu. Die neue Kante verläuft dabei zwischen
      * den angegeben Knoten. Im Falle eines ungerichteten Graphens ist es egal, welcher Knoten Startknoten und welcher
      * Knoten Endknoten der Kante ist. Laufzeit O(1).
      *
@@ -446,9 +446,9 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * Gibt zur�ck, ob die angegebene Kanten versteckt ist. Laufzeit O(1).
+     * Gibt zuräck, ob die angegebene Kanten versteckt ist. Laufzeit O(1).
      *
-     * @param edge die Kanten, f�r die die Sichtbarkeit �berpr�ft werden soll.
+     * @param edge die Kanten, fär die die Sichtbarkeit äberpräft werden soll.
      * @return {@code true}, wenn die Kanten {@code node} versteckt ist, {@code false} anderenfalls.
      */
     public boolean isVisible(Edge edge) {
@@ -456,9 +456,9 @@ public class StaticGraph implements Graph, DirectedGraph {
     }
 
     /**
-     * �ndert die Sichtbarkeit der angegebenen Kante auf den angegebenen Zustand. Laufzeit O(1).
+     * ändert die Sichtbarkeit der angegebenen Kante auf den angegebenen Zustand. Laufzeit O(1).
      *
-     * @param edge die Kante, f�r die die Sichtbarkeit ge�ndert werden soll.
+     * @param edge die Kante, fär die die Sichtbarkeit geändert werden soll.
      * @param visible der neue Sichtbarkeits-Status: {@code true} versteckt die Kanten, {@code false} macht sie
      * sichtbar.
      */
