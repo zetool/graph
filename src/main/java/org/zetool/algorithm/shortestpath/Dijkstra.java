@@ -136,9 +136,6 @@ public class Dijkstra {
         while (!queue.isEmpty()) {
             MinHeap<Node, Integer>.Element min = queue.extractMin();
             Node v = min.getObject();
-            if (v.id() == 610) {
-                System.out.println();
-            }
             Integer pv = min.getPriority();
             distances.set(v, pv);
             IdentifiableCollection<Edge> incidentEdges;
@@ -147,7 +144,7 @@ public class Dijkstra {
             } else {
                 incidentEdges = graph.incomingEdges(v);
             }
-            //System.out.println("incident Edges: " + incidentEdges);
+
             for (Edge edge : incidentEdges) {
                 Node w = edge.opposite(v);
                 if (queue.contains(w) && (long) queue.priority(w) > (long) pv + (long) costs.get(edge)) {
