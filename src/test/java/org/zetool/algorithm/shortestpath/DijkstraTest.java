@@ -25,6 +25,7 @@ import org.zetool.container.mapping.IdentifiableIntegerMapping;
 import org.zetool.graph.DefaultDirectedGraph;
 import org.zetool.graph.Edge;
 import org.zetool.graph.MutableDirectedGraph;
+import org.zetool.graph.Node;
 
 /**
  *
@@ -68,7 +69,7 @@ public class DijkstraTest {
         assertThat(dijkstra.getDistance(graph.getNode(0)), is(equalTo(0)));
         assertThat(dijkstra.getDistance(graph.getNode(1)), is(equalTo(1)));
     }
-    
+
     @Test
     public void disconnectedNodes() {
         MutableDirectedGraph graph = new DefaultDirectedGraph(2, 0);
@@ -92,4 +93,121 @@ public class DijkstraTest {
         assertThat(dijkstra.getDistance(graph.getNode(1)), is(equalTo(0)));
     }
 
+    @Test
+    public void graphWithTwoPaths() {
+        MutableDirectedGraph graph = new DefaultDirectedGraph(4, 4);
+
+        Node source = graph.getNode(0);
+        Node upperIntermediate = graph.getNode(1);
+        Node lowerIntermediate = graph.getNode(2);
+        Node target = graph.getNode(3);
+
+        Edge upperFirst = graph.createAndSetEdge(source, upperIntermediate);
+        Edge upperLast = graph.createAndSetEdge(upperIntermediate, target);
+        Edge lowerFirst = graph.createAndSetEdge(source, lowerIntermediate);
+        Edge lowerLast = graph.createAndSetEdge(lowerIntermediate, target);
+
+        IdentifiableIntegerMapping<Edge> costs = new IdentifiableIntegerMapping<>(2);
+        costs.set(upperFirst, 0);
+        costs.set(upperLast, 1);
+        costs.set(lowerFirst, 1);
+        costs.set(lowerLast, 1);
+
+        Dijkstra dijkstra = new Dijkstra(graph, costs, source);
+        dijkstra.run();
+
+        assertThat(dijkstra.getDistance(source), is(equalTo(0)));
+        assertThat(dijkstra.getDistance(upperIntermediate), is(equalTo(0)));
+        assertThat(dijkstra.getDistance(lowerIntermediate), is(equalTo(1)));
+        assertThat(dijkstra.getDistance(target), is(equalTo(1)));
+    }
+
+    /**
+     * Shortest path along {@code s -> 3 -> 1 -> t} with cost 3.
+     */
+    @Test
+    public void graphWithDirectedCycle() {
+        CycleGraph cycleGraph = new CycleGraph();
+
+        IdentifiableIntegerMapping<Edge> costs = new IdentifiableIntegerMapping<>(2);
+        costs.set(cycleGraph.in1, 2);
+        costs.set(cycleGraph.in2, 2);
+        costs.set(cycleGraph.in3, 1);
+        costs.set(cycleGraph.out1, 1);
+        costs.set(cycleGraph.out2, 2);
+        costs.set(cycleGraph.out3, 2);
+        costs.set(cycleGraph.cycle12, 1);
+        costs.set(cycleGraph.cycle23, 1);
+        costs.set(cycleGraph.cycle13, 1);
+
+        Dijkstra dijkstra = new Dijkstra(cycleGraph.graph, costs, cycleGraph.source);
+        dijkstra.run();
+
+        assertThat(dijkstra.getDistance(cycleGraph.source), is(equalTo(0)));
+        assertThat(dijkstra.getDistance(cycleGraph.node1), is(equalTo(2)));
+        assertThat(dijkstra.getDistance(cycleGraph.node2), is(equalTo(2)));
+        assertThat(dijkstra.getDistance(cycleGraph.node3), is(equalTo(1)));
+        assertThat(dijkstra.getDistance(cycleGraph.target), is(equalTo(3)));
+    }
+
+    /**
+     * Shortest path along {@code s -> 1 -> 2 -> t} with cost 3. The path uses a negative cost arc.
+     */
+    @Test
+    public void failsForraphWithDirectedCycleZeroCost() {
+        CycleGraph cycleGraph = new CycleGraph();
+
+        IdentifiableIntegerMapping<Edge> costs = new IdentifiableIntegerMapping<>(2);
+        costs.set(cycleGraph.in1, 2);
+        costs.set(cycleGraph.in2, 2);
+        costs.set(cycleGraph.in3, 2);
+        costs.set(cycleGraph.out1, 2);
+        costs.set(cycleGraph.out2, 2);
+        costs.set(cycleGraph.out3, 2);
+        costs.set(cycleGraph.cycle12, 1);
+        costs.set(cycleGraph.cycle23, -1);
+        costs.set(cycleGraph.cycle13, 0);
+
+        Dijkstra dijkstra = new Dijkstra(cycleGraph.graph, costs, cycleGraph.source);
+        dijkstra.run();
+
+        assertThat(dijkstra.getDistance(cycleGraph.source), is(equalTo(0)));
+        assertThat(dijkstra.getDistance(cycleGraph.node1), is(equalTo(2)));
+
+        int correctDistanceWithNegativeCost = 1;
+        int wrongDistanceIgnoringNegativeCost = correctDistanceWithNegativeCost + 1;
+        assertThat(dijkstra.getDistance(cycleGraph.node2), is(equalTo(wrongDistanceIgnoringNegativeCost)));
+
+        assertThat(dijkstra.getDistance(cycleGraph.node3), is(equalTo(2)));
+
+        int correctShortestPathDistance = 3;
+        int wrongShortestPathDistance = correctShortestPathDistance + 1;
+        assertThat(dijkstra.getDistance(cycleGraph.target), is(equalTo(wrongShortestPathDistance)));
+    }
+
+    /**
+     * A graph consisting of a directed cycle with three nodes which are connected to both, source and sink.
+     */
+    private static class CycleGraph {
+
+        private final MutableDirectedGraph graph = new DefaultDirectedGraph(5, 9);
+
+        private final Node source = graph.getNode(0);
+        private final Node node1 = graph.getNode(1);
+        private final Node node2 = graph.getNode(2);
+        private final Node node3 = graph.getNode(3);
+        private final Node target = graph.getNode(4);
+
+        private final Edge in1 = graph.createAndSetEdge(source, node1);
+        private final Edge in2 = graph.createAndSetEdge(source, node2);
+        private final Edge in3 = graph.createAndSetEdge(source, node3);
+
+        private final Edge out1 = graph.createAndSetEdge(node1, target);
+        private final Edge out2 = graph.createAndSetEdge(node2, target);
+        private final Edge out3 = graph.createAndSetEdge(node3, target);
+
+        private final Edge cycle12 = graph.createAndSetEdge(node1, node2);
+        private final Edge cycle23 = graph.createAndSetEdge(node2, node3);
+        private final Edge cycle13 = graph.createAndSetEdge(node3, node1);
+    }
 }
