@@ -30,134 +30,134 @@ import org.zetool.graph.structure.StaticPath;
  */
 public class MooreBellmanFord {
 
-  private IdentifiableIntegerMapping<Edge> costs;
-  private DirectedGraph graph;
-  private Node source;
-  private IdentifiableIntegerMapping<Node> distances;
-  private IdentifiableObjectMapping<Node, Edge> edges;
-  private IdentifiableObjectMapping<Node, Node> nodes;
+    private IdentifiableIntegerMapping<Edge> costs;
+    private DirectedGraph graph;
+    private Node source;
+    private IdentifiableIntegerMapping<Node> distances;
+    private IdentifiableObjectMapping<Node, Edge> edges;
+    private IdentifiableObjectMapping<Node, Node> nodes;
 
-  public MooreBellmanFord() {
-  }
+    public MooreBellmanFord() {
+    }
 
-  public MooreBellmanFord( DirectedGraph graph, IdentifiableIntegerMapping<Edge> costs, Node source ) {
-    this.costs = costs;
-    this.graph = graph;
-    this.source = source;
-  }
+    public MooreBellmanFord(DirectedGraph graph, IdentifiableIntegerMapping<Edge> costs, Node source) {
+        this.costs = costs;
+        this.graph = graph;
+        this.source = source;
+    }
 
-  public IdentifiableIntegerMapping<Node> getDistances() {
-    if( distances == null ) {
-      throw new IllegalStateException( GraphLocalization.LOC.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
-    }
-    return distances;
-  }
-
-  public double getDistance( Node node ) {
-    if( distances == null ) {
-      throw new IllegalStateException( GraphLocalization.LOC.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
-    }
-    return distances.get( node );
-  }
-
-  public IdentifiableObjectMapping<Node, Edge> getLastEdges() {
-    if( edges == null ) {
-      throw new IllegalStateException( GraphLocalization.LOC.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
-    }
-    return edges;
-  }
-
-  public Edge getLastEdge( Node node ) {
-    if( edges == null ) {
-      throw new IllegalStateException( GraphLocalization.LOC.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
-    }
-    return edges.get( node );
-  }
-
-  public IdentifiableObjectMapping<Node, Node> getPredecessors() {
-    if( nodes == null ) {
-      throw new IllegalStateException( GraphLocalization.LOC.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
-    }
-    return nodes;
-  }
-
-  public Node getPredecessor( Node node ) {
-    if( nodes == null ) {
-      throw new IllegalStateException( GraphLocalization.LOC.getString( "algo.graph.shortestpath.NotCalledYetException" ) );
-    }
-    return nodes.get( node );
-  }
-
-  public Path getShortestPath( Node target ) {
-    Path path = new StaticPath();
-    Node node = target;
-    while( node != source ) {
-      Edge edge = getLastEdge( node );
-      path.addFirstEdge( edge );
-      node = edge.opposite( node );
-    }
-    return path;
-  }
-
-  public boolean isInitialized() {
-    return graph != null && source != null;
-  }
-
-  public void run() {
-    if( graph == null ) {
-      throw new IllegalStateException( GraphLocalization.LOC.getString( "algo.graph.shortestpath.GraphIsNullException" ) );
-    }
-    if( source == null ) {
-      throw new IllegalStateException( GraphLocalization.LOC.getString( "algo.graph.shortestpath.SourceIsNullException" ) );
-    }
-    if( distances != null ) {
-      return;
-    }
-    distances = new IdentifiableIntegerMapping<>( graph.nodeCount() );
-    edges = new IdentifiableObjectMapping<>( graph.nodeCount() );
-    nodes = new IdentifiableObjectMapping<>( graph.nodeCount() );
-    for( Node node : graph.nodes() ) {
-      distances.set( node, Integer.MAX_VALUE );
-    }
-    distances.set( source, 0 );
-    for( int i = 0; i < graph.nodeCount(); i++ ) {
-      for( Edge e : graph.edges() ) {
-        Node v = e.start();
-        Node w = e.end();
-        long dw = distances.get( w );
-        long dv = distances.get( v );
-        if( dw > dv + costs.get( e ) ) {
-          distances.set( w, distances.get( v ) + costs.get( e ) );
-          edges.set( w, e );
-          nodes.set( w, v );
+    public IdentifiableIntegerMapping<Node> getDistances() {
+        if (distances == null) {
+            throw new IllegalStateException(GraphLocalization.LOC.getString("algo.graph.shortestpath.NotCalledYetException"));
         }
-      }
+        return distances;
     }
-  }
 
-  public DirectedGraph getGraph() {
-    return graph;
-  }
-
-  public void setGraph( DirectedGraph graph ) {
-    if( graph != this.graph ) {
-      this.graph = graph;
-      distances = null;
-      edges = null;
-      nodes = null;
+    public double getDistance(Node node) {
+        if (distances == null) {
+            throw new IllegalStateException(GraphLocalization.LOC.getString("algo.graph.shortestpath.NotCalledYetException"));
+        }
+        return distances.get(node);
     }
-  }
 
-  public Node getSource() {
-    return source;
-  }
-
-  public void setSource( Node source ) {
-    if( source != this.source ) {
-      this.source = source;
-      distances = null;
-      edges = null;
-      nodes = null;
+    public IdentifiableObjectMapping<Node, Edge> getLastEdges() {
+        if (edges == null) {
+            throw new IllegalStateException(GraphLocalization.LOC.getString("algo.graph.shortestpath.NotCalledYetException"));
+        }
+        return edges;
     }
-  }
+
+    public Edge getLastEdge(Node node) {
+        if (edges == null) {
+            throw new IllegalStateException(GraphLocalization.LOC.getString("algo.graph.shortestpath.NotCalledYetException"));
+        }
+        return edges.get(node);
+    }
+
+    public IdentifiableObjectMapping<Node, Node> getPredecessors() {
+        if (nodes == null) {
+            throw new IllegalStateException(GraphLocalization.LOC.getString("algo.graph.shortestpath.NotCalledYetException"));
+        }
+        return nodes;
+    }
+
+    public Node getPredecessor(Node node) {
+        if (nodes == null) {
+            throw new IllegalStateException(GraphLocalization.LOC.getString("algo.graph.shortestpath.NotCalledYetException"));
+        }
+        return nodes.get(node);
+    }
+
+    public Path getShortestPath(Node target) {
+        Path path = new StaticPath();
+        Node node = target;
+        while (node != source) {
+            Edge edge = getLastEdge(node);
+            path.addFirstEdge(edge);
+            node = edge.opposite(node);
+        }
+        return path;
+    }
+
+    public boolean isInitialized() {
+        return graph != null && source != null;
+    }
+
+    public void run() {
+        if (graph == null) {
+            throw new IllegalStateException(GraphLocalization.LOC.getString("algo.graph.shortestpath.GraphIsNullException"));
+        }
+        if (source == null) {
+            throw new IllegalStateException(GraphLocalization.LOC.getString("algo.graph.shortestpath.SourceIsNullException"));
+        }
+        if (distances != null) {
+            return;
+        }
+        distances = new IdentifiableIntegerMapping<>(graph.nodeCount());
+        edges = new IdentifiableObjectMapping<>(graph.nodeCount());
+        nodes = new IdentifiableObjectMapping<>(graph.nodeCount());
+        for (Node node : graph.nodes()) {
+            distances.set(node, Integer.MAX_VALUE);
+        }
+        distances.set(source, 0);
+        for (int i = 0; i < graph.nodeCount(); i++) {
+            for (Edge e : graph.edges()) {
+                Node v = e.start();
+                Node w = e.end();
+                long dw = distances.get(w);
+                long dv = distances.get(v);
+                if (dw > dv + costs.get(e)) {
+                    distances.set(w, distances.get(v) + costs.get(e));
+                    edges.set(w, e);
+                    nodes.set(w, v);
+                }
+            }
+        }
+    }
+
+    public DirectedGraph getGraph() {
+        return graph;
+    }
+
+    public void setGraph(DirectedGraph graph) {
+        if (graph != this.graph) {
+            this.graph = graph;
+            distances = null;
+            edges = null;
+            nodes = null;
+        }
+    }
+
+    public Node getSource() {
+        return source;
+    }
+
+    public void setSource(Node source) {
+        if (source != this.source) {
+            this.source = source;
+            distances = null;
+            edges = null;
+            nodes = null;
+        }
+    }
 }
