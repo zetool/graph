@@ -58,7 +58,7 @@ public class SimpleUndirectedGraph implements UndirectedGraph {
      *
      * @param origin the base graph
      */
-    protected SimpleUndirectedGraph(UndirectedGraph origin) {
+    protected SimpleUndirectedGraph(Graph origin) {
         nodeCount = origin.nodeCount();
         nodes = new ArraySet<>(Node.class, nodeCount);
         incidentEdges = new IdentifiableObjectMapping<>(nodeCount);
