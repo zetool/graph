@@ -1,4 +1,3 @@
-
 package org.zetool.graph;
 
 import org.zetool.container.collection.ArraySet;
@@ -9,215 +8,234 @@ import org.zetool.graph.util.OppositeNodeCollection;
 import java.util.Iterator;
 
 /**
- * Simple implementation of an undirected graph. The graph supports initial constant number of nodes, but edges can
- * be dynamically added. The edges are stored as adjacency lists for each node.
+ * Simple implementation of an undirected graph. The graph supports initial constant number of nodes, but edges can be
+ * dynamically added. The edges are stored as adjacency lists for each node.
  *
  * @author Jan-Philipp Kappmeier
  */
 public class SimpleUndirectedGraph implements UndirectedGraph {
 
-    /** The nodes of the network. Must not be null. */
+    /**
+     * The nodes of the network. Must not be null.
+     */
     protected ArraySet<Node> nodes;
-    /** The edges of the network. Must not be null. */
+    /**
+     * The edges of the network. Must not be null.
+     */
     protected ListSequence<Edge> edges;
-    /** Caches the edges incident to a node for all nodes in the graph. */
+    /**
+     * Caches the edges incident to a node for all nodes in the graph.
+     */
     protected IdentifiableObjectMapping<Node, ListSequence<Edge>> incidentEdges;
-    /** The number of nodes. */
+    /**
+     * The number of nodes.
+     */
     private final int nodeCount;
-    /** The number of edges currently in the grpah. */
+    /**
+     * The number of edges currently in the grpah.
+     */
     private int edgeCount;
 
-  /**
-   * Initializes a graph with the given number of nodes. The graph is empty afterwards and does not contain any edge.
-   * @param size the number of nodes.
-   */
-  public SimpleUndirectedGraph( int size ) {
-    nodeCount = size;
-    nodes = new ArraySet<>( Node.class, size );
-    incidentEdges = new IdentifiableObjectMapping<>( size );
-    edges = new ListSequence<>();
-    
-    for( int i = 0; i < size; ++i ) {
-      nodes.add( new Node( i ) );
-      incidentEdges.set( nodes.get( i ), new ListSequence<>() );
-    }
-  }
-  
-  /**
-   * Creates a graph on the same node set.
-   * @param origin the base graph 
-   */
-  protected SimpleUndirectedGraph( UndirectedGraph origin ) {
-    nodeCount = origin.nodeCount();
-    nodes = new ArraySet<>( Node.class, nodeCount );
-    incidentEdges = new IdentifiableObjectMapping<>( nodeCount );
-    edges = new ListSequence<>();
+    /**
+     * Initializes a graph with the given number of nodes. The graph is empty afterwards and does not contain any edge.
+     *
+     * @param size the number of nodes.
+     */
+    public SimpleUndirectedGraph(int size) {
+        nodeCount = size;
+        nodes = new ArraySet<>(Node.class, size);
+        incidentEdges = new IdentifiableObjectMapping<>(size);
+        edges = new ListSequence<>();
 
-    for( Node n : origin ) {
-      nodes.add( n );
-      incidentEdges.set( n, new ListSequence<>() );
-    }
-  }
-
-  /**
-   * Adds a new edge between two nodes. It is not checked if an edge between the nodes may already exist and parallel
-   * edges are allowed.
-   * @param v one end node of the edge
-   * @param w the other end node of the edge
-   * @return the newly created edge
-   * @throws IllegalArgumentException if the ids of the nodes lies outside the number of nodes in the graph or if the
-   *
-   */
-  public Edge addEdge( Node v, Node w ) throws IllegalArgumentException {
-    if( v.id() > nodeCount ) {
-      throw new IllegalArgumentException( "Start node " + v + " does not exist." );
-    }
-    if( w.id() > nodeCount ) {
-      throw new IllegalArgumentException( "End node " + w + " does not exist." );
-    }
-    if( !( v.equals( nodes.get( v.id() ) ) ) || !(w.equals( nodes.get( w.id() ) ) ) ) {
-      throw new IllegalArgumentException( "Node does not belong to graph!" );
-    }
-    return addEdge( v.id(), w.id() );
-  }
-
-  /**
-   * Adds a new edge between to nodes given by their indices. Parallel edges can be added.
-   * @param vIndex the index of the first node
-   * @param wIndex the index of the second node
-   * @return the newly created edge
-   * @throws IllegalArgumentException if the node indices are out of range.
-   */
-  public Edge addEdge( int vIndex, int wIndex ) throws IllegalArgumentException {
-    if( vIndex > nodeCount || vIndex < 0 ) {
-      throw new IllegalArgumentException( "Start node " + vIndex + " does not exist." );
-    }
-    if( wIndex > nodeCount || wIndex < 0 ) {
-      throw new IllegalArgumentException( "End node " + wIndex + " does not exist." );
+        for (int i = 0; i < size; ++i) {
+            nodes.add(new Node(i));
+            incidentEdges.set(nodes.get(i), new ListSequence<>());
+        }
     }
 
-    Node first = nodes.get( vIndex );
-    Node second = nodes.get( wIndex );
-    Edge e = new Edge(edgeCount++, first, second );
-    incidentEdges.get( first ).add( e );
-    incidentEdges.get( second ).add( e );
-    edges.add( e );
-    return e;
-  }
+    /**
+     * Creates a graph on the same node set.
+     *
+     * @param origin the base graph
+     */
+    protected SimpleUndirectedGraph(UndirectedGraph origin) {
+        nodeCount = origin.nodeCount();
+        nodes = new ArraySet<>(Node.class, nodeCount);
+        incidentEdges = new IdentifiableObjectMapping<>(nodeCount);
+        edges = new ListSequence<>();
 
-  /**
-   * Adds an existing edge to this graph. Using this method an edge can exist in multiple graphs. The two nodes of the
-   * edge must be in the range of this graph.
-   * @param e the edge
-   * @return the edge
-   */
-  public Edge addEdge( Edge e ) {
-    if( e.start().id() > nodeCount ) {
-      throw new IllegalArgumentException( "Start node " + e.start() + " does not exist." );
+        for (Node n : origin) {
+            nodes.add(n);
+            incidentEdges.set(n, new ListSequence<>());
+        }
     }
-    if( e.end().id() > nodeCount ) {
-      throw new IllegalArgumentException( "End node " + e.end() + " does not exist." );
+
+    /**
+     * Adds a new edge between two nodes. It is not checked if an edge between the nodes may already exist and parallel
+     * edges are allowed.
+     *
+     * @param v one end node of the edge
+     * @param w the other end node of the edge
+     * @return the newly created edge
+     * @throws IllegalArgumentException if the ids of the nodes lies outside the number of nodes in the graph or if the
+     *
+     */
+    public Edge addEdge(Node v, Node w) throws IllegalArgumentException {
+        if (v.id() > nodeCount) {
+            throw new IllegalArgumentException("Start node " + v + " does not exist.");
+        }
+        if (w.id() > nodeCount) {
+            throw new IllegalArgumentException("End node " + w + " does not exist.");
+        }
+        if (!(v.equals(nodes.get(v.id()))) || !(w.equals(nodes.get(w.id())))) {
+            throw new IllegalArgumentException("Node does not belong to graph!");
+        }
+        return addEdge(v.id(), w.id());
     }
-    if( !(e.start().equals( nodes.get( e.start().id() ) ) )
-            || !(e.end() == nodes.get( e.end().id() ) ) ) {
-      throw new IllegalArgumentException( "Node does not belong to graph!" );
+
+    /**
+     * Adds a new edge between to nodes given by their indices. Parallel edges can be added.
+     *
+     * @param vIndex the index of the first node
+     * @param wIndex the index of the second node
+     * @return the newly created edge
+     * @throws IllegalArgumentException if the node indices are out of range.
+     */
+    public Edge addEdge(int vIndex, int wIndex) throws IllegalArgumentException {
+        if (vIndex > nodeCount || vIndex < 0) {
+            throw new IllegalArgumentException("Start node " + vIndex + " does not exist.");
+        }
+        if (wIndex > nodeCount || wIndex < 0) {
+            throw new IllegalArgumentException("End node " + wIndex + " does not exist.");
+        }
+
+        Node first = nodes.get(vIndex);
+        Node second = nodes.get(wIndex);
+        Edge e = new Edge(edgeCount++, first, second);
+        incidentEdges.get(first).add(e);
+        incidentEdges.get(second).add(e);
+        edges.add(e);
+        return e;
     }
-    incidentEdges.get( e.start() ).add( e );
-    incidentEdges.get( e.end() ).add( e );
-    edgeCount++;
-    edges.add( e );
-    return e;
-  }
 
-  /**
-   * Returns the node with a given index.
-   * @param i the index
-   * @return the node with the index
-   */
-  @Override
-  public Node getNode( int i ) {
-    return nodes.get( i );
-  }
+    /**
+     * Adds an existing edge to this graph. Using this method an edge can exist in multiple graphs. The two nodes of the
+     * edge must be in the range of this graph.
+     *
+     * @param e the edge
+     * @return the edge
+     */
+    public Edge addEdge(Edge e) {
+        if (e.start().id() > nodeCount) {
+            throw new IllegalArgumentException("Start node " + e.start() + " does not exist.");
+        }
+        if (e.end().id() > nodeCount) {
+            throw new IllegalArgumentException("End node " + e.end() + " does not exist.");
+        }
+        if (!(e.start().equals(nodes.get(e.start().id())))
+                || !(e.end() == nodes.get(e.end().id()))) {
+            throw new IllegalArgumentException("Node does not belong to graph!");
+        }
+        incidentEdges.get(e.start()).add(e);
+        incidentEdges.get(e.end()).add(e);
+        edgeCount++;
+        edges.add(e);
+        return e;
+    }
 
-  /**
-   * Returns the number of nodes of the graph.
-   * @return the number of nodes of the graph
-   */
-  @Override
-  public final int nodeCount() {
-    return nodeCount;
-  }
+    /**
+     * Returns the node with a given index.
+     *
+     * @param i the index
+     * @return the node with the index
+     */
+    @Override
+    public Node getNode(int i) {
+        return nodes.get(i);
+    }
 
-  /**
-   * Returns the number of edges currently in the graph.
-   * @return the number of edges currently in the graph
-   */
-  @Override
-  public final int edgeCount() {
-    return edgeCount;
-  }
+    /**
+     * Returns the number of nodes of the graph.
+     *
+     * @return the number of nodes of the graph
+     */
+    @Override
+    public final int nodeCount() {
+        return nodeCount;
+    }
 
-  /**
-   * Returns a list of adjacent edges.
-   * @param v the node
-   * @return  the list of adjacent edges
-   */
-  public IdentifiableCollection<Edge> getAdjacent( Node v ) {
-    return incidentEdges.get(v );
-  }
+    /**
+     * Returns the number of edges currently in the graph.
+     *
+     * @return the number of edges currently in the graph
+     */
+    @Override
+    public final int edgeCount() {
+        return edgeCount;
+    }
 
-  @Override
-  public Iterator<Node> iterator() {
-    return nodes.iterator();
-  }
+    /**
+     * Returns a list of adjacent edges.
+     *
+     * @param v the node
+     * @return the list of adjacent edges
+     */
+    public IdentifiableCollection<Edge> getAdjacent(Node v) {
+        return incidentEdges.get(v);
+    }
 
-  @Override
-  public IdentifiableCollection<Edge> edges() {
-    return edges;
-  }
+    @Override
+    public Iterator<Node> iterator() {
+        return nodes.iterator();
+    }
 
-  @Override
-  public IdentifiableCollection<Node> nodes() {
-    return nodes;
-  }
+    @Override
+    public IdentifiableCollection<Edge> edges() {
+        return edges;
+    }
 
-  @Override
-  public IdentifiableCollection<Edge> incidentEdges( Node node ) {
-    return incidentEdges.get( node );
-  }
+    @Override
+    public IdentifiableCollection<Node> nodes() {
+        return nodes;
+    }
 
-  @Override
-  public IdentifiableCollection<Node> adjacentNodes( Node node ) {
-    return new OppositeNodeCollection( node, this.incidentEdges.get( node ) );
-  }
+    @Override
+    public IdentifiableCollection<Edge> incidentEdges(Node node) {
+        return incidentEdges.get(node);
+    }
 
-  @Override
-  public int degree( Node node ) {
-    return incidentEdges.get( node ).size();
-  }
+    @Override
+    public IdentifiableCollection<Node> adjacentNodes(Node node) {
+        return new OppositeNodeCollection(node, this.incidentEdges.get(node));
+    }
 
-  @Override
-  public boolean contains( Edge edge ) {
-    return edges.contains( edge );
-  }
+    @Override
+    public int degree(Node node) {
+        return incidentEdges.get(node).size();
+    }
 
-  @Override
-  public boolean contains( Node node ) {
-    return nodes.contains( node );
-  }
+    @Override
+    public boolean contains(Edge edge) {
+        return edges.contains(edge);
+    }
 
-  @Override
-  public Edge getEdge( int id ) {
-    return edges.get( id );
-  }
+    @Override
+    public boolean contains(Node node) {
+        return nodes.contains(node);
+    }
 
-  @Override
-  public Edge getEdge( Node start, Node end ) {
-    throw new UnsupportedOperationException( "Not supported yet." );
-  }
+    @Override
+    public Edge getEdge(int id) {
+        return edges.get(id);
+    }
 
-  @Override
-  public IdentifiableCollection<Edge> getEdges( Node start, Node end ) {
-    return edges;
-  }
+    @Override
+    public Edge getEdge(Node start, Node end) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public IdentifiableCollection<Edge> getEdges(Node start, Node end) {
+        return edges;
+    }
 }
