@@ -1,4 +1,4 @@
-/* zet evacuation tool copyright (c) 2007-14 zet evacuation team
+/* zet evacuation tool copyright (c) 2007-20 zet evacuation team
  *
  * This program is free software; you can redistribute it and/or
  * as published by the Free Software Foundation; either version 2
@@ -15,27 +15,71 @@
  */
 package org.zetool.algorithm.shortestpath;
 
+import java.util.Objects;
+import java.util.Optional;
+
 import org.zetool.graph.Edge;
 import org.zetool.graph.Graph;
 import org.zetool.graph.Node;
 import org.zetool.container.mapping.IdentifiableIntegerMapping;
 
 /**
+ * Collects the inputs for the <i>Successive Shortest Path Problem</i>.
  *
  * @author Jan-Philipp Kappmeier
  */
 public class IntegralSingleSourceShortestPathProblem {
 
-    Node getSource() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    private final Graph graph;
+    private final IdentifiableIntegerMapping<Edge> costs;
+    private final Node source;
+    private final Optional<Node> target;
+
+    /**
+     * T
+     *
+     * @param graph the graph instance, directed or undirected
+     * @param costs the edge costs
+     * @param source the source node
+     */
+    public IntegralSingleSourceShortestPathProblem(Graph graph, IdentifiableIntegerMapping<Edge> costs, Node source) {
+        this(graph, costs, source, null);
     }
 
-    Graph getGraph() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    /**
+     * T
+     *
+     * @param graph the graph instance, directed or undirected
+     * @param costs the edge costs
+     * @param source the source node
+     * @param target the sink node, can be {@code null}
+     */
+    public IntegralSingleSourceShortestPathProblem(Graph graph, IdentifiableIntegerMapping<Edge> costs, Node source, Node target) {
+        this.costs = Objects.requireNonNull(costs);
+        this.graph = Objects.requireNonNull(graph);
+        this.source = Objects.requireNonNull(source);
+        this.target = Optional.ofNullable(target);
     }
 
-    IdentifiableIntegerMapping<Edge> getCosts() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public Graph getGraph() {
+        return graph;
+    }
+
+    public IdentifiableIntegerMapping<Edge> getCosts() {
+        return costs;
+    }
+
+    public Node getSource() {
+        return source;
+    }
+
+    /**
+     * Returns the optional sink node. Iteration stops at this node, if present.
+     *
+     * @return the optional sink node
+     */
+    public Optional<Node> getTarget() {
+        return target;
     }
 
 }
