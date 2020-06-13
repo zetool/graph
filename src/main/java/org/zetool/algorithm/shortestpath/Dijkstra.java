@@ -1,4 +1,4 @@
-/* zet evacuation tool copyright (c) 2007-14 zet evacuation team
+/* zet evacuation tool copyright (c) 2007-20 zet evacuation team
  *
  * This program is free software; you can redistribute it and/or
  * as published by the Free Software Foundation; either version 2
@@ -67,6 +67,9 @@ public class Dijkstra extends AbstractAlgorithm<IntegralSingleSourceShortestPath
             Node v = min.getObject();
             Integer pv = min.getPriority();
             distances.set(v, pv);
+            if (v.equals(sink)) {
+                return new IntegralShortestPathSolution(graph.nodes(), distances, edges, nodes);
+            }
             IdentifiableCollection<Edge> incidentEdges;
             if (!reverse) {
                 incidentEdges = graph.outgoingEdges(v);
@@ -80,9 +83,6 @@ public class Dijkstra extends AbstractAlgorithm<IntegralSingleSourceShortestPath
                     queue.decreasePriority(w, pv + costs.get(edge));
                     edges.set(w, edge);
                     nodes.set(w, v);
-                    if (w.equals(sink)) {
-                        return new IntegralShortestPathSolution(graph.nodes(), distances, edges, nodes);
-                    }
                 }
             }
         }

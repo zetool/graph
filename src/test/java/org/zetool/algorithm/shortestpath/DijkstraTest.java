@@ -267,6 +267,37 @@ public class DijkstraTest {
         assertThat(solution.getPredecessor(cycleGraph.target), is(equalTo(cycleGraph.node1)));
     }
 
+    @Test
+    public void partial() {
+        MutableDirectedGraph graph = new DefaultDirectedGraph(3, 2);
+
+        Node source = graph.getNode(0);
+        Node target = graph.getNode(1);
+        Node other = graph.getNode(2);
+
+        Edge st = graph.createAndSetEdge(source, target);
+        graph.createAndSetEdge(target, other);
+
+        IdentifiableIntegerMapping<Edge> costs = new IdentifiableConstantMapping<>(1);
+
+        IntegralSingleSourceShortestPathProblem ssspProblem = new IntegralSingleSourceShortestPathProblem(graph, costs, source, target);
+        Dijkstra dijkstra = new Dijkstra();
+        dijkstra.setProblem(ssspProblem);
+        dijkstra.run();
+
+        IntegralShortestPathSolution solution = dijkstra.getSolution();
+
+        assertThat(solution.getDistance(source), is(equalTo(0)));
+        assertThat(solution.getDistance(target), is(equalTo(1)));
+        assertThat(solution.getDistance(other), is(equalTo(Integer.MAX_VALUE)));
+        assertThat(solution.getLastEdge(source), is(equalTo(null)));
+        assertThat(solution.getLastEdge(target), is(equalTo(st)));
+//        assertThat(solution.getLastEdge(otherNode), is(equalTo(null)));
+        assertThat(solution.getPredecessor(source), is(equalTo(null)));
+        assertThat(solution.getPredecessor(target), is(equalTo(source)));
+        assertThat(solution.getPredecessor(other), is(equalTo(null)));
+    }
+
     /**
      * A graph consisting of a directed cycle with three nodes which are connected to both, source and sink.
      */
