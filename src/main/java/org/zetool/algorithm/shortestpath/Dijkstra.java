@@ -15,7 +15,10 @@
  */
 package org.zetool.algorithm.shortestpath;
 
-import org.checkerframework.checker.nullness.qual.Nullable;
+import java.util.function.Function;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 import org.zetool.common.algorithm.AbstractAlgorithm;
 import org.zetool.container.priority.MinHeap;
 import org.zetool.graph.Edge;
@@ -24,6 +27,7 @@ import org.zetool.graph.Node;
 import org.zetool.container.mapping.IdentifiableIntegerMapping;
 import org.zetool.container.mapping.IdentifiableObjectMapping;
 import org.zetool.graph.DirectedGraph;
+import org.zetool.graph.Graph;
 
 /**
  *
@@ -44,13 +48,24 @@ public class Dijkstra extends AbstractAlgorithm<IntegralSingleSourceShortestPath
 
     @Override
     protected IntegralShortestPathSolution runAlgorithm(IntegralSingleSourceShortestPathProblem problem) {
-        if (!getProblem().getGraph().isDirected()) {
-            throw new IllegalArgumentException("Only directed graphs allowed");
-        }
-
-        DijkstraRunner runner = new DijkstraRunner((DirectedGraph) getProblem().getGraph(), getProblem().getCosts(), getProblem().getSource(),
-                getProblem().getTarget().orElse(null));
+        DijkstraRunner runner = new DijkstraRunner(getProblem(), createAccessor());
         return new IntegralShortestPathSolution(getProblem().getGraph().nodes(), runner.distances, runner.edges, runner.nodes);
+    }
+
+    private Function<Node, IdentifiableCollection<Edge>> createAccessor() {
+        if (isDirectedInstance()) {
+            return createAccessor((DirectedGraph) getProblem().getGraph());
+        } else {
+            return getProblem().getGraph()::incidentEdges;
+        }
+    }
+
+    private boolean isDirectedInstance() {
+        return getProblem().getGraph().isDirected();
+    }
+
+    private Function<Node, IdentifiableCollection<Edge>> createAccessor(DirectedGraph graph) {
+        return reverse ? graph::incomingEdges : graph::outgoingEdges;
     }
 
     /**
@@ -59,10 +74,14 @@ public class Dijkstra extends AbstractAlgorithm<IntegralSingleSourceShortestPath
     private class DijkstraRunner {
 
         private final IdentifiableIntegerMapping<Edge> costs;
-        private final DirectedGraph graph;
+        private final Graph graph;
         private final Node source;
         private final Node target;
         private final MinHeap<Node, Integer> queue;
+        /**
+         * Graph type agnostic incident edge accessor.
+         */
+        private final Function<Node, IdentifiableCollection<Edge>> incidentEdges;
 
         private final IdentifiableIntegerMapping<Node> distances;
         private final IdentifiableObjectMapping<Node, Edge> edges;
@@ -76,11 +95,12 @@ public class Dijkstra extends AbstractAlgorithm<IntegralSingleSourceShortestPath
          * @param source the source code
          * @param target the optional target node, can be {@code null}
          */
-        DijkstraRunner(DirectedGraph graph, IdentifiableIntegerMapping<Edge> costs, Node source, @Nullable Node target) {
-            this.graph = graph;
-            this.costs = costs;
-            this.source = source;
-            this.target = target;
+        DijkstraRunner(IntegralSingleSourceShortestPathProblem problemInstance, @NonNull Function<Node, IdentifiableCollection<Edge>> incidentEdges) {
+            this.graph = problemInstance.getGraph();
+            this.costs = problemInstance.getCosts();
+            this.source = problemInstance.getSource();
+            this.target = problemInstance.getTarget().orElse(null);
+            this.incidentEdges = incidentEdges;
             distances = new IdentifiableIntegerMapping<>(graph.nodeCount());
             edges = new IdentifiableObjectMapping<>(graph.edgeCount());
             nodes = new IdentifiableObjectMapping<>(graph.nodeCount());
@@ -115,8 +135,7 @@ public class Dijkstra extends AbstractAlgorithm<IntegralSingleSourceShortestPath
         }
 
         private void decreaseIncidentEdges(Node v, Integer minDistance) {
-            IdentifiableCollection<Edge> incidentEdges = getIncidentEdges(v);
-            for (Edge edge : incidentEdges) {
+            for (Edge edge : incidentEdges.apply(v)) {
                 Node candidate = edge.opposite(v);
                 if (notClassified(candidate) && isEdgeImproving(candidate, minDistance, edge)) {
                     queue.decreasePriority(candidate, minDistance + costs.get(edge));
@@ -146,14 +165,6 @@ public class Dijkstra extends AbstractAlgorithm<IntegralSingleSourceShortestPath
          */
         private boolean isEdgeImproving(Node candidate, Integer currentNodeDistance, Edge edge) {
             return (long) queue.priority(candidate) > (long) currentNodeDistance + (long) costs.get(edge);
-        }
-
-        private IdentifiableCollection<Edge> getIncidentEdges(Node v) {
-            if (!reverse) {
-                return graph.outgoingEdges(v);
-            } else {
-                return graph.incomingEdges(v);
-            }
         }
 
     }

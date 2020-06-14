@@ -19,23 +19,46 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import java.util.Arrays;
+
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
 import org.zetool.container.mapping.IdentifiableConstantMapping;
 import org.zetool.container.mapping.IdentifiableIntegerMapping;
 import org.zetool.graph.DefaultDirectedGraph;
+import org.zetool.graph.DefaultGraph;
 import org.zetool.graph.Edge;
 import org.zetool.graph.MutableDirectedGraph;
+import org.zetool.graph.MutableGraph;
 import org.zetool.graph.Node;
 
 /**
  *
  * @author Jan-Philipp Kappmeier
  */
+@RunWith(Parameterized.class)
 public class DijkstraTest {
+
+    boolean directed;
+
+    public DijkstraTest(boolean directed) {
+        this.directed = directed;
+    }
+
+    @Parameters(name = "directed={0}")
+    public static Iterable<Object[]> data() throws Throwable {
+        return Arrays.asList(new Object[][]{
+            {true},
+            {false}
+        });
+    }
 
     @Test
     public void singleNode() {
-        MutableDirectedGraph graph = new DefaultDirectedGraph(1, 0);
+        MutableGraph graph = createGraphInstance(directed, 1, 0);
         IdentifiableIntegerMapping<Edge> costs = new IdentifiableConstantMapping<>(0);
 
         IntegralSingleSourceShortestPathProblem ssspProblem = new IntegralSingleSourceShortestPathProblem(graph, costs, graph.getNode(0));
@@ -52,7 +75,7 @@ public class DijkstraTest {
 
     @Test
     public void singleEdge() {
-        MutableDirectedGraph graph = new DefaultDirectedGraph(2, 1);
+        MutableGraph graph = createGraphInstance(directed, 2, 1);
         graph.createAndSetEdge(graph.getNode(0), graph.getNode(1));
         IdentifiableIntegerMapping<Edge> costs = new IdentifiableConstantMapping<>(4);
 
@@ -73,7 +96,7 @@ public class DijkstraTest {
 
     @Test
     public void parallelEdges() {
-        MutableDirectedGraph graph = new DefaultDirectedGraph(2, 2);
+        MutableGraph graph = createGraphInstance(directed, 2, 2);
         Edge longEdge = graph.createAndSetEdge(graph.getNode(0), graph.getNode(1));
         Edge shortEdge = graph.createAndSetEdge(graph.getNode(0), graph.getNode(1));
         IdentifiableIntegerMapping<Edge> costs = new IdentifiableIntegerMapping<>(2);
@@ -97,7 +120,7 @@ public class DijkstraTest {
 
     @Test
     public void disconnectedNodes() {
-        MutableDirectedGraph graph = new DefaultDirectedGraph(2, 0);
+        MutableGraph graph = createGraphInstance(directed, 2, 0);
         IdentifiableIntegerMapping<Edge> costs = new IdentifiableIntegerMapping<>(2);
         IntegralSingleSourceShortestPathProblem ssspProblem = new IntegralSingleSourceShortestPathProblem(graph, costs, graph.getNode(0));
         Dijkstra dijkstra = new Dijkstra();
@@ -116,7 +139,7 @@ public class DijkstraTest {
 
     @Test
     public void noReverseSearch() {
-        MutableDirectedGraph graph = new DefaultDirectedGraph(2, 1);
+        MutableGraph graph = createGraphInstance(directed, 2, 1);
         graph.createAndSetEdge(graph.getNode(0), graph.getNode(1));
         IdentifiableIntegerMapping<Edge> costs = new IdentifiableConstantMapping<>(4);
 
@@ -127,17 +150,24 @@ public class DijkstraTest {
 
         IntegralShortestPathSolution solution = dijkstra.getSolution();
 
-        assertThat(solution.getDistance(graph.getNode(0)), is(equalTo(Integer.MAX_VALUE)));
+        // No reverse search possible for directed graphs
+        if (directed) {
+            assertThat(solution.getDistance(graph.getNode(0)), is(equalTo(Integer.MAX_VALUE)));
+//            assertThat(solution.getLastEdge(graph.getNode(0)), is(equalTo(null)));
+            assertThat(solution.getPredecessor(graph.getNode(0)), is(equalTo(null)));
+        } else {
+            assertThat(solution.getDistance(graph.getNode(0)), is(equalTo(4)));
+            assertThat(solution.getLastEdge(graph.getNode(0)), is(equalTo(graph.getEdge(0))));
+            assertThat(solution.getPredecessor(graph.getNode(0)), is(equalTo(graph.getNode(1))));
+        }
         assertThat(solution.getDistance(graph.getNode(1)), is(equalTo(0)));
-//        assertThat(solution.getLastEdge(graph.getNode(0)), is(equalTo(null)));
 //        assertThat(solution.getLastEdge(graph.getNode(1)), is(equalTo(null)));
-        assertThat(solution.getPredecessor(graph.getNode(0)), is(equalTo(null)));
         assertThat(solution.getPredecessor(graph.getNode(1)), is(equalTo(null)));
     }
 
     @Test
     public void graphWithTwoPaths() {
-        MutableDirectedGraph graph = new DefaultDirectedGraph(4, 4);
+        MutableGraph graph = createGraphInstance(directed, 4, 4);
 
         Node source = graph.getNode(0);
         Node upperIntermediate = graph.getNode(1);
@@ -269,7 +299,7 @@ public class DijkstraTest {
 
     @Test
     public void partial() {
-        MutableDirectedGraph graph = new DefaultDirectedGraph(3, 2);
+        MutableGraph graph = createGraphInstance(directed, 3, 2);
 
         Node source = graph.getNode(0);
         Node target = graph.getNode(1);
@@ -296,6 +326,10 @@ public class DijkstraTest {
         assertThat(solution.getPredecessor(source), is(equalTo(null)));
         assertThat(solution.getPredecessor(target), is(equalTo(source)));
         assertThat(solution.getPredecessor(other), is(equalTo(null)));
+    }
+
+    private MutableGraph createGraphInstance(boolean directed, int nodes, int edges) {
+        return directed ? new DefaultDirectedGraph(nodes, edges) : new DefaultGraph(nodes, edges);
     }
 
     /**
