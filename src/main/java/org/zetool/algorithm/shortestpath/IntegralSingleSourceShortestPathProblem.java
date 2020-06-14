@@ -18,6 +18,9 @@ package org.zetool.algorithm.shortestpath;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 import org.zetool.graph.Edge;
 import org.zetool.graph.Graph;
 import org.zetool.graph.Node;
@@ -33,7 +36,7 @@ public class IntegralSingleSourceShortestPathProblem {
     private final Graph graph;
     private final IdentifiableIntegerMapping<Edge> costs;
     private final Node source;
-    private final Optional<Node> target;
+    private final Node target;
 
     /**
      * T
@@ -42,7 +45,7 @@ public class IntegralSingleSourceShortestPathProblem {
      * @param costs the edge costs
      * @param source the source node
      */
-    public IntegralSingleSourceShortestPathProblem(Graph graph, IdentifiableIntegerMapping<Edge> costs, Node source) {
+    public IntegralSingleSourceShortestPathProblem(@NonNull Graph graph, @NonNull IdentifiableIntegerMapping<Edge> costs, @NonNull Node source) {
         this(graph, costs, source, null);
     }
 
@@ -54,11 +57,12 @@ public class IntegralSingleSourceShortestPathProblem {
      * @param source the source node
      * @param target the sink node, can be {@code null}
      */
-    public IntegralSingleSourceShortestPathProblem(Graph graph, IdentifiableIntegerMapping<Edge> costs, Node source, Node target) {
+    public IntegralSingleSourceShortestPathProblem(@NonNull Graph graph, @NonNull IdentifiableIntegerMapping<Edge> costs, @NonNull Node source,
+            @Nullable Node target) {
         this.costs = Objects.requireNonNull(costs);
         this.graph = Objects.requireNonNull(graph);
         this.source = Objects.requireNonNull(source);
-        this.target = Optional.ofNullable(target);
+        this.target = target;
     }
 
     public Graph getGraph() {
@@ -79,7 +83,7 @@ public class IntegralSingleSourceShortestPathProblem {
      * @return the optional sink node
      */
     public Optional<Node> getTarget() {
-        return target;
+        return Optional.ofNullable(target);
     }
 
 }
