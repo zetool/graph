@@ -43,49 +43,117 @@ public class Dijkstra extends AbstractAlgorithm<IntegralSingleSourceShortestPath
 
     @Override
     protected IntegralShortestPathSolution runAlgorithm(IntegralSingleSourceShortestPathProblem problem) {
-        final IdentifiableIntegerMapping<Edge> costs = getProblem().getCosts();
         if (!getProblem().getGraph().isDirected()) {
             throw new IllegalArgumentException("Only directed graphs allowed");
         }
-        final DirectedGraph graph = (DirectedGraph) getProblem().getGraph();
-        final Node source = getProblem().getSource();
-        final Node sink = getProblem().getTarget().orElse(null);
 
-        final IdentifiableIntegerMapping<Node> distances = new IdentifiableIntegerMapping<>(graph.nodeCount());
-        final IdentifiableObjectMapping<Node, Edge> edges = new IdentifiableObjectMapping<>(graph.edgeCount());
-        final IdentifiableObjectMapping<Node, Node> nodes = new IdentifiableObjectMapping<>(graph.nodeCount());
+        DijkstraRunner runner = new DijkstraRunner((DirectedGraph) getProblem().getGraph(), getProblem().getCosts(), getProblem().getSource(),
+                getProblem().getTarget().orElse(null));
+        return new IntegralShortestPathSolution(getProblem().getGraph().nodes(), runner.distances, runner.edges, runner.nodes);
+    }
 
-        MinHeap<Node, Integer> queue = new MinHeap<>(graph.nodeCount());
-        for (int v = 0; v < graph.nodeCount(); v++) {
-            distances.set(graph.getNode(v), Integer.MAX_VALUE);
-            queue.insert(graph.getNode(v), Integer.MAX_VALUE);
+    /**
+     * Internal runner for Dijkstr's algorithm.
+     */
+    private class DijkstraRunner {
+
+        private final IdentifiableIntegerMapping<Edge> costs;
+        private final DirectedGraph graph;
+        private final Node source;
+        private final Node target;
+        private final MinHeap<Node, Integer> queue;
+
+        private final IdentifiableIntegerMapping<Node> distances;
+        private final IdentifiableObjectMapping<Node, Edge> edges;
+        private final IdentifiableObjectMapping<Node, Node> nodes;
+
+        /**
+         * Initializes the runner with the required input parameters and runs the shortest paths computation.
+         *
+         * @param graph the graph instance
+         * @param costs the edge costs
+         * @param source the source code
+         * @param target the optional target node, can be {@code null}
+         */
+        DijkstraRunner(DirectedGraph graph, IdentifiableIntegerMapping<Edge> costs, Node source, Node target) {
+            this.graph = graph;
+            this.costs = costs;
+            this.source = source;
+            this.target = target;
+            distances = new IdentifiableIntegerMapping<>(graph.nodeCount());
+            edges = new IdentifiableObjectMapping<>(graph.edgeCount());
+            nodes = new IdentifiableObjectMapping<>(graph.nodeCount());
+            queue = new MinHeap<>(graph.nodeCount());
+            run();
         }
-        distances.set(source, 0);
-        queue.decreasePriority(source, 0);
-        while (!queue.isEmpty()) {
-            MinHeap<Node, Integer>.Element min = queue.extractMin();
-            Node v = min.getObject();
-            Integer pv = min.getPriority();
-            distances.set(v, pv);
-            if (v.equals(sink)) {
-                return new IntegralShortestPathSolution(graph.nodes(), distances, edges, nodes);
-            }
-            IdentifiableCollection<Edge> incidentEdges;
-            if (!reverse) {
-                incidentEdges = graph.outgoingEdges(v);
-            } else {
-                incidentEdges = graph.incomingEdges(v);
-            }
 
+        private void run() {
+            init();
+            while (!queue.isEmpty()) {
+                MinHeap<Node, Integer>.Element minElement = queue.extractMin();
+
+                Node v = minElement.getObject();
+                Integer vDistance = minElement.getPriority();
+                distances.set(v, vDistance);
+
+                if (v.equals(target)) {
+                    return;
+                }
+
+                decreaseIncidentEdges(v, vDistance);
+            }
+        }
+
+        private void init() {
+            for (int v = 0; v < graph.nodeCount(); v++) {
+                distances.set(graph.getNode(v), Integer.MAX_VALUE);
+                queue.insert(graph.getNode(v), Integer.MAX_VALUE);
+            }
+            distances.set(source, 0);
+            queue.decreasePriority(source, 0);
+        }
+
+        private void decreaseIncidentEdges(Node v, Integer minDistance) {
+            IdentifiableCollection<Edge> incidentEdges = getIncidentEdges(v);
             for (Edge edge : incidentEdges) {
-                Node w = edge.opposite(v);
-                if (queue.contains(w) && (long) queue.priority(w) > (long) pv + (long) costs.get(edge)) {
-                    queue.decreasePriority(w, pv + costs.get(edge));
-                    edges.set(w, edge);
-                    nodes.set(w, v);
+                Node candidate = edge.opposite(v);
+                if (notClassified(candidate) && isEdgeImproving(candidate, minDistance, edge)) {
+                    queue.decreasePriority(candidate, minDistance + costs.get(edge));
+                    edges.set(candidate, edge);
+                    nodes.set(candidate, v);
                 }
             }
         }
-        return new IntegralShortestPathSolution(graph.nodes(), distances, edges, nodes);
+
+        /**
+         * Checks whether a node has already received its shortest path distance.
+         *
+         * @param node the node
+         * @return {@code true} if the shortest path distance to {@code node} is already known
+         */
+        private boolean notClassified(Node node) {
+            return queue.contains(node);
+        }
+
+        /**
+         * Checks whether the shortest path distance to a node can be improved by using a certain edge.
+         *
+         * @param candidate the candidate node to which the edge is pointing to
+         * @param currentNodeDistance the current node distance
+         * @param edge the edge that is evaluated
+         * @return {@code true} if using the {@code edge} yields a shorter path to {@link candidate}
+         */
+        private boolean isEdgeImproving(Node candidate, Integer currentNodeDistance, Edge edge) {
+            return (long) queue.priority(candidate) > (long) currentNodeDistance + (long) costs.get(edge);
+        }
+
+        private IdentifiableCollection<Edge> getIncidentEdges(Node v) {
+            if (!reverse) {
+                return graph.outgoingEdges(v);
+            } else {
+                return graph.incomingEdges(v);
+            }
+        }
+
     }
 }
