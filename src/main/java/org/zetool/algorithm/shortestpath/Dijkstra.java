@@ -15,6 +15,7 @@
  */
 package org.zetool.algorithm.shortestpath;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.zetool.common.algorithm.AbstractAlgorithm;
 import org.zetool.container.priority.MinHeap;
 import org.zetool.graph.Edge;
@@ -75,7 +76,7 @@ public class Dijkstra extends AbstractAlgorithm<IntegralSingleSourceShortestPath
          * @param source the source code
          * @param target the optional target node, can be {@code null}
          */
-        DijkstraRunner(DirectedGraph graph, IdentifiableIntegerMapping<Edge> costs, Node source, Node target) {
+        DijkstraRunner(DirectedGraph graph, IdentifiableIntegerMapping<Edge> costs, Node source, @Nullable Node target) {
             this.graph = graph;
             this.costs = costs;
             this.source = source;
