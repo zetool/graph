@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Features
+- Convert Dijkstra class to algorithm
+- Implemented instance and solution types for shortest paths
+- Updated integral Dijkstra to work with directed and undirected graphs
+
 ## [0.2.0]
 
 ### Features
