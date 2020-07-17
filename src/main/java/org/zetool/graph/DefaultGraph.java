@@ -32,7 +32,7 @@ import java.util.Iterator;
  *
  * @author Jan-Philipp Kappmeier
  */
-public class DefaultGraph implements UndirectedGraph {
+public class DefaultGraph implements MutableUndirectedGraph {
 
     /**
      * The nodes of the network. Must not be {@code null}.
@@ -363,7 +363,7 @@ public class DefaultGraph implements UndirectedGraph {
      *
      * @return the number of edges that can be contained in the graph.
      */
-    //@Override
+    @Override
     public int getEdgeCapacity() {
         return edges.getCapacity();
     }
@@ -373,7 +373,7 @@ public class DefaultGraph implements UndirectedGraph {
      *
      * @param newCapacity the number of edges that can be contained by the graph.
      */
-    //@Override
+    @Override
     public void setEdgeCapacity(int newCapacity) {
         if (getEdgeCapacity() != newCapacity) {
             edges.setCapacity(newCapacity);
@@ -385,7 +385,7 @@ public class DefaultGraph implements UndirectedGraph {
      *
      * @return the number of nodes that can be contained in the graph.
      */
-    //@Override
+    @Override
     public int getNodeCapacity() {
         return nodes.getCapacity();
     }
@@ -395,7 +395,7 @@ public class DefaultGraph implements UndirectedGraph {
      *
      * @param newCapacity the number of nodes that can be contained by the graph.
      */
-    //@Override
+    @Override
     public void setNodeCapacity(int newCapacity) {
         if (getNodeCapacity() != newCapacity) {
             int oldCapacity = getNodeCapacity();
@@ -495,7 +495,7 @@ public class DefaultGraph implements UndirectedGraph {
      * @param end the end node of the new edge.
      * @return the new edge.
      */
-    //@Override
+    @Override
     public Edge createAndSetEdge(Node start, Node end) {
         int id = idOfLastCreatedEdge + 1;
         int capacity = getEdgeCapacity();
@@ -517,7 +517,7 @@ public class DefaultGraph implements UndirectedGraph {
      *
      * @param nodes the nodes to be added to the graph.
      */
-    //@Override
+    @Override
     public void setNodes(Iterable<Node> nodes) {
         for (Node node : nodes) {
             setNode(node);
@@ -612,6 +612,7 @@ public class DefaultGraph implements UndirectedGraph {
      *
      * @param edges the edges to be added to the graph.
      */
+    @Override
     public void setEdges(Iterable<Edge> edges) {
         for (Edge edge : edges) {
             setEdge(edge);
