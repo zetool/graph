@@ -7,6 +7,9 @@
 - Implemented instance and solution types for shortest paths
 - Updated integral Dijkstra to work with directed and undirected graphs
 
+### Security
+- Bumped xstrem from 1.4.6 to 1.4.10
+
 ## [0.2.0]
 
 ### Features
