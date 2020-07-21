@@ -1,4 +1,4 @@
-/* zet evacuation tool copyright © 2007-20 zet evacuation team
+/* zet evacuation tool copyright (c) 2007-20 zet evacuation team
  *
  * This program is free software; you can redistribute it and/or
  * as published by the Free Software Foundation; either version 2
@@ -13,26 +13,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package algo.graph.spanningtree;
+package org.zetool.algorithm.spanningtree;
 
-import org.zetool.container.collection.IdentifiableCollection;
-import org.zetool.graph.Edge;
+import org.zetool.common.algorithm.Algorithm;
 
 /**
+ * Marker interface for minimum spanning tree algorithms.
  *
- * @author Marlen Schwengfelder
  * @author Jan-Philipp Kappmeier
  */
-public class UndirectedTree {
-
-  private IdentifiableCollection<Edge> edges;
-
-  public UndirectedTree( IdentifiableCollection<Edge> edges ) {
-    this.edges = edges;
-  }
-
-  public IdentifiableCollection<Edge> getEdges() {
-    return edges;
-  }
+public interface MinimumSpanningTreeAlgorithm extends Algorithm<MinSpanningTreeProblem, UndirectedForest> {
 
 }
