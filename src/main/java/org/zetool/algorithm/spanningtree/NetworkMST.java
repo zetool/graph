@@ -13,34 +13,42 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package algo.graph.spanningtree;
+package org.zetool.algorithm.spanningtree;
 
+import org.zetool.container.collection.IdentifiableCollection;
 import org.zetool.graph.Edge;
-import org.zetool.container.mapping.IdentifiableIntegerMapping;
-import org.zetool.graph.DynamicNetwork;
 
 /**
  *
  * @author Marlen Schwengfelder
  */
-public class NetworkMSTProblem {
+public class NetworkMST {
     
-    private DynamicNetwork graph;
-    private IdentifiableIntegerMapping<Edge> distances;
     
-    public NetworkMSTProblem(DynamicNetwork graph,IdentifiableIntegerMapping<Edge> distances)
+    private NetworkMSTProblem networkprob;
+    private IdentifiableCollection<Edge> Edges ;
+    private int overalldist;
+    
+    public NetworkMST(NetworkMSTProblem networkprob,IdentifiableCollection<Edge> Edges, int overalldist)
     {
-        this.graph = graph;
-        this.distances = distances;
+        this.networkprob = networkprob;
+        this.Edges = Edges;
+        this.overalldist = overalldist;
+    }
+    public NetworkMST()
+    {
+        
+    }    
+    public NetworkMSTProblem getProblem()
+    {
+        return networkprob;
+    }
+    public IdentifiableCollection<Edge> getEdges()
+    {
+        return Edges;
     }
     
-    public DynamicNetwork getGraph()
-    {
-        return graph;
-    }
-    public IdentifiableIntegerMapping<Edge> getDistances()
-    {
-        return distances;
-    }
+
+
     
 }
