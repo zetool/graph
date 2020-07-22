@@ -1,5 +1,4 @@
-/*
- * zet evacuation tool copyright © 2007-20 zet evacuation team
+/* zet evacuation tool copyright © 2007-20 zet evacuation team
  *
  * This program is free software; you can redistribute it and/or
  * as published by the Free Software Foundation; either version 2
@@ -13,9 +12,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
->>>>>>> 9b1f1f4... Merge pull request #2 from zet-evacuation/issue-1-Convert_to_Maven_project:src/main/java/algo/graph/spanningtree/PrimForNetwork.java
  */
-package algo.graph.spanningtree;
+package org.zetool.algorithm.spanningtree;
 
 import org.zetool.common.algorithm.AbstractAlgorithm;
 import org.zetool.graph.Edge;
@@ -26,6 +24,7 @@ import org.zetool.container.collection.ListSequence;
 import org.zetool.container.priority.MinHeap;
 import org.zetool.graph.DynamicNetwork;
 import org.zetool.graph.Node;
+
 import java.util.Random;
 
 /**
