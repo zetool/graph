@@ -104,4 +104,24 @@ public class PrimAlgorithmTest {
         assertThat(cost, is(equalTo(39)));
     }
 
+    @Test
+    public void complexTwoComponentInstance() {
+        MinSpanningTreeProblem mstProblem = createComplexTwoComponentInstance();
+        PrimAlgorithm prim = new PrimAlgorithm();
+        prim.setProblem(mstProblem);
+        prim.runAlgorithm();
+
+        UndirectedForest solution = prim.getSolution();
+
+        int sizeComponentA = 9;
+        int sizecomponentB = 4;
+        assertThat(solution.getEdges(), is(iterableWithSize(sizeComponentA + sizecomponentB)));
+        int cost = 0;
+        for (Edge edge : solution.getEdges()) {
+            cost += mstProblem.getDistances().get(edge);
+        }
+        int costComponentA = 38;
+        int costComponentB = 12;
+        assertThat(cost, is(equalTo(costComponentA + costComponentB)));
+    }
 }
