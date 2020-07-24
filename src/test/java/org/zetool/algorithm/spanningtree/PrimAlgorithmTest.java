@@ -15,14 +15,15 @@
  */
 package org.zetool.algorithm.spanningtree;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.emptyIterable;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.iterableWithSize;
 import static org.junit.Assert.assertThat;
 import static org.zetool.algorithm.spanningtree.TestInstances.createComplexSingleComponentInstance;
 import static org.zetool.algorithm.spanningtree.TestInstances.createComplexTwoComponentInstance;
+import static org.zetool.algorithm.spanningtree.TestInstances.createDirectedCopy;
 
 import org.junit.Test;
 import org.zetool.container.mapping.IdentifiableConstantMapping;
@@ -119,6 +120,46 @@ public class PrimAlgorithmTest {
         int cost = 0;
         for (Edge edge : solution.getEdges()) {
             cost += mstProblem.getDistances().get(edge);
+        }
+        int costComponentA = 38;
+        int costComponentB = 12;
+        assertThat(cost, is(equalTo(costComponentA + costComponentB)));
+    }
+
+    @Test
+    public void directedComplexSingleComponentInstance() {
+        MinSpanningTreeProblem undirectedMstProblem = createComplexSingleComponentInstance();
+        MinSpanningTreeProblem directedMstProblem = createDirectedCopy(undirectedMstProblem);
+        PrimAlgorithm prim = new PrimAlgorithm();
+        prim.setProblem(directedMstProblem);
+        prim.run();
+
+        UndirectedForest solution = prim.getSolution();
+
+        assertThat(solution.getEdges(), is(iterableWithSize(6)));
+        int cost = 0;
+        for (Edge edge : solution.getEdges()) {
+            cost += directedMstProblem.getDistances().get(edge);
+        }
+        assertThat(cost, is(equalTo(39)));
+    }
+
+    @Test
+    public void directedComplexTwoComponentInstance() {
+        MinSpanningTreeProblem undirectedMstProblem = createComplexTwoComponentInstance();
+        MinSpanningTreeProblem directedMstProblem = createDirectedCopy(undirectedMstProblem);
+        PrimAlgorithm prim = new PrimAlgorithm();
+        prim.setProblem(directedMstProblem);
+        prim.run();
+
+        UndirectedForest solution = prim.getSolution();
+
+        int sizeComponentA = 9;
+        int sizecomponentB = 4;
+        assertThat(solution.getEdges(), is(iterableWithSize(sizeComponentA + sizecomponentB)));
+        int cost = 0;
+        for (Edge edge : solution.getEdges()) {
+            cost += directedMstProblem.getDistances().get(edge);
         }
         int costComponentA = 38;
         int costComponentB = 12;

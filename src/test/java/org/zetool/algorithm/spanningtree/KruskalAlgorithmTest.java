@@ -23,13 +23,16 @@ import static org.hamcrest.Matchers.iterableWithSize;
 import static org.junit.Assert.assertThat;
 import static org.zetool.algorithm.spanningtree.TestInstances.createComplexSingleComponentInstance;
 import static org.zetool.algorithm.spanningtree.TestInstances.createComplexTwoComponentInstance;
+import static org.zetool.algorithm.spanningtree.TestInstances.createDirectedCopy;
 
 import org.junit.Test;
 import org.zetool.container.mapping.IdentifiableConstantMapping;
 import org.zetool.container.mapping.IdentifiableIntegerMapping;
+import org.zetool.graph.DefaultDirectedGraph;
 import org.zetool.graph.DefaultGraph;
 import org.zetool.graph.Edge;
 import org.zetool.graph.MutableGraph;
+import org.zetool.graph.Node;
 
 /**
  *
@@ -125,4 +128,43 @@ public class KruskalAlgorithmTest {
         assertThat(cost, is(equalTo(costComponentA + costComponentB)));
     }
 
+    @Test
+    public void directedComplexSingleComponentInstance() {
+        MinSpanningTreeProblem undirectedMstProblem = createComplexSingleComponentInstance();
+        MinSpanningTreeProblem directedMstProblem = createDirectedCopy(undirectedMstProblem);
+        KruskalAlgorithm kruskal = new KruskalAlgorithm();
+        kruskal.setProblem(directedMstProblem);
+        kruskal.runAlgorithm();
+
+        UndirectedForest solution = kruskal.getSolution();
+
+        assertThat(solution.getEdges(), is(iterableWithSize(6)));
+        int cost = 0;
+        for (Edge edge : solution.getEdges()) {
+            cost += directedMstProblem.getDistances().get(edge);
+        }
+        assertThat(cost, is(equalTo(39)));
+    }
+
+    @Test
+    public void directedComplexTwoComponentInstance() {
+        MinSpanningTreeProblem undirectedMstProblem = createComplexTwoComponentInstance();
+        MinSpanningTreeProblem directedMstProblem = createDirectedCopy(undirectedMstProblem);
+        KruskalAlgorithm kruskal = new KruskalAlgorithm();
+        kruskal.setProblem(directedMstProblem);
+        kruskal.runAlgorithm();
+
+        UndirectedForest solution = kruskal.getSolution();
+
+        int sizeComponentA = 9;
+        int sizecomponentB = 4;
+        assertThat(solution.getEdges(), is(iterableWithSize(sizeComponentA + sizecomponentB)));
+        int cost = 0;
+        for (Edge edge : solution.getEdges()) {
+            cost += directedMstProblem.getDistances().get(edge);
+        }
+        int costComponentA = 38;
+        int costComponentB = 12;
+        assertThat(cost, is(equalTo(costComponentA + costComponentB)));
+    }
 }

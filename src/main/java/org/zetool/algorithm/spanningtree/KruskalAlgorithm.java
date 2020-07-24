@@ -31,6 +31,9 @@ import org.zetool.graph.Node;
  * Computes a minimum spanning tree using Kruskal's algorithm. If the input graph is connected, the resulting edges form
  * a single tree. Otherwise the result is a forest containing trees.
  * <p>
+ * Observe that the implementation works with both, undirected input graphs and bidirectional graphs. In the latter case
+ * the result should be assumed to be a graph in the underlying undirected graph.
+ * <p>
  * Kruskal, Joseph B.
  * <a href="https://www.ams.org/journals/proc/1956-007-01/S0002-9939-1956-0078686-7/S0002-9939-1956-0078686-7.pdf">
  * On the shortest spanning subtree of a graph and the traveling salesman problem.</a> Proceedings of the American

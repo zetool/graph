@@ -30,6 +30,9 @@ import org.zetool.graph.Graph;
  * Computes a minimum spanning tree using Prim's (or Jarník's) algorithm. If the input graph is connected, the resulting
  * edges form a single tree. Otherwise the result is a forest containing trees.
  * <p>
+ * Observe that the implementation works with both, undirected input graphs and bidirectional graphs. In the latter case
+ * the result should be assumed to be a graph in the underlying undirected graph.
+ * <p>
  * Jarník, Vojtěch. <a href="https://dml.cz/bitstream/handle/10338.dmlcz/500726/Jarnik_01-0000-31_1.pdf">O jistém
  * problému minimálním</a> (About a certain minimal problem.) Práce Moravské Přírodovědecké Společnosti, 1930, 6(4),
  * 57–63.

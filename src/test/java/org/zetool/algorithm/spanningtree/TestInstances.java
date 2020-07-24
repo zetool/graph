@@ -16,6 +16,7 @@
 package org.zetool.algorithm.spanningtree;
 
 import org.zetool.container.mapping.IdentifiableIntegerMapping;
+import org.zetool.graph.DefaultDirectedGraph;
 import org.zetool.graph.DefaultGraph;
 import org.zetool.graph.Edge;
 import org.zetool.graph.MutableGraph;
@@ -125,5 +126,33 @@ public class TestInstances {
             IdentifiableIntegerMapping<Edge> weights, int weight) {
         Edge newEdge = graph.createAndSetEdge(a, b);
         weights.set(newEdge, weight);
+    }
+
+    /**
+     * Converts a minimum spanning tree problem instance into another instance using a directed graph by making it
+     * bidirectional. The result has the same nodes but uses the double amount of edges.
+     *
+     * @param undirectedMstProblem the input problem using an undirected graph
+     * @return the corresponding problem using a bidrectional graph
+     */
+    public static MinSpanningTreeProblem createDirectedCopy(MinSpanningTreeProblem undirectedMstProblem) {
+        DefaultDirectedGraph directedGraph = new DefaultDirectedGraph(undirectedMstProblem.getGraph().nodeCount(),
+                undirectedMstProblem.getGraph().edgeCount() * 2);
+        for (Node node : undirectedMstProblem.getGraph()) {
+            directedGraph.setNode(node);
+        }
+
+        IdentifiableIntegerMapping<Edge> weights = new IdentifiableIntegerMapping<>(
+                undirectedMstProblem.getGraph().edgeCount() * 2);
+        for (Edge edge : undirectedMstProblem.getGraph().edges()) {
+            directedGraph.setEdge(edge);
+            weights.set(edge, undirectedMstProblem.getDistances().get(edge));
+        }
+        for (Edge edge : undirectedMstProblem.getGraph().edges()) {
+            Edge inverse = directedGraph.createAndSetEdge(edge.end(), edge.start());
+            weights.set(inverse, undirectedMstProblem.getDistances().get(edge));
+        }
+
+        return new MinSpanningTreeProblem(directedGraph, weights);
     }
 }
