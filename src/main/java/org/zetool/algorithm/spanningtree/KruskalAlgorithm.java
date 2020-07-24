@@ -28,10 +28,11 @@ import org.zetool.graph.Graph;
 import org.zetool.graph.Node;
 
 /**
- * Computes a minimum spanning tree using Kruskal's algorithm.
+ * Computes a minimum spanning tree using Kruskal's algorithm. If the input graph is connected, the resulting edges form
+ * a single tree. Otherwise the result is a forest containing trees.
  * <p>
- KruskalAlgorithm, Joseph B.
- <a href="https://www.ams.org/journals/proc/1956-007-01/S0002-9939-1956-0078686-7/S0002-9939-1956-0078686-7.pdf">
+ * Kruskal, Joseph B.
+ * <a href="https://www.ams.org/journals/proc/1956-007-01/S0002-9939-1956-0078686-7/S0002-9939-1956-0078686-7.pdf">
  * On the shortest spanning subtree of a graph and the traveling salesman problem.</a> Proceedings of the American
  * Mathematical society, 1956, 7(1), 48-50.
  *
@@ -40,6 +41,12 @@ import org.zetool.graph.Node;
 public class KruskalAlgorithm extends AbstractAlgorithm<MinSpanningTreeProblem, UndirectedForest>
         implements MinimumSpanningTreeAlgorithm {
 
+    /**
+     * Execute Kruskal's algorithm with a given {@link MinSpanningTreeProblem minimum spanning tree instance}.
+     *
+     * @param problem the minimum spanning tree instance
+     * @return a forest containing the edges forming one or multiple spanning trees
+     */
     @Override
     protected UndirectedForest runAlgorithm(MinSpanningTreeProblem problem) {
         UndirectedForest tree;
