@@ -113,7 +113,7 @@ public class RationalDijkstra {
             if (chosen.containsKey(edge)) {
                 continue;
             }
-            if (distances.get(edge.start()) + costs.get(edge) == distances.get(edge.end())) {
+            if (distances.get(edge.end()) + costs.get(edge) == distances.get(edge.start())) {
                 e.add(edge);
             }
         }
