@@ -7,6 +7,7 @@
 - Implemented instance and solution types for shortest paths
 - Updated integral Dijkstra to work with directed and undirected graphs
 - Added Kruskal's and Prim's or Jarník's algorithm, taken from zet
+- Added minimum Steiner tree 2-approximation algorithm, adapted from zet
 
 ### Security
 - Bumped xstrem from 1.4.6 to 1.4.10
