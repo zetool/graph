@@ -21,7 +21,7 @@
 
     <groupId>org.zetool</groupId>
     <artifactId>graph</artifactId>
-    <version>0.3.0-SNAPSHOT</version>
+    <version>0.3.0</version>
     <name>zetool-graph</name>
     <url>https://zetool.org</url>
 
@@ -144,6 +144,6 @@
     <scm>
         <connection>scm:git:https://github.com/zetool/graph.git</connection>
         <url>https://github.com/zetool/graph.git</url>
-        <tag>HEAD</tag>
+        <tag>graph-0.3.0</tag>
     </scm>
 </project>
