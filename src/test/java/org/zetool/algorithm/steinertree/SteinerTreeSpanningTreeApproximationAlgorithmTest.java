@@ -22,7 +22,6 @@ import static org.hamcrest.Matchers.iterableWithSize;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.IntStream;
 
 import org.junit.Test;
@@ -84,7 +83,7 @@ public class SteinerTreeSpanningTreeApproximationAlgorithmTest {
         IntStream.of(0, 1, 2).forEach(i -> graph.createAndSetEdge(graph.getNode(i), graph.getNode(i + 1)));
 
         MinSteinerTreeProblem instance = new MinSteinerTreeProblem(graph, new IdentifiableConstantMapping<>(3),
-                new ListSequence<>(List.of(terminal1, terminal2)));
+                new ListSequence<>(Arrays.asList(terminal1, terminal2)));
         SteinerTreeSpanningTreeApproximationAlgorithm approximationAlgorithm
                 = new SteinerTreeSpanningTreeApproximationAlgorithm();
         approximationAlgorithm.setProblem(instance);
