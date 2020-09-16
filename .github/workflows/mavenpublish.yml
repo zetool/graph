@@ -48,7 +48,7 @@ jobs:
 
         gpg-enabled: "true"
         gpg-key-id: ${{ secrets.GH_GPG_KEY_ID }}
-        gpg-key: ${{ secrets. GH_GPG_KEY }}
+        gpg-key: ${{ secrets.GH_GPG_KEY }}
 
         settings-file: "./settings.xml"
 
