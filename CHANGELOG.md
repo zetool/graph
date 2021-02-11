@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.3.0]
+
 ### Features
 - Convert Dijkstra class to algorithm
 - Implemented instance and solution types for shortest paths
@@ -29,6 +31,7 @@
 - Algorithms: Graph search, `Dijkstra` (integral and rational), Moore-Bellman-Ford
 - Supporting data structures for visualization
 
-[Unreleased]: https://github.com/zetool/graph/compare/graph-0.2.0...HEAD
+[Unreleased]: https://github.com/zetool/graph/compare/graph-0.3.0...HEAD
+[0.2.0]: https://github.com/zetool/graph/compare/graph-0.2.0...graph-0.3.0
 [0.2.0]: https://github.com/zetool/graph/compare/graph-0.1.0...graph-0.2.0
 [0.1.0]: https://github.com/zetool/graph/compare/209c8ec0f39d449ee3908375aec3817d0db2e8cb...graph-0.1.0
