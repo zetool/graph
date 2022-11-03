@@ -13,7 +13,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-
 package org.zetool.graph.structure;
 
 import org.zetool.graph.Edge;
@@ -30,23 +29,23 @@ import org.zetool.container.mapping.IdentifiableObjectMapping;
  */
 //@XStreamAlias( "forest" )
 public class Forest {
-  //TODO: implement better forest datastructure, take care that no edges are
-  //      created new if it is a shortest paths
-  //forest on an existing graph
+    //TODO: implement better forest datastructure, take care that no edges are
+    //      created new if it is a shortest paths
+    //forest on an existing graph
 
-  private final IdentifiableObjectMapping<Node, Edge> precedingEdges;
+    private final IdentifiableObjectMapping<Node, Edge> precedingEdges;
 
-  public Forest( IdentifiableCollection<Node> nodes, IdentifiableObjectMapping<Node, Edge> precedingEdges ) {
-    this.precedingEdges = precedingEdges;
-  }
-
-  public Path getPathToRoot( Node node ) {
-    Path result = new StaticPath();
-    Edge edge;
-    while( (edge = precedingEdges.get( node )) != null ) {
-      result.addFirstEdge( edge );
-      node = edge.opposite( node );
+    public Forest(IdentifiableCollection<Node> nodes, IdentifiableObjectMapping<Node, Edge> precedingEdges) {
+        this.precedingEdges = precedingEdges;
     }
-    return result;
-  }
+
+    public Path getPathToRoot(Node node) {
+        Path result = new StaticPath();
+        Edge edge;
+        while ((edge = precedingEdges.get(node)) != null) {
+            result.addFirstEdge(edge);
+            node = edge.opposite(node);
+        }
+        return result;
+    }
 }

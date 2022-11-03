@@ -682,6 +682,7 @@ public class DefaultDirectedGraph implements MutableDirectedGraph {
         }
     }
 
+    // TODO: remove
     public void setHiddenOnlyNode(Node node, boolean value) {
         nodes.setHidden(node, value);
     }

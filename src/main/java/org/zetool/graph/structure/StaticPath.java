@@ -33,11 +33,17 @@ import java.util.Iterator;
  */
 public class StaticPath implements Path {
 
-  /** The sequence of edges of this path. */
+    /**
+     * The sequence of edges of this path.
+     */
     protected ListSequence<Edge> edges;
-  /** The start node. */
+    /**
+     * The start node.
+     */
     protected Node start;
-  /** The end node. */
+    /**
+     * The end node.
+     */
     protected Node end;
 
     // TODO: builder.
